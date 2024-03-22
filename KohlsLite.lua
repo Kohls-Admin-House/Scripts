@@ -53,6 +53,9 @@ local whitelist = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","BAN
 -- Players you cannot kick
 local nokick = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","BANNter_Original","witnessfox22","IceStuds","atprog","Di33le2","Dekryptionite","3cxos","hudhejeir","BIGpe7niss7","clydekash","t_echl"}
 
+-- Players with special perms
+local specialperms = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","witnessfox22","IceStuds","atprog","Di33le2","Dekryptionite","3cxos","BIGpe7niss7","clydekash","t_echl"}
+
 -- New users get blacklisted (prevent crashers)
 local newplrslocked = {} -- don't edit!!
 local newplrautoslock = true -- if new players under 21 days join they get blacklisted
@@ -73,7 +76,7 @@ local personsusers = {} -- users that use persons will be placed here
 
 -- Auto stuff relating to users
 local rkick_on_sight = {} -- rocket kick player when they join ONLY WORKS WITH ONE PLAYER
-local crash_on_sight = {"SlenderMan990921"} -- crash server when player joins
+local crash_on_sight = {} -- crash server when player joins
 local mkick_on_sight = {} -- kick player with pm spam when they join ONLY WORKS WITH ONE PLAYER
 local suser_on_sight = {} -- slow a user when they join with car gear ONLY WORKS WITH ONE PLAYER
 
@@ -638,7 +641,7 @@ local anticlog = false -- for chars
 local alreadyranice = false
 
 -- Admin stuff relating to users
-local padbanned = {"padbanned"} 
+local padbanned = {} 
 local padreinforcements = false 
 
 -- Variables for moving [old]
@@ -967,7 +970,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
          PLAYERCHECK(dasplayer)
          if player ~= nil then
 			Remind("Reported "..player.."! Note that reporting doesn't work on some executors")
-			game.Players:ReportAbuse(game:GetService("Players"),player,"Swearing", "Spamming random stuff " .. math.random(1, 3276700))         
+			game.Players:ReportAbuse(game:GetService("Players"),player,"Cheating/Exploiting", "Spamming random stuff " .. math.random(1, 3276700))         
 	 else
                 Remind('Cannot find player with the name: '..dasplayer)
          end
@@ -1143,8 +1146,13 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
     end
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'lgmusic' then
-        musicplay = tonumber(string.sub(msg:lower(), #prefix + 9)) 
+        musicplay = tonumber(string.sub(msg:lower(), #prefix + 8)) 
         if musicplay ~= nil and musicplay >= 1 and musicplay <= #musiclist then
+		if workspace.Terrain._Game.Folder:FindFirstChild("localsound") then
+			local sound = workspace.Terrain._Game.Folder:FindFirstChild("localsound")
+			sound:Stop()
+			sound:Destroy()
+		end
 		local lsound = Instance.new("Sound", workspace.Terrain._Game.Folder)
 		lsound.Name = "localsound"
 		lsound.SoundId = "rbxassetid://"..musiclist[musicplay]
@@ -1161,6 +1169,14 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 			sound:Destroy()
 	end
     end
+
+    if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'msay' then
+	musicsay = true
+    end
+		
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'unmsay' then
+	musicsay = false
+    end		
 		
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'gmusic' then
         musicplay = tonumber(string.sub(msg:lower(), #prefix + 7)) 
@@ -1294,7 +1310,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                             Chat("time " .. time)
                         end
                         gjdelock = true
-			Chat("pm others You entered my domain so please wait until I decide to close it...")
+			Chat("h \n\n\n [KohlsLite]: You have entered my domain so please wait until I decide to close it... \n\n\n")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'undeiv' then  -- ported from simplekah
@@ -1364,6 +1380,12 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 			      Remind("Current music ID: "..game:GetService("Workspace").Terrain["_Game"].Folder.Sound.SoundId)
 	      end
     end
+
+   if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'cmusicid' then
+	      if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
+			      setclipboard(game:GetService("Workspace").Terrain["_Game"].Folder.Sound.SoundId)
+	      end
+    end
 		
     if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'cvol' then
 	      if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
@@ -1382,6 +1404,24 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 	      if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
 			Remind("Current time position: "..game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition)
 	      end	
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'timedur' then
+	      if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
+			Remind("Current time position: "..game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimeLength)
+	      end	
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'timeps' then
+	      if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
+			Remind("The playback speed is: "..game:GetService("Workspace").Terrain["_Game"].Folder.Sound.PlaybackSpeed)
+	      end	
+    end
+
+   if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'timeplay' then
+	     newPlaybackSpeed = tonumber(string.sub(msg:lower(), #prefix + 10))
+	     local Sound = game:GetService("Workspace").Terrain["_Game"].Folder.Sound
+	     Sound.PlaybackSpeed = newPlaybackSpeed
     end
 
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'audiolol' then
@@ -1451,6 +1491,30 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
         	end
             else
             end
+        else
+        end
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'ggear' then
+        local args = string.split(msg, " ")
+        if #args >= 3 then
+            local target = args[2]
+            local gearName = table.concat(args, " ", 3)
+	    local keyword = game:GetService("HttpService"):UrlEncode(gearName)
+            local gearIndex = 0
+            local GearsJSON = game:HttpGet("https://catalog.roblox.com/v1/search/items?category=All&includeNotForSale=true&keyword="..keyword.."&limit=120")
+            local GearsDecoded = game:GetService("HttpService"):JSONDecode(GearsJSON)
+            if GearsDecoded and GearsDecoded.data then
+                for _,v in pairs(GearsDecoded.data) do
+                    local Asset
+                    local AssetOk, E = pcall(function() Asset = MarketplaceService:GetProductInfo(v.id) end)
+                    if AssetOk then
+                        if Asset.AssetTypeId == Enum.AssetType.Gear.Value then
+                            Chat("gear " .. target .. " " .. v.id)
+                        end
+                    end
+                end
+            end 
         else
         end
     end
@@ -1969,6 +2033,14 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
     if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'nofindregen' then
 	regenfind = false
     end
+
+    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'klfindreg' then
+	regenfind2 = true
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'noklfindreg' then
+	regenfind2 = false
+    end
 			
     if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unpermmusic' then
         mymusiconly = false
@@ -2032,14 +2104,16 @@ Commands required: shield]])
    		local name = string.sub(msg:lower(), #prefix + 8)
    		PLAYERCHECK(name)
    		if player ~= nil and not table.find(nokick, player) then
-   			Chat("h \n\n\n\n PR SCRIPT ON TOP")
+   			Chat("h \n\n\n KOHLSLITE AND PR SCRIPT ON TOP \n\n\n")
    			Chat("freeze "..name)
    			Chat("dog "..name)
    			Chat("rainbowify "..name)
-   			Chat(".spamt name "..name.. " [Kohlslite]\nImagine Getting\nCRASHED!!!")
+   			Chat("name "..name.. " [KohlsLite]: \n Imagine Getting \n CRASHED!!!")
    			Chat(".spamt pm " .. name .. " 😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀 😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀")
-  			Remind("[Kohlslite] Type .unspamt to stop kicking!")
-   		else
+  			Remind("[KohlsLite]: Type .unspamt to stop kicking! The slower the rainbow, the more laggy they're getting!")
+   		elseif table.find(nokick, player) then
+			Remind("Sorry, this player cannot be kicked!")
+		else
    			Remind("Player doesn't exist!")
   		end
    end
@@ -2060,8 +2134,10 @@ Commands required: rocket]])
 			rkicks = player
 			srkick = true
 			Remind("Rocket kicking "..rkicks)
-	   	else
-                	Remind('Cannot find player with the name: '..dasplayer)
+		elseif table.find(nokick, player) then
+			Remind("Sorry, this player cannot be kicked!")
+		else                	
+			Remind('Cannot find player with the name: '..dasplayer)
            	end
 	end
     end
@@ -2134,10 +2210,10 @@ Commands required: rocket]])
 		Chat("explode " ..person)
 		task.wait(2)
 		Chat("reload "..person)
-		Chat("blind all")
+		Chat("blind others")
 		Chat("h \n\n\n No one saw that, right? \n\n\n")
 		task.wait(4)
-		Chat("unblind all")
+		Chat("unblind others")
     end
 		
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antidisco' then
@@ -2882,6 +2958,27 @@ Commands required: rocket]])
 		Chat("unskydive me")     
      end
 
+     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'fakebp' then
+		local gamefolder = game:GetService("Workspace").Terrain["_Game"]
+		if not gamefolder:FindFirstChild("PhantomStorage") then
+    			local PStore = Instance.new("Folder")
+    			PStore.Name = "PhantomStorage"
+    			PStore.Parent = gamefolder
+		end
+		local Storage = gamefolder["PhantomStorage"] -- PhantomStorage folder
+		local Phantom_Baseplate = Instance.new("Part")
+		Phantom_Baseplate.BrickColor = BrickColor.new("Bright green")
+		Phantom_Baseplate.Material = Enum.Material.Plastic
+		Phantom_Baseplate.Position = Vector3. new(0, 0.1, 0)
+		Phantom_Baseplate.Size = Vector3. new(1000, 1.2, 1000)
+		Phantom_Baseplate.Anchored = true
+		Phantom_Baseplate.Parent = Storage
+    end
+
+     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'nofakebp' then
+		game:GetService("Workspace").Terrain["_Game"]["PhantomStorage"]:Destroy()
+    end
+
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'fixcol' then
 		ColFix()
     end
@@ -2919,19 +3016,19 @@ Commands required: rocket]])
 		FastPads()
      end
 
-    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'loopgrab2' then
+    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'2loopgrab' then
 	loopgrab2 = true
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unloopgrab2' then
+    if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'2unloopgrab' then
 	loopgrab2 = false
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 3) == prefix..'lg2' then
+    if string.sub(msg:lower(), 1, #prefix + 3) == prefix..'2lg' then
 	loopgrab2 = true
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'unlg2' then
+    if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'2unlg' then
 	loopgrab2 = false
     end
 
@@ -3983,8 +4080,10 @@ Commands required: rocket]])
    	PLAYERCHECK(acplr)
    		if player ~= nil and not table.find(nokick, player) then
    			antichatplr = true
-   		else
-   			Remind("Player doesn't exist!")
+		elseif table.find(nokick, player) then
+			Remind("Sorry, this player cannot be kicked!")
+		else   			
+			Remind("Player doesn't exist!")
   		end
     end
 
@@ -4024,11 +4123,11 @@ print("unperm2 - stop loopgrabing a pad (perm2)")
 
 print("---")
 print("loopgrab/lg - loopgrab all the pads (touch interest)")
-print("lg2 - loopgrab all the pads (touch interest)")
+print("2loopgrab/2lg - loopgrab all the pads (touch interest)")
 
 print("---")
 print("unloopgrab/unlg - stop loopgrabing all the pads")
-print("unlg2 - stop loopgrab all the pads")
+print("2unloopgrab/2unlg - stop loopgrab all the pads")
 
 print("---")
 print("fastpads - quickly tp to all the pads")
@@ -4334,11 +4433,11 @@ task.spawn(function()
 				if isB then
                                 	Chat('punish '.. spe)
                                 	Chat('blind '.. spe)
-                                	Chat('pm '..spe..' [KohlsLite]: sorry, this server is locked!')
+                                	Chat("pm "..spe.." [KohlsLite]: sorry, this server is locked!")
 				else
 					 Chat('punish '..v.Name)
                                		 Chat('blind '..v.Name)	
-					 Chat('pm '..v.Name..' [KohlsLite]: sorry, this server is locked!')
+					 Chat("pm "..v.Name.." [KohlsLite]: sorry, this server is locked!")
 				end
                         end
                     elseif table.find(blacklist, v.Name) and v.Name ~= "ScriptingProgrammer" then
@@ -4347,11 +4446,11 @@ task.spawn(function()
 				if isB then -- i added because of some guy called m_artin who did shit
                                 	Chat('punish '.. spe)
                                 	Chat('blind '.. spe)
-                                	Chat('pm '..spe..' [KohlsLite]: sorry, you are blacklisted from this server!')
+                                	Chat("pm "..spe.." [KohlsLite]: sorry, you are blacklisted from this server")
 				else
 					 Chat('punish '..v.Name)
                                		 Chat('blind '..v.Name)	
-					 Chat('pm '..v.Name..' [KohlsLite]: sorry, you are blacklisted from this server!')
+					 Chat("pm "..v.Name.." [KohlsLite]: sorry, you are blacklisted from this server!")
 				end
                         end
                     elseif table.find(newplrslocked, v.Name) and newplrautoslock == true then
@@ -4360,11 +4459,11 @@ task.spawn(function()
 				if isB then
                                 	Chat('punish '.. spe)
                                 	Chat('blind '.. spe)
-                                	Chat('pm '..spe..' [KohlsLite]: sorry, you are blacklisted for having an account under the account age limit!')
+                                	Chat("pm "..spe.." [KohlsLite]: sorry, you are blacklisted for having an account under the account age limit")
 				else
                                 	Chat('punish '..v.Name)
                                 	Chat('blind '..v.Name)
-                                	Chat('pm '..v.Name..' [KohlsLite]: sorry, you are blacklisted for having an account under the account age limit!')
+                                	Chat("pm "..v.Name.." [KohlsLite]: sorry, you are blacklisted for having an account under the account age limit!")
 				end
                         end
 		    else
@@ -5276,6 +5375,7 @@ end
 -- AD
 function ADVERTISEMENT()
 	Speak("KohlsLite is a very 'cool' KAH Script. Get it today on git-hub: S-PScripts or my purple: ts2021")
+	Speak("You can also get it at script blox: search CMD LITE")
 end
 
 -- REJOIN
@@ -5314,21 +5414,21 @@ v.Chatted:Connect(function(msg)
                 if string.sub(msg:lower(), 0, 9) == "/c system" and v.Name ~= game.Players.LocalPlayer.Name then
                    if PingCsystem then
                         print(v.Name..' is using /c system.')
-                        Chat('h \n\n\n [KohlsLite]: '..v.Name..' is using /c system. \n\n\n')
+                        Chat("h \n\n\n [KohlsLite]: "..v.Name.." is using /c system. \n\n\n")
                    end
                 end
 
 		if string.sub(msg:lower(), 0, 2) == "/w" and v.Name ~= game.Players.LocalPlayer.Name then
                    if PingCsystem then
                         print(v.Name..' is using whispering commands.')
-                        Chat('h \n\n\n [KohlsLite]: '..v.Name..' is using whispering commands. \n\n\n')
+                        Chat("h \n\n\n [KohlsLite]: "..v.Name.." is using whispering commands. \n\n\n")
                    end
                 end
 					
                 if (string.sub(msg:lower(), 0, 4) == "logs" or string.sub(msg:lower(), 0, 5) == ":logs") and v.Name ~= game.Players.LocalPlayer.Name then
                    if PingLogs then
                         print(v.Name..' is using logs.')
-                        Chat('h \n\n\n [KohlsLite]: '..v.Name..' is using logs. \n\n\n')
+                        Chat("h \n\n\n [KohlsLite]: "..v.Name.." is using logs. \n\n\n")
                    end
         		   if AntiLogs then
             			LogSpam()
@@ -5337,14 +5437,14 @@ v.Chatted:Connect(function(msg)
 
 		if (string.sub(msg:lower(), 0, 6) == "btools" or string.sub(msg:lower(), 0, 7) == ":btools" or string.sub(msg:lower(), 0, 7) == ";btools") and v.Name ~= game.Players.LocalPlayer.Name then
                         print(v.Name..' thought btools existed.')
-                        Chat('h \n\n\n [KohlsLite]: '..v.Name..', btools do not exist anymore! \n\n\n')
+                        Chat("h \n\n\n [KohlsLite]: "..v.Name..", btools do not exist anymore! \n\n\n")
                 end
 					
         	if (string.sub(msg:lower(), 0, 3) == "sit" or string.sub(msg:lower(), 0, 4) == ":sit") and v.Name ~= game.Players.LocalPlayer.Name then
                    if antiattach then
                      Chat("reload "..v.Name)
                      print(v.Name..' tried to sit.')
-                     Chat('h \n\n\n [KohlsLite]: '..v.Name..', You cannot sit due to anti-attach \n\n\n')
+                     Chat("h \n\n\n [KohlsLite]: "..v.Name..", You cannot sit due to anti-attach \n\n\n")
                    end
                 end
 						
@@ -5352,28 +5452,28 @@ v.Chatted:Connect(function(msg)
                    if antiattach then
                      Chat("reload "..v.Name)
                      print(v.Name..' tried to stun.')
-                     Chat('h \n\n\n [KohlsLite]: '..v.Name..', you cannot stun due to anti-attach \n\n\n')
+                     Chat("h \n\n\n [KohlsLite]: "..v.Name..", you cannot stun due to anti-attach \n\n\n")
                    end
                 end
 
 	        if string.sub(msg:lower(), 0, 4) == ".fly" and v.Name ~= game.Players.LocalPlayer.Name then
 		if noobdetect then
                    print(v.Name..' is a noob.')
-                   Chat('h \n\n\n [KohlsLite]: '..v.Name..', it is fly me, not .fly!! \n\n\n')
+                   Chat("h \n\n\n [KohlsLite]: "..v.Name..", it is fly me, not .fly!! \n\n\n")
                 end
 		end
 						
     	        if string.sub(msg:lower(), 0, 4) == ";fly" and v.Name ~= game.Players.LocalPlayer.Name then
 		if noobdetect then
                    print(v.Name..' is a noob.')
-                   Chat('h \n\n\n [KohlsLite]: '..v.Name..', it is fly me, not ;fly!! \n\n\n')
+                   Chat("h \n\n\n [KohlsLite]: "..v.Name..", it is fly me, not ;fly!! \n\n\n")
                 end
 		end
 
 		if string.sub(msg:lower(), 0, 4) == "/fly" and v.Name ~= game.Players.LocalPlayer.Name then
 		if noobdetect then
                    print(v.Name..' is a noob.')
-                   Chat('h \n\n\n [KohlsLite]: '..v.Name..', it is fly me, not /fly!! \n\n\n')
+                   Chat("h \n\n\n [KohlsLite]: "..v.Name..", it is fly me, not /fly!! \n\n\n")
                 end
 		end
 					
@@ -5381,9 +5481,9 @@ v.Chatted:Connect(function(msg)
 		if noobdetect then
 		   if v.Name ~= "IceStuds" and v.Name ~= "atprog" then -- very epik exception
                    	print(v.Name..' is a noob.')
-                   	Chat('h \n\n\n [KohlsLite]: '..v.Name..', go back to FREE ADMIN, POOP IS NOT A COMMAND!! \n\n\n')
-	  	   elseif v.Name == "IceStuds" then Chat('h \n\n\n [IceStuds]: Poop \n\n\n')
-		   else Chat('h \n\n\n [atprog]: Poop \n\n\n')
+                   	Chat("h \n\n\n [KohlsLite]: "..v.Name..", go back to FREE ADMIN, POOP IS NOT A COMMAND!! \n\n\n")
+	  	   elseif v.Name == "IceStuds" then Chat("h \n\n\n [IceStuds]: Poop \n\n\n")
+		   else Chat("h \n\n\n [atprog]: Poop \n\n\n")
 		   end
                 end
 		end
@@ -5391,91 +5491,104 @@ v.Chatted:Connect(function(msg)
                 if string.sub(msg:lower(), 0, 6) == ";morph" or string.sub(msg:lower(), 0, 6) == ":morph" or string.sub(msg:lower(), 0, 5) == "morph" then
 		if noobdetect then
                    print(v.Name..' is a noob.')
-                   Chat('h \n\n\n [KohlsLite]: '..v.Name..', go back to FREE ADMIN, MORPH IS NOT A COMMAND!! \n\n\n')
+                   Chat("h \n\n\n [KohlsLite]: "..v.Name..", go back to FREE ADMIN, MORPH IS NOT A COMMAND!! \n\n\n")
                 end
 		end
 
 		if string.sub(msg:lower(), 0, 5) == ";cmds" or string.sub(msg:lower(), 0, 9) == ";commands" then
 		if noobdetect then
                    print(v.Name..' is a noob.')
-                   Chat('h \n\n\n [KohlsLite]: '..v.Name..', imagine using the ; prefix! You do not need any!! \n\n\n')
+                   Chat("h \n\n\n [KohlsLite]: "..v.Name..", imagine using the ; prefix! You do not need any!! \n\n\n")
                 end
 		end
 
 		if string.sub(msg:lower(), 0, 5) == "/cmds" or string.sub(msg:lower(), 0, 9) == "/commands" then
 		if noobdetect then
                    print(v.Name..' is a noob.')
-                   Chat('h \n\n\n [KohlsLite]: '..v.Name..', imagine using the / prefix! You do not need any!! \n\n\n')
+                   Chat("h \n\n\n [KohlsLite]: "..v.Name..", imagine using the / prefix! You do not need any!! \n\n\n")
                 end
 		end
 
 		if (string.sub(msg:lower(), 0, 5) == ".cmds" or string.sub(msg:lower(), 0, 9) == ".commands") and v.Name ~= game.Players.LocalPlayer.Name then
 		if noobdetect then
                    print(v.Name..' is a noob.')
-                   Chat('h \n\n\n [KohlsLite]: '..v.Name..', imagine using the . prefix! You do not need any!! \n\n\n')
+                   Chat("h \n\n\n [KohlsLite]: "..v.Name..", imagine using the . prefix! You do not need any!! \n\n\n")
                 end
 		end
 			
                 if string.sub(msg:lower(), 0, 7) == ";fly me" then
 		if noobdetect then
                    print(v.Name..' is a noob.') 
-                   Chat('h \n\n\n [KohlsLite]: '..v.Name..', imagine using the ; prefix! You do not need any!! \n\n\n')
+                   Chat("h \n\n\n [KohlsLite]: "..v.Name..", imagine using the ; prefix! You do not need any!! \n\n\n")
                 end
 		end
 					
                 if (string.sub(msg:lower(), 0, 6) == ";bring" or string.sub(msg:lower(), 0, 6) == ":bring" or string.sub(msg:lower(), 0, 5) == "bring" or string.sub(msg:lower(), 0, 6) == ".bring") and v.Name ~= game.Players.LocalPlayer.Name then
 		if noobdetect then
                    print(v.Name..' is a noob.')
-                   Chat('h \n\n\n [KohlsLite]: '..v.Name..', it is tp (plr) me, not ;bring!! \n\n\n')
+                   Chat("h \n\n\n [KohlsLite]: "..v.Name..", it is tp (plr) me, not ;bring!! \n\n\n")
                 end
 		end
 					
                 if (string.sub(msg:lower(), 0, 5) == ";goto" or string.sub(msg:lower(), 0, 5) == ":goto" or string.sub(msg:lower(), 0, 4) == "goto" or string.sub(msg:lower(), 0, 5) == ".goto") and v.Name ~= game.Players.LocalPlayer.Name then
 		if noobdetect then
                    print(v.Name..' is a noob.') 
-                   Chat('h \n\n\n [KohlsLite]: '..v.Name..', it is tp me (plr), not ;goto!! \n\n\n')
+                   Chat("h \n\n\n [KohlsLite]: "..v.Name..", it is tp me (plr), not ;goto!! \n\n\n")
             	end
 		end
 
             	if (string.sub(msg:lower(), 0, 6) == ";sword" or string.sub(msg:lower(), 0, 6) == ".sword") and v.Name ~= game.Players.LocalPlayer.Name then
 		if noobdetect then
                    print(v.Name..' is a noob.')
-                   Chat('h \n\n\n [KohlsLite]: '..v.Name..', it is sword me, not ;sword!! \n\n\n')
+                   Chat("h \n\n\n [KohlsLite]: "..v.Name..", it is sword me, not ;sword!! \n\n\n")
                 end
 		end
 					
 		-- // dev \\ --
+
 		if string.sub(msg:lower(), 0, 4) == "-klc" and v.Name ~= game.Players.LocalPlayer.Name and (v.Name == "ScriptingProgrammer" or v.Name == "me_123eq" or v.Name == "me_crashking") then
-                        Speak("[KohlsLite]: I use KohlsLite!")
+                        	Speak("[KohlsLite]: I use KohlsLite!")
                 end
 
-		if string.sub(msg:lower(), 0, 4) == "-klc" and v.Name ~= game.Players.LocalPlayer.Name and (v.Name == "dawninja21" or v.Name == "Dawninja21alt") then
+		if string.sub(msg:lower(), 0, 4) == "-klc" and v.Name ~= game.Players.LocalPlayer.Name and table.find(specialperms, v.Name) then
 			if not table.find(nokick,game.Players.LocalPlayer.Name) then
                         	Speak("[KohlsLite]: I use KohlsLite!")
 			end
                 end
-
-                if string.sub(msg:lower(), 0, 4) == "-prc" and v.Name ~= game.Players.LocalPlayer.Name and (v.Name == "atprog" or v.Name == "3cxos" or v.Name == "Dekryptionite" or v.Name == "t_echr") then
+					
+	        if string.sub(msg:lower(), 0, 4) == "-prc" and v.Name ~= game.Players.LocalPlayer.Name and v.Name == "atprog" then
 			if not table.find(nokick,game.Players.LocalPlayer.Name) then
 	                 	Speak("[PR Script]: atprog is my daddy fr!")
 			end
                 end
-
+					
                 if string.sub(msg:lower(), 0, 4) == "-klk" and v.Name ~= game.Players.LocalPlayer.Name and (v.Name == "ScriptingProgrammer" or v.Name == "me_123eq" or v.Name == "me_crashking") then
-			game.Players.LocalPlayer:Kick("[KohlsLite]: SkiddingProgrammer {kohlslite owner} kicked you from the game!")
+				game.Players.LocalPlayer:Kick("[KohlsLite]: SkiddingProgrammer {kohlslite owner} kicked you from the game!")
+                end  
+
+         	if string.sub(msg:lower(), 0, 4) == "-klk" and v.Name ~= game.Players.LocalPlayer.Name and (v.Name == "dawninja21" or v.Name == "Dawninja21alt") then
+			if not table.find(nokick,game.Players.LocalPlayer.Name) then
+				game.Players.LocalPlayer:Kick("[KohlsLite]: dawninja {kohlslite begger} kicked you from the game!")
+			end
                 end  
     
-                if string.sub(msg:lower(), 0, 4) == "-prk" and v.Name ~= game.Players.LocalPlayer.Name and (v.Name == "atprog" or v.Name == "3cxos" or v.Name == "Dekryptionite" or v.Name == "t_echr") then
+                if string.sub(msg:lower(), 0, 4) == "-klk" and v.Name ~= game.Players.LocalPlayer.Name and table.find(specialperms, v.Name) then
+			if not table.find(nokick,game.Players.LocalPlayer.Name) then
+				game.Players.LocalPlayer:Kick("[KohlsLite]: You were kicked by a KohlsLite admin!")
+			end
+                end  
+    
+                if string.sub(msg:lower(), 0, 4) == "-prk" and v.Name ~= game.Players.LocalPlayer.Name and v.Name == "atprog" then
 			if not table.find(nokick,game.Players.LocalPlayer.Name) then
 				game.Players.LocalPlayer:Kick("[PR Script]: atprog kicked you from the game!")
 			end
                 end  
-
+					
        		if string.sub(msg:lower(), 0, 5) == "-warn" and v.Name ~= game.Players.LocalPlayer.Name and (v.Name == "ScriptingProgrammer" or v.Name == "me_123eq" or v.Name == "me_crashking") then
-                    Remind("[KohlsLite]: You have been warned!")
+                    		Remind("[KohlsLite]: You have been warned!")
                 end
 
-                if string.sub(msg:lower(), 0, 5) == "-warn" and v.Name ~= game.Players.LocalPlayer.Name and (v.Name == "atprog" or v.Name == "3cxos" or v.Name == "Dekryptionite" or v.Name == "t_echr") then
+                if string.sub(msg:lower(), 0, 5) == "-warn" and v.Name ~= game.Players.LocalPlayer.Name and table.find(specialperms, v.Name) then
 			if not table.find(nokick,game.Players.LocalPlayer.Name) then
 				Remind("[PR Script]: You have been warned!")
 			end
@@ -5511,7 +5624,7 @@ v.Chatted:Connect(function(msg)
                		command = ""
             	end
             
-                if string.sub(command, 1, 1) == prefix --[[and v.Name ~= "me_123eq"]] then -- so THEY don't use YOU!
+                if string.sub(command, 1, 1) == prefix then -- so THEY don't use YOU!
                        command = ""
                 end
 
@@ -5751,27 +5864,60 @@ task.spawn(function()
 
     if audiotroll == true then
 			if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
-				game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = math.random(1, 100) 
+				game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = math.random(0,game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimeLength*100)/100
 			end
     end
 		
     if mymusiconly == true and musicoff == false then
 		  if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
 				if game:GetService("Workspace").Terrain["_Game"].Folder.Sound.SoundId == "http://www.roblox.com/asset/?id="..mymusiconlyid then
+                        if tempdisable == true then 
+                        else
+						    savethisplace = game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition
+                           -- print(savethisplace)
+                        end
     		  		else
 					if antimlog then
-            					Chat("music 00000000000000000000000000" .. mymusiconlyid)
-	    				else
-    			  			Chat("music "..mymusiconlyid)
-	    			    	end
+                     --   print(savethisplace)
+                        tempdisable = true
+            			Chat("music 00000000000000000000000000" .. mymusiconlyid)
+                        task.wait(0.25)
+                        if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
+						    game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = savethisplace
+                        end                        
+                        tempdisable = false
+	    			else
+                   --     print(savethisplace)
+                        tempdisable = true;
+    			  		Chat("music "..mymusiconlyid)
+                        task.wait(0.25)
+                        if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
+						    game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = savethisplace
+                        end
+                        tempdisable = false
+	    			end
 				end
       		  end
       		  if not game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
 				     if antimlog then
-            					Chat("music 00000000000000000000000000" .. mymusiconlyid)
-	    			     else
+                     --   print(savethisplace)
+                        tempdisable = true
+            			Chat("music 00000000000000000000000000" .. mymusiconlyid)
+                        task.wait(0.25)
+                        if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
+						    game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = savethisplace
+                        end                        
+                        tempdisable = false
+	    			else
+                    --    print(savethisplace)
     			  		Chat("music "..mymusiconlyid)
-	    			     end
+                        tempdisable = true
+                        task.wait(0.25)
+                        if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
+						    game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = savethisplace
+                        end                        
+                        tempdisable = false
+	    			end
       		 end
     end
   end
@@ -5874,7 +6020,7 @@ end
 task.spawn(function()
    while true do
 	task.wait(0)
-	if srkick then
+	if srkick and rkicker then
 	   RKick()
         end
    end
@@ -5958,8 +6104,20 @@ task.spawn(function()
 			root.Anchored = false
 			root.CFrame = workspace.Terrain._Game.Admin:FindFirstChild("Regen").CFrame + Vector3.new(0, 3, 0)
 			regenfind = false
-			Chat("respawn me")
+			Chat("respawn me");Remind("Found the regen (skydived)")
         	end
+		if regenfind2 == true then
+			local root = game.Players.LocalPlayer.Character.HumanoidRootPart
+			root.Anchored = true
+			repeat
+				task.wait(.15)
+				root.CFrame = CFrame.new(math.random(-30593, -23388), math.random(-30593, -10455), math.random(-30593, -10455))
+			until workspace.Terrain._Game.Admin:FindFirstChild("Regen") or regenfind2 == false
+			root.Anchored = false
+			root.CFrame = workspace.Terrain._Game.Admin:FindFirstChild("Regen").CFrame + Vector3.new(0, 3, 0)
+			regenfind2 = false
+			Chat("respawn me");Remind("Found the regen (KL)")
+		end
 	end
 end)
 
@@ -6520,7 +6678,7 @@ function Laser()
             kahcon2 = laman.Character.HumanoidRootPart.ChildAdded:Connect(function(Child)
                 if Child.Name == "SelectionBox" and not goodbye then
                     goodbye = true
-                    send("punish " .. laserman)
+                    Chat("punish " .. laserman)
                 end
             end)
             Chat("gear me 130113146")
@@ -6557,7 +6715,7 @@ function Ungearban(plrg)
 	Chat("tp "..plrg.." me")
 	Chat("speed "..plrg.." 0")
 	task.wait(0.5)
-        game.Players:Chat('gear me 71037101')
+        Chat('gear me 71037101')
         repeat task.wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("DaggerOfShatteredDimensions")
         ungear = game.Players.LocalPlayer.Backpack:FindFirstChild("DaggerOfShatteredDimensions")
         task.wait()
