@@ -3,7 +3,7 @@
 -- CREATED BY SCRIPTINGPROGRAMMER/TS2021/S-PSCRIPTS
 -- A script for Kohls Admin House (KAH)
 -- Support this script today by donating robux to me (h)
--- Do not "skid" off this code by changing the name. Make your own script instead.
+-- Do not "skid" off this code by changing the name. Make your own script instead and take stuff from here if you need to.
 
 --[[
 _  _____  _   _ _     ____  _     ___ _____ _____ 
@@ -54,7 +54,7 @@ local whitelist = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","BAN
 local nokick = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","BANNter_Original","witnessfox22","IceStuds","atprog","Di33le2","Dekryptionite","3cxos","hudhejeir","BIGpe7niss7","clydekash","t_echl"}
 
 -- Players with special perms
-local specialperms = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","witnessfox22","IceStuds","atprog","Di33le2","Dekryptionite","3cxos","BIGpe7niss7","clydekash","t_echl"}
+local specialperms = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","witnessfox22","IceStuds","atprog","Di33le2","Dekryptionite","3cxos","BIGpe7niss7","clydekash","t_echl","dawninja21"}
 
 -- New users get blacklisted (prevent crashers)
 local newplrslocked = {} -- don't edit!!
@@ -97,133 +97,73 @@ local Map = Kohls:WaitForChild("Workspace")
 local Admin = Kohls:WaitForChild("Admin")
 local Pads = Admin:WaitForChild("Pads"):GetChildren()
 
--- Bad formatting because of github glitch ruining how the colour of the code looks :/
+local musicplay
 
--- Saved musics
-local musiclist = {"9048375035", -- 1
-		   "6680495507", -- 2
-		   "6529070845", -- 3
-		   "6917155909", -- 4
-		   "6913550990", -- 5
-		   "6847929757", -- 6
-                   "1839029458", -- 7
-                   "35930009", -- 8
-	           "6772846771", -- 9
-	           "11808880515", -- 10
-	           "6681840651", -- 11
-	           "1841647093", -- 12
-	           "1837070127", -- 13
-	           "6806140478", -- 14
-	           "6703926669", -- 15
-	           "2042581436", -- 16
-	           "6872126938", -- 17
-	           "6695430066", -- 18
-	           "5216738441", -- 19
-                   "9038620433", -- 20
-	           "6819593773", -- 21
-                   "8147012902", -- 22
-                   "6893776529", -- 23
-                   "6788646778", -- 24
-     		   "9124780123", -- 25
-                   "6897686359", -- 26
-	           "142376088", -- 27
-                   "1846368080", -- 28
-                   "1840511219", -- 29
-                   "1839404854", -- 30
-                   "6674211522", -- 31
-		   "6984999899", -- 32
-		   "1838097718", -- 33
-		   "9038845849", -- 34
-		   "1843622301", -- 35
-		   "14145620056", -- 36
-		   "13530437708", -- 37 
-		   "14145627857", -- 38
-		   "14145624031", -- 39
-		   "13530438299", -- 40
-		   "6845637094", -- 41
-		   "6770303644", -- 42
-		   "6783714255", -- 43
-		   "1838028467", -- 44
-		   "1848354536", -- 45
-		   "45819151", -- 46
-		   "6828176320", -- 47
-		   "5410084188", -- 48
-		   "6911766512", -- 49
-		   "7612400047", -- 50
-		   "16190783444", -- 51
-		   "16190782786", -- 52
-		   "6844230235", -- 53
-		   "15689451063", -- 54
-		   "15689455422", -- 55
-		   "6937042327", -- 56
-		   "1841668624", -- 57
-		   "1848350335", -- 58
-		   "6805032026", -- 59
-		   "1837853076", -- 60
-		   "5410085763"} -- 61
-
--- Saved musics
-local musicnames = {"All dropping 8 beats", -- 1
-		    "Robbery", -- 2
-	            "Brace Yourself", -- 3
-	            "They trying to be cray", -- 4
-	            "TLT FNAF 2", -- 5
-                    "LONER", -- 6
-	            "Exotico Speedo", -- 7
-	            "Monster Mash", -- 8
-	            "THOT!", -- 9
-	            "women song", -- 10
-	            "What?!", -- 11
-	            "Life in an Elevator", -- 12
-	            "Prima Bossa", -- 13
-	            "Night Lights", -- 14
-		    "Freaks", -- 15
-		    "annoying citizen", -- 16 
-		    "Young vacations", -- 17
-		    "nuts", -- 18
-	            "big obama the real g", -- 19
-                    "Out Of My Head", -- 20
-	            "ISVVC - Project Junt", -- 21
-                    "gigachad loop", -- 22
-	            "Plasdu & 1006x3 - Kroxxxxroadxx", -- 23
-		    "Hella Sketches", -- 24
-	            "Miss the rage Loop (Sparo Loop)", -- 25
-	            "fizz", -- 26
-	            "Raining Tacos", -- 27
-                    "Stadium Rave (A)", -- 28
-                    "Funky Fanfare", -- 29
-		    "Rock In", -- 30
-		    "Loud music fail", -- 31
-		    "AAAAAAAAAAAAAAAAAAAAA", -- 32
-		    "Royal Dedication", -- 33
-		    "dubstep", -- 34
-		    "Mumbai Moon", -- 35
-		    "The Final Phonk", -- 36
-		    "Phonk Vol 2 - The Final Phonk", -- 37 
-		    "Catch My Drift", -- 38
-		    "Phonk Vol. 1", -- 39
-		    "stop posting about baller", -- 40
-		    "Legends Juice", -- 41
-		    "Minecraft Chest", -- 42
-		    "Brooklyn blood bop", -- 43
-		    "VIP Me", -- 44
-		    "chill back", -- 45
-		    "sad depressing music 4am", -- 46
-		    "Painted black", -- 47
-		    "WRLD - Hang Up", -- 48
-		    "Cyber Chainsaw", -- 49
-		    "Unknown", -- 50
-		    "CHIPI CHIPI CHAPA CHAPA", -- 51
-		    "Lil Kuudere X sukoyomi", -- 52
-		    "WHAT THE HELL", -- 53
-		    "Interworld - Metamorphosis", -- 54
-		    "kirkiimad - i love (slow+reverb version)", -- 55
-		    "Stunning", -- 56
-		    "Have a Lazy Day a", -- 57
-		    "Desert Sands", -- 58
-		    "KILL BILL (Fast)", -- 59
-		    "SEE YOU IN HELL!", -- 60
-		    "TOKYO MACHINE - PLAY!"} -- 61
+-- Thanks to Dizzy for this idea of writing my musiclist (also I used ChatGPT to update it so cry!)
+-- All the music ids I've saved
+local musictable = {
+    ["1"] = { id = "9048375035", name = "All dropping 8 beats" },
+    ["2"] = { id = "6680495507", name = "Robbery" },
+    ["3"] = { id = "6529070845", name = "Brace Yourself" },
+    ["4"] = { id = "6917155909", name = "They trying to be cray" },
+    ["5"] = { id = "6913550990", name = "TLT FNAF 2" },
+    ["6"] = { id = "6847929757", name = "LONER" },
+    ["7"] = { id = "1839029458", name = "Exotico Speedo" },
+    ["8"] = { id = "35930009", name = "Monster Mash" },
+    ["9"] = { id = "6772846771", name = "THOT!" },
+    ["10"] = { id = "11808880515", name = "women song" },
+    ["11"] = { id = "6681840651", name = "What?!" },
+    ["12"] = { id = "1841647093", name = "Life in an Elevator" },
+    ["13"] = { id = "1837070127", name = "Prima Bossa" },
+    ["14"] = { id = "6806140478", name = "Night Lights" },
+    ["15"] = { id = "6703926669", name = "Freaks" },
+    ["16"] = { id = "2042581436", name = "annoying citizen" },
+    ["17"] = { id = "6872126938", name = "Young vacations" },
+    ["18"] = { id = "6695430066", name = "nuts" },
+    ["19"] = { id = "5216738441", name = "big obama the real g" },
+    ["20"] = { id = "9038620433", name = "Out Of My Head" },
+    ["21"] = { id = "6819593773", name = "ISVVC - Project Junt" },
+    ["22"] = { id = "8147012902", name = "gigachad loop" },
+    ["23"] = { id = "6893776529", name = "Plasdu & 1006x3 - Kroxxxxroadxx" },
+    ["24"] = { id = "6788646778", name = "Hella Sketches" },
+    ["25"] = { id = "9124780123", name = "Miss the rage Loop (Sparo Loop)" },
+    ["26"] = { id = "6897686359", name = "fizz" },
+    ["27"] = { id = "142376088", name = "Raining Tacos" },
+    ["28"] = { id = "1846368080", name = "Stadium Rave (A)" },
+    ["29"] = { id = "1840511219", name = "Funky Fanfare" },
+    ["30"] = { id = "1839404854", name = "Rock In" },
+    ["31"] = { id = "6674211522", name = "Loud music fail" },
+    ["32"] = { id = "6984999899", name = "AAAAAAAAAAAAAAAAAAAAA" },
+    ["33"] = { id = "1838097718", name = "Royal Dedication" },
+    ["34"] = { id = "9038845849", name = "dubstep" },
+    ["35"] = { id = "1843622301", name = "Mumbai Moon" },
+    ["36"] = { id = "14145620056", name = "The Final Phonk" },
+    ["37"] = { id = "13530437708", name = "Phonk Vol 2 - The Final Phonk" },
+    ["38"] = { id = "14145627857", name = "Catch My Drift" },
+    ["39"] = { id = "14145624031", name = "Phonk Vol. 1" },
+    ["40"] = { id = "13530438299", name = "stop posting about baller" },
+    ["41"] = { id = "6845637094", name = "Legends Juice" },
+    ["42"] = { id = "6770303644", name = "Minecraft Chest" },
+    ["43"] = { id = "6783714255", name = "Brooklyn blood bop" },
+    ["44"] = { id = "1838028467", name = "VIP Me" },
+    ["45"] = { id = "1848354536", name = "chill back" },
+    ["46"] = { id = "45819151", name = "sad depressing music 4am" },
+    ["47"] = { id = "6828176320", name = "Painted black" },
+    ["48"] = { id = "5410084188", name = "WRLD - Hang Up" },
+    ["49"] = { id = "6911766512", name = "Cyber Chainsaw" },
+    ["50"] = { id = "7612400047", name = "Unknown" },
+    ["51"] = { id = "16190783444", name = "CHIPI CHIPI CHAPA CHAPA" },
+    ["52"] = { id = "16190782786", name = "Lil Kuudere X sukoyomi" },
+    ["53"] = { id = "6844230235", name = "WHAT THE HELL" },
+    ["54"] = { id = "15689451063", name = "Interworld - Metamorphosis" },
+    ["55"] = { id = "15689455422", name = "kirkiimad - i love (slow+reverb version)" },
+    ["56"] = { id = "6937042327", name = "Stunning" },
+    ["57"] = { id = "1841668624", name = "Have a Lazy Day a" },
+    ["58"] = { id = "1848350335", name = "Desert Sands" },
+    ["59"] = { id = "6805032026", name = "KILL BILL (Fast)" },
+    ["60"] = { id = "1837853076", name = "SEE YOU IN HELL!" },
+    ["61"] = { id = "5410085763", name = "TOKYO MACHINE - PLAY!" }
+}
 
 -- Saved gears
 local gearcodes = {
@@ -771,11 +711,15 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 		GExecute("https://raw.githubusercontent.com/quivings/KAH/main/CMD-Y%20(v1.56).lua")
 	end
 
-	if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'myvis' then -- PR Script ~ atprog
+	if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'myvis' then
 		Remind("WARNING: THIS SCRIPT IS A BIT BROKEN! Prefix is -")
 		GExecute("https://raw.githubusercontent.com/S-PScripts/scripts/main/Luau/KAH/Main%20Scripts/MyVisualiser.lua")
 	end
-
+		
+	if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'draw' then
+		Speak("isn't it funny that kohlslite had a vis but not a draw? me too!")
+	end
+		
 	if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'tricky' then -- CREDITS TO TECH
 		Remind("This won't work if it's already been executed. Sorry!")
 		if haspersons == true then
@@ -1146,20 +1090,16 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
     end
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'lgmusic' then
-        musicplay = tonumber(string.sub(msg:lower(), #prefix + 8)) 
-        if musicplay ~= nil and musicplay >= 1 and musicplay <= #musiclist then
-		if workspace.Terrain._Game.Folder:FindFirstChild("localsound") then
+        ieatkids = string.sub(msg, #prefix + 8)
+	if workspace.Terrain._Game.Folder:FindFirstChild("localsound") then
 			local sound = workspace.Terrain._Game.Folder:FindFirstChild("localsound")
 			sound:Stop()
 			sound:Destroy()
-		end
-		local lsound = Instance.new("Sound", workspace.Terrain._Game.Folder)
-		lsound.Name = "localsound"
-		lsound.SoundId = "rbxassetid://"..musiclist[musicplay]
-		lsound:Play()        
-	else
-            Remind("Invalid music number!")
-        end
+	end
+	local lsound = Instance.new("Sound", workspace.Terrain._Game.Folder)
+	lsound.Name = "localsound"
+	lsound.SoundId = "rbxassetid://"..musictable[ieatkids].id
+	lsound:Play()        
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'unlgmusic' then
@@ -1179,69 +1119,99 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
     end		
 		
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'gmusic' then
-        musicplay = tonumber(string.sub(msg:lower(), #prefix + 7)) 
-        if musicplay ~= nil and musicplay >= 1 and musicplay <= #musiclist then
-	    if musicsay == true then
-            	Chat("h \n\n\n [KohlsLite]: Playing music: " .. musicnames[musicplay] .. ". \n\n\n")
-	    end
-	    if antimlog then
-            	Chat("music 00000000000000000000000000" .. musiclist[musicplay])
-	    else
-		Chat("music " .. musiclist[musicplay])
-	    end
-        else
-            Remind("Invalid music number!")
-        end
+        musicplay = string.sub(msg, #prefix + 7)
+	if musicsay == true then
+           Chat("h \n\n\n [KohlsLite]: Playing music: ".. musictable[musicplay].name ..". \n\n\n")
+	end
+	if antimlog then
+            Chat("music 00000000000000000000000000" .. musictable[musicplay].id)
+	else
+	    Chat("music " .. musictable[musicplay].id)
+	end;musicplay = tonumber(musicplay)
     end
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'rgmusic' then
-         musicplay = math.random(1, #musiclist)
+	local length = 0
+	for _ in pairs(musictable) do
+   		 length = length + 1
+	end
+	local randomindex = math.random(1, length)
+	local rizz = tostring(randomindex)
          if musicsay == true then
-            	Chat("h \n\n\n [KohlsLite]: Playing music: " .. musicnames[musicplay] .. ". \n\n\n")
+            	Chat("h \n\n\n [KohlsLite]: Playing music: " .. musictable[rizz].name .. ". \n\n\n")
 	 end
          if antimlog then
-            	Chat("music 00000000000000000000000000" .. musiclist[musicplay])
+            	Chat("music 00000000000000000000000000" .. musictable[rizz].id)
 	 else
-		Chat("music " .. musiclist[musicplay])
+		Chat("music " ..musictable[rizz].id)
 	 end
     end
 		
-    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'nmusic' then
-       if musicplay == nil or musicplay == #musiclist  then
-          musicplay = 1
-       else            
-          musicplay = musicplay + 1
-       end	
-       if musicsay == true then
-            Chat("h \n\n\n [KohlsLite]: Playing music: " .. musicnames[musicplay] .. ". \n\n\n")
-       end  
-       if antimlog then
-            	Chat("music 00000000000000000000000000" .. musiclist[musicplay])
-       else
-		Chat("music " .. musiclist[musicplay])
-       end
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'nmusic' then -- if it double executes fuck you
+    	if ratelj then print("anti double execution worked!") return end
+    	ratelj = true
+			
+    	local length = 0
+    	for _ in pairs(musictable) do
+        	length = length + 1
+    	end
+
+   	if musicplay == nil or musicplay == length then
+       		 musicplay = 1
+    	else
+       		 musicplay = musicplay + 1
+    	end
+			
+    	local mast = tostring(musicplay)
+
+    	if musicsay == true then
+        	Chat("h \n\n\n [KohlsLite]: Playing music: " .. musictable[mast].name .. ". \n\n\n")
+    	end
+
+    	if antimlog then
+        	Chat("music 00000000000000000000000000" .. musictable[mast].id)
+   	else
+        	Chat("music " .. musictable[mast].id)
+   	end; ratelj = false
     end
 		
-    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'pmusic' then
-       if musicplay == nil or musicplay == 1  then
-          musicplay = #musiclist
-       else            
-          musicplay = musicplay - 1
-       end
-       if musicsay == true then
-            	Chat("h \n\n\n [KohlsLite]: Playing music: " .. musicnames[musicplay] .. ". \n\n\n")
-       end
-       if antimlog then
-            	Chat("music 00000000000000000000000000" .. musiclist[musicplay])
-       else
-		Chat("music " .. musiclist[musicplay])
-       end
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'pmusic' then -- if it double executes fuck you
+    	if ratelj then print("anti double execution worked!") return end
+    	ratelj = true
+			
+    	local length = 0
+    	for _ in pairs(musictable) do
+        	length = length + 1
+    	end
+
+   	if musicplay == nil or musicplay == 1 then
+       		 musicplay = length
+    	else
+       		 musicplay = musicplay - 1
+    	end
+			
+    	local mast = tostring(musicplay)
+
+    	if musicsay == true then
+        	Chat("h \n\n\n [KohlsLite]: Playing music: " .. musictable[mast].name .. ". \n\n\n")
+    	end
+
+    	if antimlog then
+        	Chat("music 00000000000000000000000000" .. musictable[mast].id)
+   	else
+        	Chat("music " .. musictable[mast].id)
+   	end; ratelj = false
     end
 
     if string.sub(msg, 1, #prefix + 9)  == prefix..'musiclist' then
 	 Remind("Check your console by running /console!")
-         for i = 1, #musiclist do
- 		 print("gmusic"..i.." - "..musiclist[i].." - "..musicnames[i])
+    	 local length = 0
+    	 for _ in pairs(musictable) do
+        	length = length + 1
+    	 end
+         for i = 1, length do
+		 q = tostring(i)
+ 		 print("gmusic"..i.." - "..musictable[q].id.." - "..musictable[q].name)
 	 end
     end
 
@@ -1501,13 +1471,13 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
             local target = args[2]
             local gearName = table.concat(args, " ", 3)
 	    local keyword = game:GetService("HttpService"):UrlEncode(gearName)
-            local gearIndex = 0
             local GearsJSON = game:HttpGet("https://catalog.roblox.com/v1/search/items?category=All&includeNotForSale=true&keyword="..keyword.."&limit=120")
             local GearsDecoded = game:GetService("HttpService"):JSONDecode(GearsJSON)
             if GearsDecoded and GearsDecoded.data then
                 for _,v in pairs(GearsDecoded.data) do
+		--    print(v.id)
                     local Asset
-                    local AssetOk, E = pcall(function() Asset = MarketplaceService:GetProductInfo(v.id) end)
+                    local AssetOk, E = pcall(function() Asset = game:GetService("MarketplaceService"):GetProductInfo(v.id) end)
                     if AssetOk then
                         if Asset.AssetTypeId == Enum.AssetType.Gear.Value then
                             Chat("gear " .. target .. " " .. v.id)
@@ -1544,8 +1514,12 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
         local args = string.split(msg, " ")
         local target = args[2]
         local specialid = args[3]
+	local charpos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
         local circus = game.Players:GetUserIdFromNameAsync(specialid)
-        Chat("char " .. target .. " " .. circus)
+        Chat("char " .. target .. " " .. circus);task.wait(0.5)
+	if target == "me" then
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = charpos
+	end
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antiabuse' then
@@ -2177,6 +2151,19 @@ Commands required: rocket]])
 		Remind("You should be attached to the player!")
     end
 
+    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'iceblock' then -- why
+		local theblock = string.sub(msg:lower(), #prefix + 10)
+		if theblock == "me" then
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame*CFrame.new(0,-40,0)
+		end
+		task.wait(0.25)
+  	        Chat("invisible "..theblock); task.wait()
+    		Chat("freeze "..theblock);task.wait()
+                Chat("size "..theblock.." 10");task.wait()
+                Chat("clone "..theblock);task.wait()
+                Chat("respawn "..theblock)
+    end
+
     if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'cube' then -- why
 		local imacube = string.sub(msg:lower(), #prefix + 6)
 		Chat("unpackage "..imacube)
@@ -2201,10 +2188,12 @@ Commands required: rocket]])
 		task.wait(4)
 		Chat("h \n\n\n Are we ready? Hopefully our volunteer is too! Here we go! \n\n\n")
 		Chat("time 0")
-		Chat("rocket/" ..person)
+		Chat("rocket/" ..person) -- if they jump then i don't care ngl
+		Chat("jail "..person) -- ok maybe i do care
 		Chat("spin " ..person)
 		task.wait(4)
 		Chat("h \n\n\n LIFT OFF! \n\n\n")
+		Chat("unjail "..person)
 		Chat("jump " ..person)
 		task.wait(2)
 		Chat("explode " ..person)
@@ -2601,11 +2590,7 @@ Commands required: rocket]])
     end
 			
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'qattach' then
-	QAttach()
-    end
-
-    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'sattach' then
-	QAttach2()
+	Chat("unpunish me")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'biglogs' then
@@ -2891,7 +2876,7 @@ Commands required: rocket]])
     end
 
     if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'ufly' then
-	 GExecute("https://raw.githubusercontent.com/S-PScripts/techls-fork/main/KAH%20Fly.lua")
+	 GExecute("https://raw.githubusercontent.com/S-PScripts/scripts/main/Luau/KAH/Other%20Scripts/Fly%20KAH.lua")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 3) == prefix..'isc' then
@@ -2953,7 +2938,7 @@ Commands required: rocket]])
 
      if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'cfixvelo' then
 		Remind("You need to be positioned by a wall!")
-		Chat(prefix.."qattach")   
+		Chat("unpunish me")  -- dionite found that you only need this, surprising it took so long
 		task.wait(2.2)
 		Chat("unskydive me")     
      end
@@ -4225,8 +4210,7 @@ print("biglogs - make the logs bigger!")
 print("chatz - chat a string of - causing the previous messages to vanish")
 
 print("---")
-print("qattach - quickly attach to something with sit")
-print("sattach - quickly attach to something with stun")
+print("qattach - quickly attach to something with unpunish")
 
 print("---")
 print("house - teleport to the house")
@@ -5444,7 +5428,13 @@ v.Chatted:Connect(function(msg)
                    if antiattach then
                      Chat("reload "..v.Name)
                      print(v.Name..' tried to sit.')
-                     Chat("h \n\n\n [KohlsLite]: "..v.Name..", You cannot sit due to anti-attach \n\n\n")
+                   end
+                end
+
+	        if (string.sub(msg:lower(), 0, 8) == "unpunish" or string.sub(msg:lower(), 0, 9) == ":unpunish") and v.Name ~= game.Players.LocalPlayer.Name then
+                   if antiattach then
+                     Chat("reload "..v.Name)
+                     print(v.Name..' tried to unpunish.')
                    end
                 end
 						
@@ -5452,7 +5442,6 @@ v.Chatted:Connect(function(msg)
                    if antiattach then
                      Chat("reload "..v.Name)
                      print(v.Name..' tried to stun.')
-                     Chat("h \n\n\n [KohlsLite]: "..v.Name..", you cannot stun due to anti-attach \n\n\n")
                    end
                 end
 
@@ -6583,24 +6572,6 @@ task.spawn(function()
      end
 end)
 
--- QUICK ATTACH
-function QAttach()
-      Chat("sit me")
-      task.wait(1)
-      Chat("punish me")
-      task.wait(1)
-      Chat("unpunish me")
-end
-
--- QUICK ATTACH 2
-function QAttach2()
-      Chat("stun me")
-      task.wait(1)
-      Chat("punish me")
-      task.wait(1)
-      Chat("unpunish me")
-end
-
 -- FASTPADS
 function FastPads() -- if no touchinterest or idk
                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-36.7649803, 5.42999983, 94.3430023, 0, 0, -1, 0, 1, 0, 1, 0, 0)
@@ -6668,7 +6639,7 @@ function Laser()
             kahcon = workspace.ChildAdded:Connect(function(Child)
                 if Child.Name == "Effect" then
                     task.spawn(function()
-                        repeat task.spawn() 
+                        repeat task.wait() 
                             firetouchinterest(Child, laman.Character.HumanoidRootPart, 0)
                             firetouchinterest(Child, laman.Character.HumanoidRootPart, 1)
                         until Child.Parent ~= workspace or goodbye or not kahcon
@@ -7060,3 +7031,4 @@ local cantexecute = {""}
 if table.find(cantexecute, game.Players.LocalPlayer.Name) then
 		game.Players.LocalPlayer:Kick("[KohlsLite]: Oh dear, you're blacklisted from my script! How did you do that? DM me on ts2021 to appeal.") 
 end
+print("executed")
