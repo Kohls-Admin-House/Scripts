@@ -10,7 +10,7 @@ _  _____  _   _ _     ____  _     ___ _____ _____
 | |/ / _ \| | | | |   / ___|| |   |_ _|_   _| ____|
 | ' / | | | |_| | |   \___ \| |    | |  | | |  _|  
 | . \ |_| |  _  | |___ ___) | |___ | |  | | | |___ 
-|_|\_\___/|_| |_|_____|____/|_____|___| |_| |_____| v1.12 ]]
+|_|\_\___/|_| |_|_____|____/|_____|___| |_| |_____| v1.15 ]]
 
 local function Remind(msg)
 	game.StarterGui:SetCore("SendNotification", {
@@ -37,21 +37,29 @@ end
 
 local prefix = "." -- This can be of any length
 
+local defaults = {".antirocket me", ".tnok", ".antimsg me"}
+
 -- Start up scripts
 local function startupScripts()
-	Chat(prefix.."tnok")
-	Chat(prefix.."antimsg")
-	Chat(prefix.."antirocket me")
+   	if not _G.autorunning then
+		for i = 1, #defaults do
+        		Chat(defaults[i]) 
+		end
+	else
+	    for i = 1, #_G.autorunning do
+	        	Chat(_G.autorunning[i]) 
+	    end
+	end
 end
 
 -- Serverlocked users
-local blacklist = {"SlenderMan990921","e5usp","Asphetto","91txt","LeanConsumer69","Fixydrqma","Robloxian577226532","jjthejoker7","cihanahmet1670","Fu14r","bbgurrrrl"}
+local blacklist = {"SlenderMan990921","e5usp","Asphetto","91txt","LeanConsumer69","Fixydrqma","Robloxian577226532","jjthejoker7","cihanahmet1670","Fu14r","bbgurrrrl","He4rt_4"}
 
 -- Users not affected by serverlock
-local whitelist = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","BANNter_Original","witnessfox22","IceStuds","atprog","dawninja21","Dawninja21alt","Di33le2","darkmadeboy","Dekryptionite","3cxos","hudhejeir","BIGpe7niss7","clydekash","t_echl","Ih0temyIife"}
+local whitelist = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","BANNter_Original","witnessfox22","IceStuds","atprog","dawninja21","Dawninja21alt","Di33le2","darkmadeboy","Dekryptionite","3cxos","hudhejeir","BIGpe7niss7","clydekash","t_echl","Ih0temyIife","D_ionte","SZCVAK"}
 
 -- Players you cannot kick
-local nokick = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","BANNter_Original","witnessfox22","IceStuds","atprog","Di33le2","Dekryptionite","3cxos","hudhejeir","BIGpe7niss7","clydekash","t_echl"}
+local nokick = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","BANNter_Original","witnessfox22","IceStuds","atprog","Di33le2","Dekryptionite","3cxos","hudhejeir","BIGpe7niss7","clydekash","t_echl","dawninja21"}
 
 -- Players with special perms
 local specialperms = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","witnessfox22","IceStuds","atprog","Di33le2","Dekryptionite","3cxos","BIGpe7niss7","clydekash","t_echl","dawninja21"}
@@ -62,40 +70,42 @@ local newplrautoslock = true -- if new players under 21 days join they get black
 local newlen = 21 -- control what is considered as a new account
 
 -- Users that can use blacklisted gears (or gears when antigear is on)
-local GWhitelisted = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","BANNter_Original","witnessfox22","IceStuds","atprog","dawninja21","Dawninja21alt","Di33le2","darkmadeboy","Dekryptionite","3cxos","hudhejeir","BIGpe7niss7","clydekash","t_echl","Ih0temyIife"}
+local GWhitelisted = {"me_123eq","me_crashking","ScriptingProgrammer","t_echr","BANNter_Original","witnessfox22","IceStuds","atprog","dawninja21","Dawninja21alt","Di33le2","darkmadeboy","Dekryptionite","3cxos","hudhejeir","BIGpe7niss7","clydekash","t_echl","Ih0temyIife","SZCVAK"}
 
 -- Serverlock
 local slockenabled = false
 
--- Loopkilling
+-- Other stuff
 local loopkill = {}
+local byecam = {}
+local carcar = {}
 
 -- Gamepass saving
-local permusers = {} -- users that use perm will be placed here
-local personsusers = {} -- users that use persons will be placed here
+permusers = {} -- users that use perm will be placed here
+personsusers = {} -- users that use persons will be placed here
 
 -- Auto stuff relating to users
-local rkick_on_sight = {} -- rocket kick player when they join ONLY WORKS WITH ONE PLAYER
-local crash_on_sight = {} -- crash server when player joins
-local mkick_on_sight = {} -- kick player with pm spam when they join ONLY WORKS WITH ONE PLAYER
-local suser_on_sight = {} -- slow a user when they join with car gear ONLY WORKS WITH ONE PLAYER
+rkick_on_sight = {} -- rocket kick player when they join ONLY WORKS WITH ONE PLAYER
+crash_on_sight = {} -- crash server when player joins
+mkick_on_sight = {"He4rt_4"} -- kick player with pm spam when they join ONLY WORKS WITH ONE PLAYER
+suser_on_sight = {} -- slow a user when they join with car gear ONLY WORKS WITH ONE PLAYER
 
 -- Gear packs
-local periastronlist = {"108158379", "80661504", "233520257", "73829193", "69499437", "139577901", "2544549379", "120307951", "99119240", "93136802", "80597060", "159229806", "77443461"}
-local meleecodes = {"121946387", "12187348", "170897263", "427947884", "306971294", "306971294", "11999235", "28275809", "10758456", "243790334", "14719505", "13207169", "11956382", "10469910", "124472052", "20721924"}
-local guncodes = {"243007180", "116693764", "212296936", "168143042", "467138029", "42845609", "130113146", "26017478", "26014536", "9360722592", "18268645"}
-local fungears = {"111876831", "90718686", "283755431", "139578061", "90718686", "212641536", "392057539", "323477973", "78730532", "47597835", "212641536", "88143093", "73265108", "115377964", "98411393"}
-local explosivecodes = {"88885539", "88885524", "73888479", "110337853", "101110605", "29957963", "503955938", "243788010", "88146497"}
-local destructivecodes = {"125013830", "225921650", "60357972", "108158379"}
-local swordcodes = {"25740034", "638089422", "170903610", "319655422", "125013769", "108158379", "2470750640", "2041982658", "361950297", "2103274863", "181356054", "163491866", "108158439"}
-local rideablecodes = {"304719869", "2568114215", "158069143", "185422295", "346687565", "553939167", "820013867", "387285940", "163348575", "206799274", "928805891", "124127383", "125013849", "2445089071", "253519495"}
+periastronlist = {"108158379", "80661504", "233520257", "73829193", "69499437", "139577901", "2544549379", "120307951", "99119240", "93136802", "80597060", "159229806", "77443461"}
+meleecodes = {"121946387", "12187348", "170897263", "427947884", "306971294", "306971294", "11999235", "28275809", "10758456", "243790334", "14719505", "13207169", "11956382", "10469910", "124472052", "20721924"}
+guncodes = {"243007180", "116693764", "212296936", "168143042", "467138029", "42845609", "130113146", "26017478", "26014536", "9360722592", "18268645"}
+fungears = {"111876831", "90718686", "283755431", "139578061", "90718686", "212641536", "392057539", "323477973", "78730532", "47597835", "212641536", "88143093", "73265108", "115377964", "98411393"}
+explosivecodes = {"88885539", "88885524", "73888479", "110337853", "101110605", "29957963", "503955938", "243788010", "88146497"}
+destructivecodes = {"125013830", "225921650", "60357972", "108158379"}
+swordcodes = {"25740034", "638089422", "170903610", "319655422", "125013769", "108158379", "2470750640", "2041982658", "361950297", "2103274863", "181356054", "163491866", "108158439"}
+rideablecodes = {"304719869", "2568114215", "158069143", "185422295", "346687565", "553939167", "820013867", "387285940", "163348575", "206799274", "928805891", "124127383", "125013849", "2445089071", "253519495"}
 
 -- Variables for moving
 local movestatus = false
-local Kohls = workspace.Terrain:WaitForChild("_Game")
-local Map = Kohls:WaitForChild("Workspace")
-local Admin = Kohls:WaitForChild("Admin")
-local Pads = Admin:WaitForChild("Pads"):GetChildren()
+Kohls = workspace.Terrain:WaitForChild("_Game")
+Map = Kohls:WaitForChild("Workspace")
+Admin = Kohls:WaitForChild("Admin")
+Pads = Admin:WaitForChild("Pads"):GetChildren()
 
 local musicplay
 
@@ -162,7 +172,10 @@ local musictable = {
     ["58"] = { id = "1848350335", name = "Desert Sands" },
     ["59"] = { id = "6805032026", name = "KILL BILL (Fast)" },
     ["60"] = { id = "1837853076", name = "SEE YOU IN HELL!" },
-    ["61"] = { id = "5410085763", name = "TOKYO MACHINE - PLAY!" }
+    ["61"] = { id = "5410085763", name = "TOKYO MACHINE - PLAY!"},
+    ["62"] = { id = "7014573768", name = "pew sfx"},
+    ["63"] = { id = "1838635121", name = "Sad End"},
+    ["64"] = { id = "6841685130", name = "ButtonPress_53"}
 }
 
 -- Saved gears
@@ -663,12 +676,12 @@ local welcomemsg = true
 -- local permpassid = 66254 or 64354 -> NBC, BC
 -- local personpassid = 35748 or 37127 --> NBC, BC
 
-print("Thank you for using KohlsLite v1.12! This script was created by S_P.")
-Remind("Thank you for using KohlsLite v1.12! This script was created by S_P.")
+print("Thank you for using KohlsLite v1.15! This script was created by S_P.")
+Remind("Thank you for using KohlsLite v1.15! This script was created by S_P.")
 print("Say .kcmds to list some of the commands. DM me at ts2021 for the source to find other commands.")
 Remind("Say .kcmds to list some of the commands. DM me at ts2021 for the source to find other commands.")
 
-Chat("h \n\n\n [KohlsLite]: Executed! v1.12 \n\n\n")
+Chat("h \n\n\n [KohlsLite]: Executed! v1.15 \n\n\n")
 
 if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game.Players.LocalPlayer.UserId, 66254) or game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game.Players.LocalPlayer.UserId, 64354) then
         perm = false 
@@ -716,8 +729,9 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 		GExecute("https://raw.githubusercontent.com/S-PScripts/scripts/main/Luau/KAH/Main%20Scripts/MyVisualiser.lua")
 	end
 		
-	if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'draw' then
-		Speak("isn't it funny that kohlslite had a vis but not a draw? me too!")
+	if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'mydraw' then
+		Remind("WARNING: THIS SCRIPT IS A BIT BROKEN! Prefix is -")
+		GExecute("https://raw.githubusercontent.com/S-PScripts/scripts/main/Luau/KAH/Main%20Scripts/MyVisualiser.lua")
 	end
 		
 	if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'tricky' then -- CREDITS TO TECH
@@ -909,6 +923,70 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
          end
        end
 
+   if string.sub(msg, 1, #prefix + 5) == prefix..'names' then
+         local dasplayer = string.sub(msg:lower(), #prefix + 7)
+         PLAYERCHECK(dasplayer)
+         if player ~= nil then
+		if not table.find(byecam, player) then
+                	Chat("h \n\n\n [KohlsLite]: "..player.."'s camera is being glitched! Boo! \n\n\n")
+			Remind("Spam naming "..player)
+                	table.insert(byecam, player)
+		else
+			Remind(player.." is already being spam named!")
+		end
+         else
+                Remind('Cannot find player with the name: '..dasplayer)
+         end
+       end
+
+       if string.sub(msg, 1, #prefix + 7) == prefix..'unnames' then
+         local dasplayer = string.sub(msg:lower(), #prefix + 9)
+         PLAYERCHECK(dasplayer)
+         if player ~= nil then
+		if table.find(byecam, player) then
+               		Chat("h \n\n\n [KohlsLite]: "..player.."'s camera is no longer being glitched! Yipee! \n\n\n")
+			Remind("Unspam naming "..player)
+                	table.remove(byecam, table.find(byecam, player))
+		else
+			Remind(player.." was never spam named!")
+		end
+         else
+                Remind('Cannot find player with the name: '..dasplayer)
+         end
+       end
+
+   if string.sub(msg, 1, #prefix + 6) == prefix..'lagged' then
+         local dasplayer = string.sub(msg:lower(), #prefix + 8)
+         PLAYERCHECK(dasplayer)
+         if player ~= nil then
+		if not table.find(carcar, player) then
+                	Chat("h \n\n\n [KohlsLite]: "..player.." loves cars! Yummy! \n\n\n")
+			Remind("Spam car-ing "..player)
+                	table.insert(carcar, player)
+		else
+			Remind(player.." is already being spam carred!")
+		end
+         else
+                Remind('Cannot find player with the name: '..dasplayer)
+         end
+       end
+
+       if string.sub(msg, 1, #prefix + 8) == prefix..'unlagged' then
+         local dasplayer = string.sub(msg:lower(), #prefix + 10)
+         PLAYERCHECK(dasplayer)
+         if player ~= nil then
+		if table.find(carcar, player) then
+               		Chat("h \n\n\n [KohlsLite]: "..player.."'s hates cars! Noooooo \n\n\n")
+			Remind("Unspam car-ing "..player)
+                	table.remove(carcar, table.find(carcar, player))
+		else
+			Remind(player.." was never spam carred!")
+		end
+         else
+                Remind('Cannot find player with the name: '..dasplayer)
+         end
+       end
+		
        if string.sub(msg, 1, #prefix + 6) == prefix..'report' then
          local dasplayer = string.sub(msg:lower(), #prefix + 8)
          PLAYERCHECK(dasplayer)
@@ -1069,25 +1147,32 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
         	newlen = tonumber(string.sub(msg:lower(), #prefix + 11))
 		Remind("Set age restrictions to "..newlen.." days!")
       end
-		
-      if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'mboombox' then
-	    Chat("ungear me")
-	    task.wait(0.5)
+
+      if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'pboombox' then
 	    Chat("gear me 212641536")
 	    task.wait(0.5)
 	    local myplay = string.sub(msg:lower(), 10 + #prefix)
-            local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
-            for i, v in ipairs(Backpack:GetChildren()) do
-                        	function rng() 
-					return math.random(-128, 128)
-				end
-                        	v.GripPos = Vector3.new(rng(), 1, rng())
-				task.wait(0.25)
-                       	        v.Parent = game.Players.LocalPlayer.Character
-                        	wait(0.25)
-                        	v.Remote:FireServer("PlaySong", tonumber(myplay))
-            end
-    end
+            repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("SuperFlyGoldBoombox")
+      	    local bom = game.Players.LocalPlayer.Backpack:FindFirstChild("SuperFlyGoldBoombox")
+            bom.Parent = game.Players.LocalPlayer.Character
+            task.wait(0.25)
+            bom.Remote:FireServer("PlaySong", tonumber(myplay))
+      end
+		
+      if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'mboombox' then
+	    Chat("gear me 212641536")
+	    task.wait(0.5)
+	    local myplay = string.sub(msg:lower(), 10 + #prefix)
+            repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("SuperFlyGoldBoombox")
+      	    local bom = game.Players.LocalPlayer.Backpack:FindFirstChild("SuperFlyGoldBoombox")
+            bom.Parent = game.Players.LocalPlayer.Character                       	    
+            task.wait(0.25)
+            bom.Remote:FireServer("PlaySong", tonumber(myplay))
+		    function rng() 
+			return math.random(-128, 128)
+	    end
+            bom.GripPos = Vector3.new(rng(), 1, rng())
+      end
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'lgmusic' then
         ieatkids = string.sub(msg, #prefix + 8)
@@ -1353,7 +1438,9 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 
    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'cmusicid' then
 	      if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
-			      setclipboard(game:GetService("Workspace").Terrain["_Game"].Folder.Sound.SoundId)
+				local url = game:GetService("Workspace").Terrain["_Game"].Folder.Sound.SoundId
+				local number = url:match("id=(%d+)")
+				setclipboard(number)
 	      end
     end
 		
@@ -1549,7 +1636,6 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 			YOUantikill, ALLantikill = true, true
 			YOUantimsg = true
 			YOUantiname, ALLantiname = true, true
-			YOUantiexplode, ALLantiexplode = true, true
 			YOUantichar, ALLantichar = true, true
 			YOUantiparticles, ALLantiparticles = true, true
 			YOUantipunish, ALLantipunish = true, true
@@ -1592,7 +1678,6 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 			YOUantikill, ALLantikill = false, false
 			YOUantimsg = false
 			YOUantiname, ALLantiname = false, false
-			YOUantiexplode, ALLantiexplode = false, false
 			YOUantichar, ALLantichar = false, false
 			YOUantiparticles, ALLantiparticles = false, false
 			YOUantipunish, ALLantipunish = false, false
@@ -1693,7 +1778,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 			end
 		end
 		DisCol()
-		for i,v in pairs(Pads) do
+		for i,v in ipairs(Pads) do
 			if allclear() == false then break end
 			if v:FindFirstChildOfClass("Part") then
 				v:FindFirstChildOfClass("Part").CanCollide = true
@@ -1713,7 +1798,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 			return 
 		end	
 		DisCol()
-		for i,v in pairs(Pads) do
+		for i,v in ipairs(Pads) do
 			if allclear() == false then break end
 			if v:FindFirstChildOfClass("Part") then
 				v:FindFirstChildOfClass("Part").CanCollide = true
@@ -2039,7 +2124,21 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 		local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
         	for _, v in ipairs(Backpack:GetChildren()) do
            		 v.Parent = game.Players.LocalPlayer.Character
+        	end
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'actall' then
+		local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        	for _, v in ipairs(Backpack:GetChildren()) do
+           		 v.Parent = game.Players.LocalPlayer.Character
             		 v:Activate()
+        	end
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'dropall' then
+		local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        	for _, v in ipairs(Backpack:GetChildren()) do
+           		 v.Parent = workspace
         	end
     end
 		
@@ -2052,8 +2151,6 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
     end
 		
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'pcrash' then
-	PCrash()
-	task.wait(1)
 	PCrash()	
     end
 		
@@ -2154,7 +2251,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'iceblock' then -- why
 		local theblock = string.sub(msg:lower(), #prefix + 10)
 		if theblock == "me" then
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame*CFrame.new(0,-40,0)
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame*CFrame.new(0,-50,0)
 		end
 		task.wait(0.25)
   	        Chat("invisible "..theblock); task.wait()
@@ -2182,27 +2279,58 @@ Commands required: rocket]])
 
     if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'space' then -- kohls true anti kill
 		local person = string.sub(msg:lower(), #prefix + 7)
-		Chat("h \n\n\n Guys, we've finally done it! \n\n\n")
-		task.wait(4)
-		Chat("h \n\n\n We're sending someone to space! \n\n\n")
-		task.wait(4)
+		Chat("h \n\n\n Guys, we've finally done it! \n\n\n");task.wait(4)
+		Chat("h \n\n\n We're sending someone to space! \n\n\n");task.wait(4)
 		Chat("h \n\n\n Are we ready? Hopefully our volunteer is too! Here we go! \n\n\n")
 		Chat("time 0")
 		Chat("rocket/" ..person) -- if they jump then i don't care ngl
 		Chat("jail "..person) -- ok maybe i do care
-		Chat("spin " ..person)
-		task.wait(4)
+		Chat("spin " ..person);task.wait(4)
 		Chat("h \n\n\n LIFT OFF! \n\n\n")
 		Chat("unjail "..person)
-		Chat("jump " ..person)
-		task.wait(2)
-		Chat("explode " ..person)
-		task.wait(2)
+		Chat("jump " ..person);task.wait(2)
+		Chat("explode " ..person);task.wait(2)
 		Chat("reload "..person)
 		Chat("blind others")
-		Chat("h \n\n\n No one saw that, right? \n\n\n")
-		task.wait(4)
+		Chat("h \n\n\n No one saw that, right? \n\n\n");task.wait(4)
 		Chat("unblind others")
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'heaven' then -- pr
+		local person = string.sub(msg:lower(), #prefix + 8)
+		Chat("h \n\n\n WOAH, LOOK OVER THERE! THAT GUY'S ASCENDING! \n\n\n")
+		Chat("music 9061674082")
+		Chat("setgrav "..person.." -256")
+		Chat("trip "..person)
+		task.wait(0.4)
+		game.Players:Chat("trip "..person)
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 3) == prefix..'bed' then -- ns techno
+		local person = string.sub(msg:lower(), #prefix + 5)
+		Chat("size "..person.." nan");task.wait()
+		Chat("dog "..person.."");task.wait(.2)
+		Chat("size "..person.." 2.60");task.wait()
+		Chat("paint "..person.." white");task.wait()
+		Chat("removelimbs "..person)
+		Chat("name "..person.." bed");task.wait(.2)
+		Chat("speed "..person.." 24")
+		Chat("paint "..person.." white")
+		Remind("The player should nowzzzzzzzzz!")
+    end
+
+   if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'smack' then -- pr
+		local person = string.sub(msg:lower(), #prefix + 7)
+		Chat("music 5886215922")
+    		Chat("speed "..person.." 0")
+    		Chat("tp "..person.." me")
+		task.wait(0.8)
+		Speak("SMACK!")
+    		Chat("/e point")
+    		Chat("fling "..person)
+		task.wait(1.45)
+		Chat("explode "..person)
+    		Chat("music nan")
     end
 		
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antidisco' then
@@ -2296,7 +2424,11 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 3) == prefix..'adv' then
        ADVERTISEMENT()
     end
-
+			
+    if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'cadv' then
+       CADVERTISEMENT()
+    end
+		
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'ipboom' then
        IPBOOM()
     end
@@ -2314,8 +2446,8 @@ Commands required: rocket]])
 	SuperCMD(supermessage)
     end
 
-   if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'supert' then
-	amon = tonumber(string.sub(msg:lower(), #prefix + 10))
+   if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'supert' then
+	amon = tonumber(string.sub(msg:lower(), #prefix + 8))
     end
 		
    if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'spamt' then
@@ -2469,25 +2601,14 @@ Commands required: rocket]])
   end
 
   if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'ecrash' then
-	    Chat("fix")
-	    Chat(prefix.."gmusic50")
-	    musicsay = false -- lemme know if you want this to be a full feature
-	    Chat("h \n\n\n [KohlsLite]: This server was crashed because of an issue. \n\n\n")
-	    task.wait(0.5)
-            Chat("fogcolor 0 0 0")
-	    Chat("time 0")
-            Chat("fogend 0")
-	    task.wait(0.5)
+	    Chat("fix") -- ;Chat(prefix.."perm2")
+	    musicsay = false
+            task.wait(0.5)
+	    Chat("h \n\n\n dsc gg kohlslite \n\n\n");Chat(prefix.."gmusic64")
+            Speak("it's too late... it's too late... IT'S TOO LATE")
+            Chat("fogcolor 0 0 0");Chat("time 0");Chat("fogend 0")
+	    task.wait(0.75)
 	    DCrash()	
-    end
-
-    if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'slowplayer' then
-	caruser = string.sub(msg:lower(), #prefix + 12)
-	SlowP = true
-    end
-		
-    if string.sub(msg:lower(), 1, #prefix + 12) == prefix..'unslowplayer' then
-	SlowP = false
     end
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'rockmap' then
@@ -2525,20 +2646,15 @@ Commands required: rocket]])
     		local d = "variable_" .. tostring(b)
    		_G[d] = c
 	end
-			
+
 	for b, c in ipairs(a) do
     		local e = string.rep("  ", 2 * (b - 1))
-    		Chat("h KohlsLite ez \n\n\n\n\n\n\n\n\n\n\n\n" .. e .. _G["variable_" .. tostring(b)])
+		if haspersons == true then
+			Chat("h/KohlsLite ez\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" .. e .. _G["variable_" .. tostring(b)])
+		else
+    			Chat("h KohlsLite ez\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" .. e .. _G["variable_" .. tostring(b)])
+		end
 	end
-    end
-
-    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'snplayer' then
-	nameuser = string.sub(msg:lower(), #prefix + 10)
-	SName = true
-    end
-
-    if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unsnplayer' then
-	SName = false
     end
 
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'sregen' then
@@ -2590,6 +2706,8 @@ Commands required: rocket]])
     end
 			
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'qattach' then
+	Chat("sit me down");task.wait(1)
+	Chat("punish me");task.wait(1)
 	Chat("unpunish me")
     end
 
@@ -2697,7 +2815,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'ungearban' then
 		local plrg = string.sub(msg:lower(), #prefix + 11)
 		if plrg == "" then
-         		game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, true)
+         		game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, true)
 		else 
 			Ungearban(plrg)
 		end
@@ -2938,8 +3056,9 @@ Commands required: rocket]])
 
      if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'cfixvelo' then
 		Remind("You need to be positioned by a wall!")
-		Chat("unpunish me")  -- dionite found that you only need this, surprising it took so long
-		task.wait(2.2)
+		Chat("sit me down");task.wait(1)
+		Chat("punish me");task.wait(1)
+		Chat("unpunish me");task.wait(1)
 		Chat("unskydive me")     
      end
 
@@ -3530,40 +3649,6 @@ Commands required: rocket]])
 		Remind("Invalid argument: Must be me, others, or all")
 	end
     end
-
-    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'antiex' then
-	local args = string.split(msg, " ")
-	if args[2] == "me" then
-		YOUantiexplode = true
-		Remind("Turned this anti on for you!")
-	elseif args[2] == "others" then
-		ALLantiexplode = true
-		Remind("Turned this anti on for others!")
-	elseif args[2] == "all" then
-		YOUantiexplode = true
-		ALLantiexplode = true
-		Remind("Turned this anti on for everyone!")
-	else
-		Remind("Invalid argument: Must be me, others, or all")
-	end
-    end
-		
-    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'unantiex' then
-	local args = string.split(msg, " ")
-	if args[2] == "me" then
-		YOUantiexplode = false
-		Remind("Turned this anti off for you!")
-	elseif args[2] == "others" then
-		ALLantiexplode = false
-		Remind("Turned this anti off for others!")
-	elseif args[2] == "all" then
-		YOUantiexplode = false
-		ALLantiexplode = false
-		Remind("Turned this anti off for everyone!")
-	else
-		Remind("Invalid argument: Must be me, others, or all")
-	end
-    end
 		
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antichar' then
 	local args = string.split(msg, " ")
@@ -4079,23 +4164,28 @@ Commands required: rocket]])
 
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'autoff' then
 	autoff = true
+	Remind("Auto ff is on!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'unautoff' then
 	autoff = false
+	Remind("Auto ff is off!")
     end
 		
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'autogod' then
 	autogod = true
+	Remind("Auto god is on!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'unautogod' then
 	autogod = false
+	Remind("Auto god is off!")
     end	
+
 end)
 
 function CMDPrint()
-print("---Command list for KohlsLite v1.12---")
+print("---Command list for KohlsLite v1.15---")
 print("Warning! This is NOT a full list so contact me for any other commands!")
 	
 print("---")
@@ -4182,6 +4272,7 @@ print("ping - say your ping")
 print("execute - execute a lua script from chat")
 print("iy - execute iy")
 print("adv - advertise this script (pls do this you are nice if you do this :D)")
+print("cadv - advertise the kah community server (pls do this you are nice if you do this :D)")
 print("frespawn - force respawn if punished")
 
 print("---")
@@ -4261,10 +4352,10 @@ print("rejoin - rejoin the server you're in")
 print("shop - switch to a different server")
 
 print("---")
-print("slowplayer - slow a player down with the car gear")
-print("unslowplayer - stop slowing a player down with the car gear")
-print("snplayer - spam name a player, naming currently breaks your cam")
-print("unsnplayer - stop spam naming a player, naming currently breaks your cam")
+print("lagged - slow a player down with the car gear")
+print("unlagged - stop slowing a player down with the car gear")
+print("names - spam name a player, naming currently breaks your cam")
+print("unnames - stop spam naming a player, naming currently breaks your cam")
 
 print("---")
 print("announce - announce a message without your username in the h")
@@ -4351,7 +4442,7 @@ print("If it's to the game itself, just do (antiname).")
 
 print("---INFORMATION---")
 print("KohlsLite, since 2023. Created by ScriptingProgrammer/ts2021")
-print("Version is: v1.12 - 13th March 2024 Build")
+print("Version is: v1.15 - 31th March 2024 Build")
 print("Better than scv1 and scv2 - approved by Tech")
 
 print("--- CREDITS ---")
@@ -4363,7 +4454,7 @@ print("Dizzy [ROUTE] for music ids hahaha I'm a muskid")
 
 print("--- ADDITIONAL INFO ---")
 print("1a. This script has some stuff missing and some stuff broken but it's not really finished. There's many stuff I'm still adding.")
-print("1b. If you want a good script and have some money/robux, get Shortcut v3-var at https://sckah.xyz")
+print("1b. If you want a good script and have some money/robux, get Shortcut v3-var by dming techq")
 print("2a. With the \n\n\n that hides your username, it does NOT work on newer Roblox guis (my old main and my second alt have it.")
 print("2b. Instead, it will show as the name at the top.")
 print("2c. I cannot change the \n\n\n or the text won't be on the bar which is ugly. Sorry!")
@@ -4468,11 +4559,13 @@ task.spawn(function()
             if v:IsA('Script') then
                   if antidisco == true then    
                           if v.Name == "Disco" then
+			      v:Destroy() -- :)
                               Chat("fix")
                           end
                   end
                   if antiflash == true then    
                           if v.Name == "Flash" then
+			      v:Destroy() -- :)
                               Chat("fix")
                           end
                   end
@@ -4611,6 +4704,7 @@ task.spawn(function()
 	if YOUantifire == true then
 	    if game.Players.LocalPlayer.Character:FindFirstChild("Torso") then
                 if game.Players.LocalPlayer.Character.Torso:FindFirstChild("Fire") then
+		    game.Players.LocalPlayer.Character.Torso:FindFirstChild("Fire"):Destroy()
                     Chat("unfire me")
                 end
             end
@@ -4631,6 +4725,7 @@ task.spawn(function()
 			
 	if YOUantiff == true then
 	 if game.Players.LocalPlayer.Character:FindFirstChild("ForceField") then
+		game.Players.LocalPlayer.Character:FindFirstChild("ForceField"):Destroy()
                 Chat("unff me")
             end
 	end
@@ -4652,6 +4747,7 @@ task.spawn(function()
 			
 	if YOUantiglow == true then
 	   if game.Players.LocalPlayer.Character:FindFirstChild("PointLight") then
+		  game.Players.LocalPlayer.Character:FindFirstChild("PointLight"):Destroy()
                   Chat("unglow me")
             end
 	end
@@ -4699,12 +4795,6 @@ task.spawn(function()
 	     end
 	end
 
-	if YOUantiexplode == true then
-	     if game.Players.LocalPlayer.Character:FindFirstChild("Explosion") then
-		Chat("reset me")
-	     end
-	end
-
 	if YOUantichar == true then
 	   if game.Players.LocalPlayer.UserId ~= game.Players.LocalPlayer.CharacterAppearanceId then
 	      Chat("unchar me")
@@ -4713,6 +4803,7 @@ task.spawn(function()
 			
 	if YOUantiparticles == true then
 	   if game.Players.LocalPlayer.Character:FindFirstChild("ParticleEmitter") then
+		  game.Players.LocalPlayer.Character:FindFirstChild("ParticleEmitter"):Destroy()
                   Chat("unparticle me")
             end
 	end
@@ -4743,7 +4834,7 @@ task.spawn(function()
 	end
 			
 	if YOUantiseizure == true then
-	        if game.Players.LocalPlayer.Character:FindFirstChild("Seizure") then
+	    if game.Players.LocalPlayer.Character:FindFirstChild("Seizure") then
                 Chat("unseizure me")
             end
 	end
@@ -4751,6 +4842,7 @@ task.spawn(function()
 	if YOUantismoke == true then
 	     if game.Players.LocalPlayer.Character:FindFirstChild("Torso") then
                 if game.Players.LocalPlayer.Character.Torso:FindFirstChild("Smoke") then
+		    game.Players.LocalPlayer.Character.Torso:FindFirstChild("Smoke"):Destroy()
                     Chat("unsmoke me")
                 end
             end
@@ -4759,6 +4851,7 @@ task.spawn(function()
 	if YOUantisparkles == true then
 	    if game.Players.LocalPlayer.Character:FindFirstChild("Torso") then
                 if game.Players.LocalPlayer.Character.Torso:FindFirstChild("Sparkles") then
+		    game.Players.LocalPlayer.Character.Torso:FindFirstChild("Sparkles"):Destroy()
                     Chat("unsparkles me")
                 end
             end
@@ -4773,6 +4866,7 @@ task.spawn(function()
 	if YOUantispin == true then
 		if game.Players.LocalPlayer.Character:FindFirstChild("Torso") then
                 	if game.Players.LocalPlayer.Character.Torso:FindFirstChild("SPINNER") then
+				game.Players.LocalPlayer.Character.Torso:FindFirstChild("SPINNER"):Destroy()
                     		Chat("unspin me")
                 	end
                 end
@@ -4800,6 +4894,7 @@ task.spawn(function()
 			
 	if YOUantiswag == true then
 		if game.Players.LocalPlayer.Character:FindFirstChild("EpicCape") then
+		        game.Players.LocalPlayer.Character:FindFirstChild("EpicCape"):Destroy()
                 	Chat("normal me")
 		end
 	end
@@ -4889,12 +4984,6 @@ task.spawn(function()
 						Chat("normaljump "..v.Name)
 					  else end
 				end
-
-				if ALLantiexplode == true then
-	     				if v.Character:FindFirstChild("Explosion") then
-						Chat("reset "..v.Name)
-					else end
-				end
 						
 				if ALLantikill == true then
 	 				  if v.Character.Humanoid.Health == 0 then
@@ -4953,7 +5042,7 @@ task.spawn(function()
 				
 				if ALLantismoke == true then
 	   				  if v.Character:FindFirstChild("Torso") then
-              					  if v.Name.Character.Torso:FindFirstChild("Smoke") then
+              					  if v.Character.Torso:FindFirstChild("Smoke") then
                 					    Chat("unsmoke "..v.Name)
 						  else end
 					  else end
@@ -4975,7 +5064,7 @@ task.spawn(function()
 
 				if ALLantispin == true then
 					if v.Character:FindFirstChild("Torso") then
-                				if v.Torso:FindFirstChild("SPINNER") then
+                				if v.Character.Torso:FindFirstChild("SPINNER") then
                     					Chat("unspin "..v.Name)
                 				end
                				 end
@@ -5107,12 +5196,12 @@ function warnGear(player, toolName)
         if isB == true then
        		Chat("ungear " .. spe)
        		Chat("punish " .. spe)
-       		Chat("h \n\n\n [KohlsLite]: Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of anti gear. \n\n\n")
+       		Chat("h \n\n\n [KohlsLite]: Sorry, " .. player.Name .. ", you cannot use tools because of anti gear. \n\n\n")
       	        Chat("clr")
 	else
 		Chat("ungear " .. player.Name)
        		Chat("punish " .. player.Name)
-       		Chat("h \n\n\n [KohlsLite]: Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of anti gear. \n\n\n")
+       		Chat("h \n\n\n [KohlsLite]: Sorry, " .. player.Name .. ", you cannot use tools because of anti gear. \n\n\n")
       		Chat("clr")
 	end
 end
@@ -5358,8 +5447,31 @@ end
 
 -- AD
 function ADVERTISEMENT()
-	Speak("KohlsLite is a very 'cool' KAH Script. Get it today on git-hub: S-PScripts or my purple: ts2021")
-	Speak("You can also get it at script blox: search CMD LITE")
+	Speak("KohlsLite is a very 'cool' KAH Script.")
+	task.wait(1)
+	Speak("Get it at script blox: search CMD LITE")
+	task.wait(1)
+	Speak("dsc gg kohlslite")
+	if haspersons == true then
+		Chat("m/ \n\n\n dsc gg kohlslite \n\n\n")
+		Chat("h/ \n\n\n dsc gg kohlslite \n\n\n")
+	else
+		Chat("m \n\n\n dsc gg kohlslite \n\n\n")
+		Chat("h \n\n\n dsc gg kohlslite \n\n\n")
+	end
+end
+
+function CADVERTISEMENT()
+	Speak("Join the KAH Community server today!")
+	task.wait(1)
+	Speak("dsc gg kohlslite")
+	if haspersons == true then
+		Chat("m/ \n\n\n dsc gg kohlslite \n\n\n")
+		Chat("h/ \n\n\n dsc gg kohlslite \n\n\n")
+	else
+		Chat("m \n\n\n dsc gg kohlslite \n\n\n")
+		Chat("h \n\n\n dsc gg kohlslite \n\n\n")
+	end
 end
 
 -- REJOIN
@@ -5857,58 +5969,46 @@ task.spawn(function()
 			end
     end
 		
-    if mymusiconly == true and musicoff == false then
-		  if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
-				if game:GetService("Workspace").Terrain["_Game"].Folder.Sound.SoundId == "http://www.roblox.com/asset/?id="..mymusiconlyid then
-                        if tempdisable == true then 
-                        else
-						    savethisplace = game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition
-                           -- print(savethisplace)
-                        end
-    		  		else
-					if antimlog then
-                     --   print(savethisplace)
-                        tempdisable = true
-            			Chat("music 00000000000000000000000000" .. mymusiconlyid)
-                        task.wait(0.25)
-                        if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
-						    game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = savethisplace
-                        end                        
-                        tempdisable = false
-	    			else
-                   --     print(savethisplace)
-                        tempdisable = true;
-    			  		Chat("music "..mymusiconlyid)
-                        task.wait(0.25)
-                        if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
-						    game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = savethisplace
-                        end
-                        tempdisable = false
-	    			end
-				end
-      		  end
-      		  if not game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
-				     if antimlog then
-                     --   print(savethisplace)
-                        tempdisable = true
-            			Chat("music 00000000000000000000000000" .. mymusiconlyid)
-                        task.wait(0.25)
-                        if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
-						    game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = savethisplace
-                        end                        
-                        tempdisable = false
-	    			else
-                    --    print(savethisplace)
-    			  		Chat("music "..mymusiconlyid)
-                        tempdisable = true
-                        task.wait(0.25)
-                        if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild("Sound") then
-						    game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = savethisplace
-                        end                        
-                        tempdisable = false
-	    			end
-      		 end
-    end
+    if mymusiconly == true then -- changed to iidk's since mine was a bit broken (doing music mymusiconlyid restarts the music!)
+		 local soundlock = tonumber(mymusiconlyid)
+		 local origsound = soundlock
+		 soundlock = "http://www.roblox.com/asset/?id="..tostring(soundlock)
+		 local gwawg = 0
+		 repeat 
+			task.wait(0.1) 
+			gwawg = gwawg + 0.1
+    				if workspace.Terrain["_Game"].Folder:FindFirstChild("Sound") and musicoff == false then
+        				local music = workspace.Terrain["_Game"].Folder:FindFirstChild("Sound")
+        				if music.IsLoaded and music.SoundId == soundlock then
+           					if gwawg > music.TimeLength then 
+								gwawg = 0 
+						end 
+           					
+						if math.abs(music.TimePosition - gwawg) > 0.5 then
+              						 	music.TimePosition = gwawg
+            					end
+        				end
+						
+       					if music.SoundId ~= soundlock and musicoff == false then
+						if antimlog then
+        						Chat("music 00000000000000000000000000000"..tostring(origsound))
+						else
+							Chat("music "..tostring(origsound))
+						end        				
+					end
+						
+       					if music.Playing == false and musicoff == false then
+           							music:Play() 
+        				end
+    				else
+					if antimlog and musicoff == false then
+        					Chat("music 00000000000000000000000000000"..tostring(origsound))
+					else
+						Chat("music "..tostring(origsound))
+					end
+    				end
+		until not mymusiconly
+    	end
   end
 end)
 
@@ -5961,6 +6061,7 @@ end
 
 -- FREEZE CRASH
 function FCrash()
+      Chat("h \n\n\n dsc gg kohlslite \n\n\n");task.wait(0.5)
       for i = 1,100 do
           Chat("clone all all all				fuck")
           Chat("freeze all all all				fuck")
@@ -5969,6 +6070,7 @@ end
 
 -- DOG CRASH
 function DCrash()
+      Chat("h \n\n\n dsc gg kohlslite \n\n\n");task.wait(0.5)
       for i = 1,100 do
           Chat("clone all all all				fuck")
           Chat("dog all all all					fuck")
@@ -5977,6 +6079,7 @@ end
 
 -- SHIELD CRASH
 function SCrash()
+      Chat("h \n\n\n dsc gg kohlslite \n\n\n");task.wait(0.5)
       for i = 1,100 do
           Chat("shield/all/all/all")
 	  Chat("rocket/all/all/all")
@@ -5984,33 +6087,30 @@ function SCrash()
       end
 end
 
--- ROCKET KICK (also temp)
-function RKick()
-      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = rkicker.Character.HumanoidRootPart.CFrame
-      for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-			if v.Name == "Rocket" then
-				v.CanCollide = false 
-			end
-      end
-      for i,v in pairs(rkicker.Character:GetChildren()) do
-			if v.Name == "Rocket" then 
-				v.CanCollide = false 
-			end
-      end
-      Chat("setgrav "..rkicks.. "3500")
-      Chat("jail/".. rkicks)
-      for i = 1,100 do
-          Chat("rocket/"..rkicks.."/"..rkicks.."/"..rkicks)
-	  Chat("rocket/me/me/me")
-      end
-end
-
--- SPAM ROCKET KICK
+-- rocket kick
 task.spawn(function()
    while true do
 	task.wait(0)
 	if srkick and rkicker then
-	   RKick()
+	   repeat 
+	   	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = rkicker.Character.HumanoidRootPart.CFrame
+      		for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+			if v.Name == "Rocket" then
+				v.CanCollide = false 
+			end
+      		end
+      		for i,v in pairs(rkicker.Character:GetChildren()) do
+			if v.Name == "Rocket" then 
+				v.CanCollide = false 
+			end
+      	        end
+      		Chat("setgrav "..rkicks.. "3500")
+      		Chat("jail/".. rkicks)
+      		for i = 1,100 do
+          		Chat("rocket/"..rkicks.."/"..rkicks.."/"..rkicks)
+	  		Chat("rocket/me/me/me")
+      		end
+	   until not srkick or not rkicker
         end
    end
 end)
@@ -6059,24 +6159,19 @@ end
 
 -- NAME HECK
 task.spawn(function()
-      while true do
-      		task.wait(0)
-      		if SName == true then
-	         	Chat("name ".. nameuser .." [BROKE]")
-			task.wait(0)
+	while true do
+		task.wait()
+		for i, v in ipairs(game.Players:GetPlayers()) do
+			if table.find(byecam, v.Name) then
+				if v and not v.Character:FindFirstChildOfClass("Model") then
+	         			Chat("name ".. v.Name .." [BROKE]")
+				end
+			end
+			if table.find(carcar, v.Name) then
+				Chat("gear ".. v.Name .." 253519495")
+        		end
       		end
       end
-end)
-
--- SLOW PLAYER
-task.spawn(function()
-	while true do
-		task.wait(0)
-		if SlowP == true then
-              		Chat("gear ".. caruser .." 253519495")
-              		task.wait(0)
-        	end
-	end
 end)
 
 -- FIND REGEN
@@ -6164,10 +6259,23 @@ function NoCam()
 end
 
 function NoVelo()
-      Chat("gear me 287426148")
-      Chat("gear me 119917513")
-      Chat("gear me 74385399")
-      Remind("These gears will help break the velocity!")
+    Chat("gear me 111876831")
+    repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("April Showers")
+    local aps = game.Players.LocalPlayer.Backpack:FindFirstChild("April Showers")
+    aps.Parent = game.Players.LocalPlayer.Character
+    wait(0.2)
+    aps:Activate()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.p.X,game.Players.LocalPlayer:GetMouse().Hit.p.Y,game.Players.LocalPlayer:GetMouse().Hit.p.Z)
+    task.wait()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame*CFrame.new(0,0,3.6)
+    Remind("Please wait for 15 seconds...");task.wait(5);Remind("10 more seconds...");task.wait(5);Remind("5 more seconds...");task.wait(5)
+    Chat("gear me 110789105")
+    repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("RageTable")
+    local rage = game.Players.LocalPlayer.Backpack:FindFirstChild("RageTable")
+    rage.Parent = game.Players.LocalPlayer.Character
+    wait(0.2)
+    rage:Activate()
+    Remind("Velocity should be broken for the object you wanted it to do so!")
 end
 
 
@@ -6356,6 +6464,7 @@ end
 	
 -- VG CRASH
 function VGCrash()
+      Chat("h \n\n\n dsc gg kohlslite \n\n\n")
       Chat("gear me 00000000000000094794847")
       repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("VampireVanquisher")
       local vg = game.Players.LocalPlayer.Backpack:FindFirstChild("VampireVanquisher")
@@ -6369,6 +6478,7 @@ function VGCrash()
 end
 
 function EmCrash()
+      Chat("h \n\n\n dsc gg kohlslite \n\n\n")
       Chat("gear me 000000000000000178076749")
       repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("Emerald Knights of the Seventh Sanctum Sword and Shield")
       local green = game.Players.LocalPlayer.Backpack:FindFirstChild("Emerald Knights of the Seventh Sanctum Sword and Shield")
@@ -6382,19 +6492,19 @@ function EmCrash()
       end
 end
 
-function PCrash() -- lorem ipsum
-      Chat("gear me 0000000092628079")
-      repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("OrinthianSwordAndShield")
-      local ort = game.Players.LocalPlayer.Backpack:FindFirstChild("OrinthianSwordAndShield")
-      ort.Parent = game.Players.LocalPlayer.Character
-      task.wait(0.2)
-      ort:Activate()
-      task.wait(.15)
-      for i = 1,100 do
-          Chat("unsize me me me")
-      end
-      for i = 1,100 do
-          Chat("unsize me me me")
+function PCrash() -- with this crash make sure to click manually
+      Chat("h \n\n\n dsc gg kohlslite \n\n\n")
+      for i = 1, 2 do -- once doesn't usually work
+      	Chat("gear me 0000000092628079")
+      	repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("OrinthianSwordAndShield")
+      	local ort = game.Players.LocalPlayer.Backpack:FindFirstChild("OrinthianSwordAndShield")
+      	ort.Parent = game.Players.LocalPlayer.Character
+      	task.wait(0.2)
+      	ort:Activate()
+      	task.wait(.15)
+      	for i = 1,100 do
+          	Chat("unsize me me me")
+      	end
       end
 end
 
@@ -6448,8 +6558,7 @@ function onPlayerAdded(player)
 
 	if table.find(suser_on_sight, player.Name) then
 		Chat("h \n\n\n [KohlsLite]: Auto slowing "..player.Name.." as they are blacklisted. \n\n\n")
-		caruser = player.Name
-		SlowP = true
+		table.insert(carcar, player.Name)
     end
 
     if table.find(mkick_on_sight, player.Name) then
@@ -7027,8 +7136,7 @@ end
 
 startupScripts()
 
-local cantexecute = {""}
+local cantexecute = {"me_iloves-psballsyum"}
 if table.find(cantexecute, game.Players.LocalPlayer.Name) then
 		game.Players.LocalPlayer:Kick("[KohlsLite]: Oh dear, you're blacklisted from my script! How did you do that? DM me on ts2021 to appeal.") 
 end
-print("executed")
