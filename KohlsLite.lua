@@ -3,12 +3,14 @@
 -- Support this script today by donating Robux to me :) 
 -- Please do not "skid" off this code by just changing the name and removing the dev section (I'll add you to my autokick if you do!). Make your own script instead and take stuff from here if you need to.
 
+-- i have diarrhoea that's why i'm not updating ;o
+
 --[[
 _  _____  _   _ _     ____  _     ___ _____ _____ 
 | |/ / _ \| | | | |   / ___|| |   |_ _|_   _| ____|
 | ' / | | | |_| | |   \___ \| |    | |  | | |  _|  
 | . \ |_| |  _  | |___ ___) | |___ | |  | | | |___ 
-|_|\_\___/|_| |_|_____|____/|_____|___| |_| |_____| v1.17 ]]
+|_|\_\___/|_| |_|_____|____/|_____|___| |_| |_____| v1.33 ]]
 
 local function Remind(msg)
         game.StarterGui:SetCore("SendNotification", {
@@ -18,12 +20,12 @@ local function Remind(msg)
         })
 end;
 
-if _G.kohlsexecuted then 
+if getgenv().kohlsexecuted then 
         return 
         Remind("You've already executed KohlsLite!") 
 end
 
-_G.kohlsexecuted = true
+getgenv().kohlsexecuted = true
 
 local function Chat(msg)
       game.Players:Chat(msg)
@@ -33,20 +35,27 @@ local function Speak(msg)
     game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
 end
 
-local prefix = "." -- This can be of any length
+if getgenv().theprefix then
+	prefix = getgenv().theprefix
+else
+	prefix = "." -- This can be of any length
+end
 
 local defaults = {".antirocket me", ".tnok", ".antimsg me"}
 
 local bending
+local eincrash
+local starttime = os.clock()
+
 -- Start up scripts
 local function startupScripts()
-           if not _G.autorunning then
+           if not getgenv().autoruncmds then
                 for i = 1, #defaults do
                         Chat(defaults[i]) 
                 end
         else
-            for i = 1, #_G.autorunning do
-                        Chat(_G.autorunning[i]) 
+            for i = 1, #getgenv().autoruncmds do
+                        Chat(getgenv().autoruncmds[i])
             end
         end
 end
@@ -98,7 +107,10 @@ local pwl = {
     "idonthacklol101ns",
     "Me_ChurchOfSat4n",
     "Milderous",
-    "Anka_707587"
+    "Anka_707587",
+    "DionteIsCute",
+    "me_capybara",
+    "E4_DQ"
 }
 
 -- Players you cannot kick
@@ -123,13 +135,15 @@ local nokick = {
     "Altsarecooleh",
     "idonthacklol101ns",
     "dawninja21",
-    "dawninja21alt",
+    "Dawninja21alt",
     "GAMMINGBUDD_REAL",
     "Artyuiiiiti",
     "D_ionte",
     "EternitHD",
     "Milderous",
-    "Anka_707587"
+    "Anka_707587",
+    "DionteIsCute",
+    "me_capybara"
 }
 
 -- Players with special perms
@@ -138,24 +152,12 @@ local specialperms = {
     "me_crashking",
     "ScriptingProgrammer",
     "t_echr",
-    "witnessfox22",
-    "IceStuds",
-    "atprog",
-    "Di33le2",
-    "Dekryptionite",
     "3cxos",
-    "BIGpe7niss7",
-    "clydekash",
     "t_echl",
-    "idonthacklol101ns",
-    "dawninja21",
-    "dawninja21alt",
-    "disunize",
-    "Altsarecooleh",
     "D_ionte",
     "EternitHD",
     "Milderous",
-    "Anka_707587"
+    "DionteIsCute"
 }
 
 -- New users get blacklisted (prevent crashers)
@@ -193,7 +195,9 @@ local pgwl = {
     "idonthacklol101ns",
     "Me_ChurchOfSat4n",
     "Milderous",
-    "Anka_707587"
+    "Anka_707587",
+    "D_ionte",
+    "DionteIsCute"
 }
 
 -- Serverlock
@@ -204,20 +208,22 @@ local loopkill = {}
 local byecam = {}
 local carcar = {}
 
+antikill = {}
+
 -- Gamepass saving
 permusers = {} -- users that use perm will be placed here
 personsusers = {} -- users that use persons will be placed here
 
 -- Auto stuff relating to users
 rkick_on_sight = {} -- rocket kick player when they join ONLY WORKS WITH ONE PLAYER
-crash_on_sight = {} -- crash server when player joins [jhjssikeksms]
+crash_on_sight = {"aliihsan12345Bloxy"} -- crash server when player joins [jhjssikeksms]
 mkick_on_sight = {"He4rt_4","hellokitty2kute"} -- kick player with pm spam when they join ONLY WORKS WITH ONE PLAYER
 suser_on_sight = {} -- slow a user when they join with car gear ONLY WORKS WITH ONE PLAYER
+furry_on_sight = {"jhjssikeksms"}
 
 -- Variables for moving
 local movestatus = false
 Kohls = workspace.Terrain:WaitForChild("_Game")
-Map = Kohls:WaitForChild("Workspace")
 Admin = Kohls:WaitForChild("Admin")
 Pads = Admin:WaitForChild("Pads"):GetChildren()
 
@@ -234,7 +240,7 @@ local musictable = {
     ["6"] = { id = "6847929757", name = "LONER" },
     ["7"] = { id = "1839029458", name = "Exotico Speedo" },
     ["8"] = { id = "35930009", name = "Monster Mash" },
-    ["9"] = { id = "6772846771", name = "THOT!" },
+    ["9"] = { id = "6772846771", name = "TOT!" },
     ["10"] = { id = "11808880515", name = "women song" },
     ["11"] = { id = "6681840651", name = "What?!" },
     ["12"] = { id = "1841647093", name = "Life in an Elevator" },
@@ -324,7 +330,22 @@ local musictable = {
     ["96"] = { id = "9043887091", name = "Lo-fi Chill A"},
     ["97"] = { id = "1837768517", name = "Bossa Me (a)"},
     ["98"] = { id = "9039445224", name = "8 Bitty Kitty - Underscore"},
-    ["99"] = { id = "9046863579", name = "City Lights - Roblox"}
+    ["99"] = { id = "9046863579", name = "City Lights - Roblox"},
+    ["100"] = { id = "15689457918", name = "nMisaki - Dream Girl (sped up)"},
+    ["101"] = { id = "1845742414", name = "Appetizer"},
+    ["102"] = { id = "6889574376", name = "Rascal!"},
+    ["103"] = { id = "7029024726", name = "Throttle - Bloom"},
+    ["104"] = { id = "1840612595", name = "A New Renaissance"},  
+    ["105"] = { id = "1836054144", name = "Upbeat Dude"},
+    ["106"] = { id = "1837275138", name = "Never Enough"},
+    ["107"] = { id = "1839917800", name = "Unknown"},
+    ["108"] = { id = "1840221593", name = "Fit For Life (A)"},
+    ["109"] = { id = "9041863801", name = "Unknown"},
+    ["110"] = { id = "1836711447", name = "Just Like Me"},
+    ["111"] = { id = "1845070869", name = "Eye Open"},
+    ["112"] = { id = "1847863129", name = "Tech Synth A"},
+    ["113"] = { id = "1845073388", name = "Need For Speed"},
+    ["114"] = { id = "1845092143", name = "Super Nova"}
 }
 
 local gearlist = {
@@ -722,9 +743,6 @@ local antimlog = false -- for music
 local antiglog = false -- for gears
 local anticlog = false -- for chars
 
--- Debug
-local alreadyranice = false
-
 -- Admin stuff relating to users
 local padbanned = {} 
 local padreinforcements = false 
@@ -808,13 +826,15 @@ local welcomemsg = true
 -- local permpassid = 66254 or 64354 -> NBC, BC
 -- local personpassid = 35748 or 37127 --> NBC, BC
 
-print("Thank you for using KohlsLite v1.17! This script was created by S_P.")
-Remind("Thank you for using KohlsLite v1.17! This script was created by S_P.")
-print("Say .kcmds to list some of the commands. DM me at ts2021 for the source to find other commands.")
-Remind("Say .kcmds to list some of the commands. DM me at ts2021 for the source to find other commands.")
+print("- Information -")
+print("Thank you for using KohlsLite v1.33! This script was created by S_P.")
+Remind("Thank you for using KohlsLite v1.33! This script was created by S_P.")
+print("Say .kcmds to list some of the commands. DM me at ts2021x for the source to find other commands.")
+Remind("Say .kcmds to list some of the commands. DM me at ts2021x for the source to find other commands.")
 
-Chat("h \n\n\n [KohlsLite]: Executed! v1.17 \n\n\n")
+Chat("h \n\n\n [KohlsLite]: Executed! v1.33 \n\n\n")
 
+print("- Perm check -")
 if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game.Players.LocalPlayer.UserId, 66254) or game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game.Players.LocalPlayer.UserId, 64354) then
         perm = false 
         hasperm = true -- used
@@ -825,6 +845,7 @@ else
         print("A perm pad was given - you don't have the Perm Admin gamepass!")
 end
 
+print("- Persons check -")
 if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game.Players.LocalPlayer.UserId, 35748) or game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game.Players.LocalPlayer.UserId, 37127) then
         haspersons = true -- used!
         print("You have Person299's Admin! You have access to more features!")
@@ -1152,7 +1173,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
          PLAYERCHECK(dasplayer)
          if player ~= nil then
                 if not table.find(blacklist, player) then
-                        Chat("h \n\n\n [KohlsLite]: "..player.." has been blacklisted. \n\n\n")
+                        Chat("h \n\n\n [KohlsLite]: "..player.." has been blacklisted. \n\n\n");Regen()
                         Remind("Blacklisted "..player)
                         table.insert(blacklist, player)
                 else
@@ -1256,7 +1277,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
        end
 
        if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'slock' then
-        Chat("h \n\n\n [KohlsLite]: Server is locked! \n\n\n")
+        Chat("h \n\n\n [KohlsLite]: Server is locked! \n\n\n");Regen()
         slockenabled = true
        end
 
@@ -1300,25 +1321,37 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
       if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'pboombox' then
             Chat("gear me 212641536")
             task.wait(0.5)
-            local myplay = string.sub(msg:lower(), 10 + #prefix)
+            local check = string.sub(msg:lower(), #prefix + 10, #prefix + 10)
+	    if check == "g" then
+			local idrinkrum = string.sub(msg, #prefix + 11) ; task.wait(0)
+			myplay = musictable[idrinkrum].id
+	    else
+			myplay = string.sub(msg:lower(), 10 + #prefix)
+	    end
             repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("SuperFlyGoldBoombox")
-                  local bom = game.Players.LocalPlayer.Backpack:FindFirstChild("SuperFlyGoldBoombox")
-            bom.Parent = game.Players.LocalPlayer.Character
+            local bom = game.Players.LocalPlayer.Backpack:FindFirstChild("SuperFlyGoldBoombox")
+            bom.Parent = game.Players.LocalPlayer.Character                                   
             task.wait(0.25)
-            bom.Remote:FireServer("PlaySong", tonumber(myplay))
+	    bom.Remote:FireServer("PlaySong", tonumber(myplay))
       end
 
       if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'mboombox' then
             Chat("gear me 212641536")
             task.wait(0.5)
-            local myplay = string.sub(msg:lower(), 10 + #prefix)
+            local check = string.sub(msg:lower(), #prefix + 10, #prefix + 10)
+	    if check == "g" then
+			local idrinkrum = string.sub(msg, #prefix + 11) ; task.wait(0)
+			myplay = musictable[idrinkrum].id
+	    else
+			myplay = string.sub(msg:lower(), 10 + #prefix)
+	    end
             repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("SuperFlyGoldBoombox")
-                  local bom = game.Players.LocalPlayer.Backpack:FindFirstChild("SuperFlyGoldBoombox")
+            local bom = game.Players.LocalPlayer.Backpack:FindFirstChild("SuperFlyGoldBoombox")
             bom.Parent = game.Players.LocalPlayer.Character                                   
             task.wait(0.25)
-            bom.Remote:FireServer("PlaySong", tonumber(myplay))
-                    function rng() 
-                        return math.random(-128, 128)
+	    bom.Remote:FireServer("PlaySong", tonumber(myplay))
+	    function rng() 
+                	return math.random(-128, 128)
             end
             bom.GripPos = Vector3.new(rng(), 1, rng())
       end
@@ -1356,7 +1389,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
            Chat("h \n\n\n [KohlsLite]: Playing music: ".. musictable[musicplay].name ..". \n\n\n")
         end
         if antimlog then
-            Chat("music 00000000000000000000000000" .. musictable[musicplay].id)
+            Chat("music 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" .. musictable[musicplay].id)
         else
             Chat("music " .. musictable[musicplay].id)
         end;musicplay = tonumber(musicplay)
@@ -1373,13 +1406,13 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                     Chat("h \n\n\n [KohlsLite]: Playing music: " .. musictable[rizz].name .. ". \n\n\n")
          end
          if antimlog then
-                    Chat("music 00000000000000000000000000" .. musictable[rizz].id)
+                    Chat("music 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" .. musictable[rizz].id)
          else
                 Chat("music " ..musictable[rizz].id)
          end
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'nmusic' then -- if it double executes fuck you
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'nmusic' then -- if it double executes ... you
             if ratelj then print("anti double execution worked!") return end
             ratelj = true
 
@@ -1401,13 +1434,13 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
             end
 
             if antimlog then
-                Chat("music 00000000000000000000000000" .. musictable[mast].id)
+                Chat("music 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" .. musictable[mast].id)
            else
                 Chat("music " .. musictable[mast].id)
            end; ratelj = false
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'pmusic' then -- if it double executes fuck you
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'pmusic' then -- if it double executes ... you
             if ratelj then print("anti double execution worked!") return end
             ratelj = true
 
@@ -1429,7 +1462,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
             end
 
             if antimlog then
-                Chat("music 00000000000000000000000000" .. musictable[mast].id)
+                Chat("music 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" .. musictable[mast].id)
            else
                 Chat("music " .. musictable[mast].id)
            end; ratelj = false
@@ -1524,6 +1557,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                             Chat("fogend " .. gjdeivfgend)
                             Chat("fogcolor " .. gjdeivrfgcl .. " " .. gjdeivgfgcl .. " " .. gjdeivbfgcl)
                             Chat("time " .. time)
+			    if gjdelock then break end
                         end
                         gjdelock = true
                         Chat("h \n\n\n [KohlsLite]: You have entered my domain so please wait until I decide to close it... \n\n\n")
@@ -1560,7 +1594,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                             gjbpfgcl = gjbpfgcl + 20
                             Chat("fogcolor " .. "200 " .. "0 " .. gjbpfgcl)
                      end
-                     Chat("h \n\n\n [KohlsLite]: Hollow Purple! \n\n\n")
+                     Chat("h \n\n\n [KohlsLite]: Hollow purple! \n\n\n")
                         Chat("speed others inf")
                      for i = 1,10 do
                             task.wait(0.2)
@@ -1581,6 +1615,8 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                 Chat("clr")
                 Chat("removeclones")
                 Chat("removejails")
+		Chat(prefix.."fixpaint")
+		Chat("unpaint all")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'volm' then -- rap e
@@ -1653,10 +1689,12 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antimusic' then
        mymusiconly = false
        antimusic = true
+	Remind("Anti music is on! Do 'pmu (NO ID AFTER IT!!)' if this command doesn't work well")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unantimusic' then
        antimusic = false
+	Remind("Turned anti music off!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 3) == prefix..'pmu' then
@@ -1920,7 +1958,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                moveobject(Map.Baseplate, 2)
+                moveobject(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], 2)
                 repeat fwait() until movestatus == false
                 GravFix()
                 Chat("respawn me")
@@ -1932,7 +1970,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                moveobject(Map.Baseplate, 1)
+                moveobject(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], 1)
                 repeat fwait() until movestatus == false
                 GravFix()
                 Chat("respawn me")
@@ -2049,6 +2087,18 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                 setclipboard(q)
     end
 
+    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'cusername' then
+ 		local dasplayer = string.sub(msg:lower(), #prefix + 11)
+                PLAYERCHECK(dasplayer)
+                if player ~= nil  then
+        		su = player
+			setclipboard(su)
+			Remind("Successfully copied the player's username to clipboard.")
+                else                        
+                        Remind('Cannot find player with the name: '..dasplayer)
+                end
+    end
+
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'fixpads' then        
                 if movestatus == true then 
                         return 
@@ -2100,18 +2150,18 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end        
                 DisCol()
-                if Map["Basic House"]:FindFirstChild("SmoothBlockModel38") then
-                        moveobject(Map["Basic House"]:FindFirstChild("SmoothBlockModel38"), 2)
+                if game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel38") then
+                        moveobject(game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel38"), 2)
                         repeat fwait() until movestatus == false
                         Chat("respawn me")
                 end
-                if Map["Basic House"]:FindFirstChild("SmoothBlockModel40") then
-                        moveobject(Map["Basic House"]:FindFirstChild("SmoothBlockModel40"), 2)
+                if game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel40") then
+                        moveobject(game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel40"), 2)
                         repeat fwait() until movestatus == false
                         Chat("respawn me")
                 end
-                if Map["Basic House"]:FindFirstChild("SmoothBlockModel112") then
-                        moveobject(Map["Basic House"]:FindFirstChild("SmoothBlockModel112"), 2)
+                if game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel112") then
+                        moveobject(game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel112"), 2)
                         repeat fwait() until movestatus == false
                         Chat("respawn me")
                 end
@@ -2125,18 +2175,18 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end        
                 DisCol()
-                if Map["Basic House"]:FindFirstChild("SmoothBlockModel38") then
-                        moveobject(Map["Basic House"]:FindFirstChild("SmoothBlockModel38"), 1)
+                if game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel38") then
+                        moveobject(game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel38"), 1)
                         repeat fwait() until movestatus == false
                         Chat("respawn me")
                 end
-                if Map["Basic House"]:FindFirstChild("SmoothBlockModel40") then
-                        moveobject(Map["Basic House"]:FindFirstChild("SmoothBlockModel40"), 1)
+                if game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel40") then
+                        moveobject(game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel40"), 1)
                         repeat fwait() until movestatus == false
                         Chat("respawn me")
                 end
-                if Map["Basic House"]:FindFirstChild("SmoothBlockModel112") then
-                        moveobject(Map["Basic House"]:FindFirstChild("SmoothBlockModel112"), 1)
+                if game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel112") then
+                        moveobject(game.Workspace.Terrain["_Game"].Workspace["Basic House"]:FindFirstChild("SmoothBlockModel112"), 1)
                         repeat fwait() until movestatus == false
                         Chat("respawn me")
                 end
@@ -2151,13 +2201,13 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map["Obby Box"]:GetChildren()) do
+                for _,v in pairs(workspace.Terrain._Game.Workspace["Obby Box"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 2)
                         repeat fwait() until movestatus == false
                         Chat("respawn me")
                 end
-                for _,v in pairs(Map.Obby:GetChildren()) do
+                for _,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Obby"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 2)
                         repeat fwait() until movestatus == false
@@ -2174,13 +2224,13 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map["Obby Box"]:GetChildren()) do
+                for _,v in pairs(workspace.Terrain._Game.Workspace["Obby Box"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 1)
                         repeat fwait() until movestatus == false
                         Chat("respawn me")
                 end
-                for _,v in pairs(Map.Obby:GetChildren()) do
+                for _,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Obby"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 1)
                         repeat fwait() until movestatus == false
@@ -2197,7 +2247,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map.Obby:GetChildren()) do
+                for _,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Obby"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 2)
                         repeat fwait() until movestatus == false
@@ -2214,7 +2264,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map.Obby:GetChildren()) do
+                for _,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Obby"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 1)
                         repeat fwait() until movestatus == false
@@ -2231,7 +2281,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map["Obby Box"]:GetChildren()) do
+                for _,v in pairs(workspace.Terrain._Game.Workspace["Obby Box"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 2)
                         repeat fwait() until movestatus == false
@@ -2248,7 +2298,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map["Obby Box"]:GetChildren()) do
+                for _,v in pairs(workspace.Terrain._Game.Workspace["Obby Box"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 1)
                         repeat fwait() until movestatus == false
@@ -2264,7 +2314,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map["Admin Dividers"]:GetChildren()) do
+                for _,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Admin Dividers"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 2)
                         repeat fwait() until movestatus == false
@@ -2280,7 +2330,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map["Admin Dividers"]:GetChildren()) do
+                for _,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Admin Dividers"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 1)
                         repeat fwait() until movestatus == false
@@ -2296,7 +2346,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map["Basic House"]:GetChildren()) do
+                for _,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Basic House"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 2)
                         repeat fwait() until movestatus == false
@@ -2312,7 +2362,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map["Basic House"]:GetChildren()) do
+                for _,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Basic House"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 1)
                         repeat fwait() until movestatus == false
@@ -2328,7 +2378,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map["Building Bricks"]:GetChildren()) do
+                for _,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Building Bricks"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 2)
                         repeat fwait() until movestatus == false
@@ -2344,7 +2394,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                         return 
                 end
                 DisCol()
-                for _,v in pairs(Map["Building Bricks"]:GetChildren()) do
+                for _,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Building Bricks"]:GetChildren()) do
                         if allclear() == false then break end
                         moveobject(v, 1)
                         repeat fwait() until movestatus == false
@@ -2375,12 +2425,17 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
         regenfind = false
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'klfindreg' then
+    if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'2findregen' then
         regenfind2 = true
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'noklfindreg' then
+    if string.sub(msg:lower(), 1, #prefix + 12) == prefix..'2nofindregen' then
         regenfind2 = false
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'leakedreg' then
+        leakedcords()
+
     end
 
     if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'unpmu' then
@@ -2775,7 +2830,7 @@ Commands required: rocket]])
     end
 
    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'supercmd' then
-        supermessage = string.sub(msg:lower(), #prefix + 10)
+        supermessage = string.sub(msg, #prefix + 10)
         SuperCMD(supermessage)
     end
 
@@ -2783,8 +2838,8 @@ Commands required: rocket]])
         amon = tonumber(string.sub(msg:lower(), #prefix + 8))
     end
 
-   if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'spamt' then
-        spamtext = string.sub(msg:lower(), #prefix + 7)
+   if string.sub(msg, 1, #prefix + 5) == prefix..'spamt' then
+        spamtext = string.sub(msg, #prefix + 7)
         spam = true
         spamon = true
     end
@@ -2833,7 +2888,7 @@ Commands required: rocket]])
             Chat("fix") -- ;Chat(prefix.."perm2")
             musicsay = false
             task.wait(0.5);Chat(prefix.."unantimsg")
-            Chat("h \n\n\n see you soon \n\n\n");Chat(prefix.."gmusic89")
+            Chat("h \n\n\n uwu \n\n\n");Chat(prefix.."gmusic105")
             Chat("fogcolor 0 0 0");Chat("time 0");Chat("fogend 0");Chat("paint all black")
             task.wait(0.75)
             DCrash()        
@@ -2852,16 +2907,16 @@ Commands required: rocket]])
     end
 
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'icemap' then
-        if alreadyranice == true then
-                Remind("You already ran this command! To prevent crashes you cannot run it again, sorry!")
-        else 
-                Remind("If this crashes you then that sucks!")
-                alreadyranice = true
-                IceMap()
-        end
+		IsOnMobile = table.find({Enum.Platform.IOS, Enum.Platform.Android}, game:GetService("UserInputService"):GetPlatform()) -- infinite yield duh
+		if IsOnMobile then
+                	Remind("You have been detected as being on mobile. This command will not run to prevent crashing.")
+		else
+                	Remind("If you crash... that sucks!")
+               		IceMap()
+	        end
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 3) == prefix..'byp' then -- it works but i still don't care if it sometimes doesn't bypass!
+    if string.sub(msg:lower(), 1, #prefix + 3) == prefix..'byp' then -- created by tech-187, open source on his repo :)
         local args = string.split(msg, " ")
         local cmd = args[1]
             local bypsed = table.concat(args, " ", 2)
@@ -2879,7 +2934,7 @@ Commands required: rocket]])
                    _G[d] = c
         end
 
-        for b, c in ipairs(a) do
+        for b, c in ipairs(a) do -- it works but i still don't care if it sometimes doesn't bypass!
                     local e = string.rep("  ", 2 * (b - 1))
                 if haspersons == true then
                         Chat("h/KohlsLite ez\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" .. e .. _G["variable_" .. tostring(b)])
@@ -3000,10 +3055,69 @@ Commands required: rocket]])
         Remind("Your current prefix is "..prefix)
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'paintmap' then
-        _G.ColourHere = string.sub(msg, #prefix + 10) -- global as we use a loadstring here
-        GExecute("https://raw.githubusercontent.com/S-PScripts/scripts/main/Luau/KAH/Other%20Scripts/Paint%20Map.lua")
-    end
+   if string.sub(msg:lower(), 1, #prefix + 4) == prefix.."pmap" then
+		local colourhere = string.sub(msg, #prefix + 6)
+		PaintMap(colourhere,"norm")
+   end
+
+   if string.sub(msg:lower(), 1, #prefix + 8) == prefix.."paintmap" then
+		local colourhere = string.sub(msg, #prefix + 10)
+		PaintMap(colourhere,"norm")
+   end
+
+  if string.sub(msg:lower(), 1, #prefix + 9) == prefix.."messpaint" then
+		PaintMap(colourhere,"random")
+   end
+
+   if string.sub(msg:lower(), 1, #prefix + 6) == prefix.."rbgmap" then
+		local args = string.split(msg, " ")
+		r = args[2] 
+		g = args[3]
+		b = args[4]
+		PaintMap_2(r,g,b)
+   end
+		
+ if string.sub(msg:lower(), 1, #prefix + 4) == prefix.."rmap" then
+		if Loops.rainbowmap == false then
+			Loops.rainbowmap = true
+			rmap()
+		else
+			Remind("Already enabled!")
+		end
+   end
+
+ if string.sub(msg:lower(), 1, #prefix + 5) == prefix.."rbase" then
+		if Loops.rbase == false then
+			Loops.rbase = true
+			rbase()
+		else
+			Remind("Already enabled!")
+		end
+   end
+
+ if string.sub(msg:lower(), 1, #prefix + 4) == prefix.."rfog" then
+		deran = tonumber(string.sub(msg:lower(), #prefix + 6))
+		if Loops.rfog == false then
+			Loops.rfog = true
+			rfog(deran)
+		else
+			Remind("Already enabled!")
+		end
+   end
+
+   if string.sub(msg:lower(), 1, #prefix + 6) == prefix.."unrmap" then
+		Loops.rainbowmap = false
+		task.wait(1);FixPaint()
+   end
+
+   if string.sub(msg:lower(), 1, #prefix + 7) == prefix.."unrbase" then
+		Loops.rbase = false
+		task.wait(1);FixPaint()
+   end
+
+   if string.sub(msg:lower(), 1, #prefix + 6) == prefix.."unrfog" then
+		Loops.rfog = false
+   end
 
    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'autoafk' then
         autoafk = true
@@ -3107,6 +3221,7 @@ Commands required: rocket]])
                                Remind('Cannot find player with the name: '..dasplayer)
                  end
     end
+
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'surround' then
                  local dasplayer = string.sub(msg:lower(), #prefix + 10)
                  PLAYERCHECK(dasplayer)
@@ -3116,6 +3231,53 @@ Commands required: rocket]])
                  else
                                Remind('Cannot find player with the name: '..dasplayer)
                  end
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'weld' then
+                local args = string.split(msg, " ")
+        	if #args >= 3 then
+            		local target = args[2]
+                 	PLAYERCHECK(target)
+                 	if target ~= nil then
+                        	welder = player
+				wld = cplr
+				mode = table.concat(args, " ", 3)
+                        	Welding(mode)
+                 	else
+                               Remind('Cannot find player with the name: '..dasplayer)
+                	 end
+		end
+    end
+
+
+    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'hfreeze' then
+                local args = string.split(msg, " ")
+        	if #args == 2 then
+            		local target = args[2]
+                 	PLAYERCHECK(target)
+                 	if target ~= nil then
+                        	welder = player
+				wld = cplr
+                        	HFreeze()
+                 	else
+                               Remind('Cannot find player with the name: '..dasplayer)
+                	 end
+		end
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'tattach' then
+                local args = string.split(msg, " ")
+        	if #args == 2 then
+            		local target = args[2]
+                 	PLAYERCHECK(target)
+                 	if target ~= nil then
+                        	welder = player
+				wld = cplr
+                        	TAttach()
+                 	else
+                               Remind('Cannot find player with the name: '..dasplayer)
+                	 end
+		end
     end
 
     if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'clone' then
@@ -3128,9 +3290,49 @@ Commands required: rocket]])
                  Table(getnumber)
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'dance' then
-                 local getnumber = string.sub(msg:lower(), #prefix + 7)
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'potion' then
+                 local getnumber = string.sub(msg:lower(), #prefix + 8)
                  Potion(getnumber)
+    end
+
+   if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'tripmine' then
+                 local getnumber = string.sub(msg:lower(), #prefix + 10)
+                 MineTrip(getnumber)
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'cannon' then
+                 local getnumber = string.sub(msg:lower(), #prefix + 8)
+                 Cannon(getnumber)
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'zombie' then
+                 local getnumber = string.sub(msg:lower(), #prefix + 8)
+                 Zombie(getnumber)
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'alpaca' then
+                 local getnumber = string.sub(msg:lower(), #prefix + 8)
+                 Alpaca(getnumber)
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'piano' then
+                 local getnumber = string.sub(msg:lower(), #prefix + 7)
+                 Piano(getnumber)
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'bdrop' then
+                 local getnumber = string.sub(msg:lower(), #prefix + 7)
+                 Bassdrop(getnumber)
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'cstory' then
+                 local getnumber = string.sub(msg:lower(), #prefix + 8)
+                 Coolstory(getnumber)
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'banana' then
+                 local getnumber = string.sub(msg:lower(), #prefix + 8)
+                 Banana(getnumber)
     end
 
     if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'nuke' then
@@ -3154,6 +3356,18 @@ Commands required: rocket]])
                         Chat("h \n\n\n [KohlsLite]: "..player.."'s account age is "..myageis.." days! \n\n\n")
                  else
                                Remind('Cannot find player with the name: '..dasplayer)
+                 end
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'dkick' then
+                 local dasplayer = string.sub(msg:lower(), #prefix + 7)
+		 PLAYERCHECK(dasplayer)
+                 if player ~= nil then
+			dk = cplr
+			dkicked = player
+                        dkick(dk, dkicked)
+                 else
+                        Remind('Cannot find player with the name: '..dasplayer)
                  end
     end
 
@@ -3251,9 +3465,9 @@ Commands required: rocket]])
     end
 
     if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'ufly' then
-         GExecute("https://raw.githubusercontent.com/S-PScripts/scripts/main/Luau/KAH/Other%20Scripts/Fly%20KAH.lua")
+         eincrash = true ; task.wait(0.1) ; UFLY()
     end
-
+		
     if string.sub(msg:lower(), 1, #prefix + 3) == prefix..'isc' then
         local Ping1 = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
         task.wait(1)
@@ -3326,12 +3540,27 @@ Commands required: rocket]])
                 VFix()
      end
 
-     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'cfixvelo' then
+     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'obpfixv' then
                 Remind("You need to be positioned by a wall!")
                 Chat("sit me down");task.wait(1)
                 Chat("punish me");task.wait(1)
                 Chat("unpunish me");task.wait(1)
                 Chat("unskydive me")     
+     end
+
+   if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'bpfixv' then
+	local target = workspace.Terrain["_Game"].Workspace.Baseplate
+	movepart(target)  
+	repeat task.wait() until mready == true
+	Chat("unskydive me");task.wait(1);Chat("respawn me")
+     end
+
+
+   if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'flipbp' then
+	local target = workspace.Terrain["_Game"].Workspace.Baseplate
+	movepart(target)  
+	repeat task.wait() until mready == true
+	Chat("trip me");task.wait(1);Chat("respawn me")
      end
 
      if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'fakebp' then
@@ -3429,6 +3658,9 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'noadsky' then
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,1000,0)
     end
+    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'ungearme' then
+                Chat("ungear me																					all")
+    end
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'nowater' then
                 SuperCMD("gear me 88146497")
@@ -3439,7 +3671,7 @@ Commands required: rocket]])
     end
 
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'fixpaint' then
-        GExecute("https://raw.githubusercontent.com/S-PScripts/scripts/main/Luau/KAH/Other%20Scripts/Fix%20Paint.lua")
+        FixPaint()
      end
 
    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'anticrash' then
@@ -3520,6 +3752,14 @@ Commands required: rocket]])
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'unnoblt' then
         noblt = false
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'antiray' then
+        antiraygun = true
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'unantiray' then
+        antiraygun = false
     end
 
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'novoid' then
@@ -3912,35 +4152,65 @@ Commands required: rocket]])
 
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antikill' then
         local args = string.split(msg, " ")
-        if args[2] == "me" then
-                YOUantikill = true
-                Remind("Turned this anti on for you!")
-        elseif args[2] == "others" then
-                ALLantikill = true
-                Remind("Turned this anti on for others!")
-        elseif args[2] == "all" then
-                YOUantikill = true
-                ALLantikill = true
-                Remind("Turned this anti on for everyone!")
-        else
-                Remind("Invalid argument: Must be me, others, or all")
+	if #args == 2 then
+        	if args[2] == "me" then
+                	YOUantikill = true
+                	Remind("Turned this anti on for you!")
+        	elseif args[2] == "others" then
+                	ALLantikill = true
+                	Remind("Turned this anti on for others!")
+        	elseif args[2] == "all" then
+               		YOUantikill = true
+                	ALLantikill = true
+                	Remind("Turned this anti on for everyone!")
+        	else
+		  	kia = args[2]
+           	  	PLAYERCHECK(kia)
+	         	if player ~= nil then
+				if not table.find(antikill, player) then
+					Remind(player.." is on the list now!")
+					table.insert(antikill, player)
+				else
+					Remind(player.." is already in the table!")
+				end
+                 	else                           
+                        	Remind('Cannot find player with the name: '..dasplayer)
+			end
+                end
+	else
+                Remind("Invalid amount of arguments: Must be me, others, all or a player!")
         end
     end
 
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantikill' then
         local args = string.split(msg, " ")
-        if args[2] == "me" then
-                YOUantikill = false
-                Remind("Turned this anti off for you!")
-        elseif args[2] == "others" then
-                ALLantikill = false
-                Remind("Turned this anti off for others!")
-        elseif args[2] == "all" then
-                YOUantikill = false
-                ALLantikill = false
-                Remind("Turned this anti off for everyone!")
-        else
-                Remind("Invalid argument: Must be me, others, or all")
+        if #args == 2 then
+        	if args[2] == "me" then
+                	YOUantikill = false
+                	Remind("Turned this anti off for you!")
+        	elseif args[2] == "others" then
+                	ALLantikill = false
+                	Remind("Turned this anti off for others!")
+        	elseif args[2] == "all" then
+               		YOUantikill = false
+                	ALLantikill = false
+                	Remind("Turned this anti off for everyone!")
+        	else
+		  	kia = args[2]
+           	  	PLAYERCHECK(kia)
+	         	if player ~= nil then
+				if table.find(antikill, player) then
+					Remind(player.." is no longer in the table!")
+					table.remove(antikill, table.find(antikill, player))
+				else
+					Remind(player.." was never in the list!")
+				end
+                 	else                           
+                        	Remind('Cannot find player with the name: '..dasplayer)
+			end
+                end
+	else
+                Remind("Invalid amount of arguments: Must be me, others, all or a player!")
         end
     end
 
@@ -4505,6 +4775,7 @@ Commands required: rocket]])
         acplr = string.sub(msg:lower(), #prefix + 7)
            PLAYERCHECK(acplr)
                    if player ~= nil and not table.find(nokick, player) then
+			acplr = player
                            antichatplr = true
                 elseif table.find(nokick, player) then
                         Remind("Sorry, this player cannot be kicked!")
@@ -4534,7 +4805,26 @@ Commands required: rocket]])
                   end
    end
 
-    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'unpkick' then
+    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'unpkick' then
+                antichatplr = false
+                Chat("reset "..acplr)
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'bkick' then
+                   acplr = string.sub(msg:lower(), #prefix + 7)
+                   PLAYERCHECK(acplr)
+                   if player ~= nil and not table.find(nokick, player) then
+                           Chat(prefix.."laser "..acplr)
+			   Chat("blind "..acplr)
+                        antichatplr = true
+                   elseif table.find(nokick, player) then
+                        Remind("Sorry, this player cannot be kicked!")
+                else
+                           Remind("Player doesn't exist!")
+                  end
+   end
+
+    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'unbkick' then
                 antichatplr = false
                 Chat("reset "..acplr)
     end
@@ -4562,7 +4852,7 @@ Commands required: rocket]])
 end)
 
 function CMDPrint()
-print("---Command list for KohlsLite v1.17---")
+print("---Command list for KohlsLite v1.33---")
 print("Warning! This is NOT a full list so contact me for any other commands!")
 
 print("---")
@@ -4592,7 +4882,6 @@ print("padban - stop a user from using the admin pads")
 print("unpadban - allow user to use admin pads again")
 print("padreinf - stop users from taking more than 2 admin pads")
 print("unpadreinf - allow users to take more than 2 admin pads again")
-
 
 print("---")
 print("wl - whitelist a player from serverlocks")
@@ -4655,12 +4944,13 @@ print("nocam/breakcam - break the camera with the AR")
 print("fixcam - fix the camera (client side)")
 print("wbcam/wfcam - break/fix the camera with the blizzard wand")
 print("fixvelo - fix your velocity")
-print("cfixvelo - fix baseplate velocity serverside [position yourself against a wall]")
+print("bpfixv - fix baseplate velocity serverside")
 print("fixcol - fix collisions")
 print("fixgrav - fix gravity")
 
 print("---")
 print("goto - alt to tp me plr")
+print("cgoto - goto without admin")
 print("bring - alt to tp plr me")
 
 print("---")
@@ -4693,10 +4983,10 @@ print("spamon - start spamming again")
 
 print("---")
 print("fixpaint - fix the paint")
-print("paintmap - paint the map a colour")
+print("pmap/paintmap - paint the map a colour")
 
 print("---")
-print("icemap - make the map ice")
+print("icemap - make the map ice - WARNING: THIS COMMAND MIGHT CRASH YOU")
 print("stonemap/rockmap - make the map stone")
 
 print("---")
@@ -4770,6 +5060,10 @@ print("nmusic - play the next saved music")
 print("pmusic - play the previous saved music")
 
 print("---")
+print("mboombox (musicid) - play a music on your boombox at a random place away from you")
+print("pboombox (musicid) - play a music on your boombox without inserting it into the box :)")
+
+print("---")
 print("vgcrash - crash with the vg")
 print("dcrash - crash with clone and dog commands") 
 print("fcrash - crash with clone and freeze commands")
@@ -4784,20 +5078,56 @@ print("2antigear - stop users from using gears")
 print("antipaint - stop users from using the paint bucket and Subspace Tripmine")
 print("antigb - stop users from using the portable justice and car gear") 
 print("noblt - stop users using other misc blacklisted tools")
+print("antiray - stop users from using the ray gun")
 print("antiattach2 - stop users from using the Ivory Periastron [exploiter]")
 print("antit - stop yourself from using gears")
 print("antikick - stop yourself from using hotpotato, bluebucket and the car gear")
 
 print("---")
-print("antichat - stop people chatting by spamming m command full of emojis")
-print("unantichat - allow people to chat again")
-print("mkick - crash players with emojis using pm. You can use this instead of h as pm can be more effective.")
-print("unmkick - stop trying to crash players with emojis")
+print("ffix - fix your gravity and collision if it breaks when trying to move/fix stuff!")
+print("fixgrav - fix gravity")
+print("fixvelo - fix velocity")
+print("fixcol - fix collisions")
 
+print("---")
+print("fixbp - fix the baseplate")
+print("movebp - move the baseplate")
+print("fixspawn - fix the spawns")
+print("movespawn - move the spawns")
+print("fixregen - fix the regen")
+print("moveregen - move the regen")
+print("fixpads - fix the pads")
+print("movepads - move the pads")
+print("fixfl - fix the floor")
+print("movefl - move the floor")
+print("fixobby - fix the obby")
+print("moveobby - move the obby")
+print("fixkb - fix the kill bricks")
+print("movekb - move the kill bricks")
+print("fixobox - fix the obby box")
+print("moveobox - move the obby box")
+print("fixadv - fix the admin dividers")
+print("moveadv - move the admin dividers")
+print("fixhouse - fix the house")
+print("movehouse - move the house")
+print("fixbb - fix the building bricks")
+print("movebb - move the building bricks")
+	
+print("---")
+print("antichat - crash everyone else by spamming a m command full of emojis")
+print("unantichat - stop trying to crash players with emojis.")
+print("mkick - crash players with emojis using pm.")
+print("unmkick - stop trying to crash players with emojis.")
+print("rkick - crash someone using the rocket.")
+print("unrkick - stop trying to crash people using the rocket.")
+	
 print("---")
 print("rail - rail a player")
 print("surround - surround a player with planes")
 print("nuke - nuke a player with planes")
+
+print("---")
+print("ungearme - ungear yourself... Right???")
 
 print("---ANTI INFORMATION--")
 print("There are also many other antis!")
@@ -4807,11 +5137,11 @@ print("If it's to the game itself, just do (antiname).")
 
 print("---INFORMATION---")
 print("KohlsLite, since 2023. Created by ScriptingProgrammer/ts2021")
-print("Version is: v1.17 - April Fools Day 2024 Build")
+print("Version is: v1.33 - 22nd April 2024 Build")
 print("Better than scv1 and scv2 - approved by Tech")
 
 print("--- CREDITS ---")
-print("Tech and other admins of SC with Shortcut v1, v2 and v3")
+print("Tech and other admins of SC with Shortcut v1, v2 and v3 [var] (and some ideas)")
 print("atprog with his PR Script")
 print("iiDk's with ii's stupid admin as PR Script is based off it")
 print("Gojo [SimpleKAH] for gears and char ids")
@@ -4820,9 +5150,9 @@ print("Dizzy [ROUTE] for music ids hahaha I'm a muskid")
 print("--- ADDITIONAL INFO ---")
 print("1a. This script has some stuff missing and some stuff broken but it's not really finished. There's many stuff I'm still adding.")
 print("1b. If you want a good script and have some money/robux, get Shortcut v3-var by dming techq")
-print("2a. With the \n\n\n that hides your username, it does NOT work on newer Roblox guis (my old main and my second alt have it.")
+print("2a. With the /n/n/n that hides your username, it does NOT work on newer Roblox guis (my old main and my second alt have it.")
 print("2b. Instead, it will show as the name at the top.")
-print("2c. I cannot change the \n\n\n or the text won't be on the bar which is ugly. Sorry!")
+print("2c. I cannot change the /n/n/n or the text won't be on the bar which is ugly. Sorry!")
 
 end
 
@@ -4894,7 +5224,7 @@ task.spawn(function()
                     elseif table.find(blacklist, v.Name) then
                         if not game.Lighting:FindFirstChild(v.Name) then
                                 local isB,spe = bypassattemptcheck(v.Name)
-                                if isB then -- i added because of some guy called m_artin who did shit
+                                if isB then -- i added because of some guy called m_artin who did crap
                                         Chat('punish '.. spe)
                                         Chat('blind '.. spe)
                                         Chat("pm "..spe.." [KohlsLite]: sorry, you are blacklisted from this server")
@@ -5314,8 +5644,8 @@ task.spawn(function()
                         if v.Name ~= game.Players.LocalPlayer.Name then
                                 -- print("Debug msg 2: "..v.Name)
 
-                                if YOUantiaddon == true then
-                                            if v.Character:FindFirstChild("Addon") then
+                                if ALLantiaddon == true then
+                                            if v.Character and v.Character:FindFirstChild("Addon") then
                                                     Chat("reset "..v.Name)
                                            end
                                 end
@@ -5399,7 +5729,7 @@ task.spawn(function()
                                           else end
                                 end
 
-                                if ALLantikill == true then
+                                if ALLantikill == true or table.find(antikill, v.Name) then
                                            if v.Character.Humanoid.Health == 0 then
                                                     Chat("reset "..v.Name)
                                           else end
@@ -5607,7 +5937,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
                                        if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name)) then
                                         Chat("ungear "..v.Name)
                                         Chat("punish "..v.Name)
-                                        Chat("h \n\n\n [KohlsLite]: Sorry, "..v.Name.. ", you cannot use gears due to anti gear (2). \n\n\n")
+                                       Chat("h \n\n\n [KohlsLite]: Sorry, " .. player.Name .. ", you cannot use tools because of anti gear (2). \n\n\n")
                                 end
                             end
                            end
@@ -5629,7 +5959,7 @@ local attachTools = {"IvoryPeriastron"}
 local nogearTools = {"PortableJustice"}
 local colourTools = {"PaintBucket", "SubspaceTripmine"}
 local miscTools = {"DaggerofShatteredDimensions", "SledgeHammer", "AR", "Transmorpher"}
-local ninejntools = {"HyperlaserGun","Transmorpher"}
+local ninejntools = {"HyperlaserGun","Transmorpher","ConfusoRay-672"}
 
 function warnCrash(player, toolName)
         local isB,spe = bypassattemptcheck(player.Name)
@@ -5654,12 +5984,12 @@ function warnGear(player, toolName)
         if isB == true then
                        Chat("ungear " .. spe)
                        Chat("punish " .. spe)
-                       Chat("h \n\n\n [KohlsLite]: Sorry, " .. player.Name .. ", you cannot use tools because of anti gear. \n\n\n")
+                       Chat("h \n\n\n [KohlsLite]: Sorry, " .. player.Name .. ", you cannot use " .. toolName.Name .. "  because of anti gear. \n\n\n")
                       Chat("clr")
         else
                 Chat("ungear " .. player.Name)
                        Chat("punish " .. player.Name)
-                       Chat("h \n\n\n [KohlsLite]: Sorry, " .. player.Name .. ", you cannot use tools because of anti gear. \n\n\n")
+                       Chat("h \n\n\n [KohlsLite]: Sorry, " .. player.Name .. ", you cannot use " .. toolName.Name .. "  because of anti gear. \n\n\n")
                       Chat("clr")
         end
 end
@@ -5745,8 +6075,8 @@ function checkPlayerBackpack(player)
         for _, toolName in ipairs(crashTools) do
             local tool = backpack:FindFirstChild(toolName)
             if tool and anticrash then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name)) then
-                   warnCrash(player, toolName);task.wait(0.1)
+                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
+                   warnCrash(player, toolName)
                    break
                 end
             end
@@ -5760,8 +6090,8 @@ function check9jn(player)
         for _, toolName in ipairs(ninejntools) do
             local tool = backpack:FindFirstChild(toolName)
             if tool and antiraygun then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name)) then
-                   warn9jn(player, toolName);task.wait(0.1)
+                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
+                   warn9jn(player, toolName)
                    break
                 end
             end
@@ -5775,8 +6105,8 @@ function checkPlayerAGBackpack(player)
         for _, toolName in ipairs(nogearTools) do
             local tool = backpack:FindFirstChild(toolName)
             if tool and antigb then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name)) then
-                   warnAGBan(player, toolName);task.wait(0.1)
+                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
+                   warnAGBan(player, toolName)
                    break
                 end
             end
@@ -5789,8 +6119,8 @@ function checkPlayerGBackpack(player)
     if backpack then
         for _, toolName in ipairs(player.Backpack:GetChildren()) do
                 if toolName:IsA("Tool") and antigear then
-                     if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name)) then
-                        warnGear(player, toolName);task.wait(0.1)
+                     if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
+                        warnGear(player, toolName)
                         break
                      end
             end
@@ -5804,8 +6134,8 @@ function checkPlayerATTBackpack(player)
         for _, toolName in ipairs(attachTools) do
             local tool = backpack:FindFirstChild(toolName)
             if tool and antiattach2 then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name)) then
-                   warnAttach(player, toolName);task.wait(0.1)
+                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
+                   warnAttach(player, toolName)
                    break
                 end
             end
@@ -5819,8 +6149,8 @@ function checkPlayerPBackpack(player)
         for _, toolName in ipairs(colourTools) do
             local tool = backpack:FindFirstChild(toolName)
             if tool and antipaint then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name)) then
-                   warnPaint(player, toolName);task.wait(0.1)
+                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
+                   warnPaint(player, toolName)
                    break
                 end
             end
@@ -5834,8 +6164,8 @@ function checkPlayerMiBackpack(player)
         for _, toolName in ipairs(miscTools) do
             local tool = backpack:FindFirstChild(toolName)
             if tool and noblt then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name)) then
-                   warnMisc(player, toolName);task.wait(0.1)
+                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
+                   warnMisc(player, toolName)
                    break
                 end
             end
@@ -6148,10 +6478,10 @@ v.Chatted:Connect(function(msg)
                 end
 
                 if string.sub(msg:lower(), 0, 4) == "-klc" and v.Name ~= game.Players.LocalPlayer.Name and table.find(specialperms, v.Name) then
-                    if not v.Name == "ScriptingProgrammer" or v.Name == "me_123eq" or v.Name == "me_crashking" then
-                                Speak("[KohlsLite]: I use KohlsLite!")
-                    end
-        end
+				    if not table.find(nokick,game.Players.LocalPlayer.Name) then
+           			    Speak("[KohlsLite]: I use KohlsLite!")
+				    end
+                end  
 
                 if string.sub(msg:lower(), 0, 4) == "-prc" and v.Name ~= game.Players.LocalPlayer.Name and v.Name == "atprog" then
                                  Speak("[PR Script]: atprog is my daddy fr!")
@@ -6588,25 +6918,22 @@ end
 
 -- FREEZE CRASH
 function FCrash()
-      Chat("h \n\n\n dsc gg kohlslite \n\n\n");task.wait(0.5)
       for i = 1,100 do
-          Chat("clone all all all                                fuck")
-          Chat("freeze all all all                                fuck")
+          Chat("clone all all all                                dsc.gg/kohlslite")
+          Chat("freeze all all all                                dsc.gg/kohlslite")
       end
 end
 
 -- DOG CRASH
 function DCrash()
-      --Chat("h \n\n\n dsc gg kohlslite \n\n\n");task.wait(0.5)
       for i = 1,100 do
-          Chat("clone all all all                                fuck")
-          Chat("dog all all all                                        fuck")
+          Chat("clone all all all                                dsc.gg/kohlslite")
+          Chat("dog all all all                                        dsc.gg/kohlslite")
       end
 end
 
 -- SHIELD CRASH
 function SCrash()
-      Chat("h \n\n\n dsc gg kohlslite \n\n\n");task.wait(0.5)
       for i = 1,100 do
           Chat("shield/all/all/all")
           Chat("rocket/all/all/all")
@@ -6718,7 +7045,7 @@ task.spawn(function()
         while true do
                 task.wait(0)
                 if regenfind == true then
-                              local root = game.Players.LocalPlayer.Character.HumanoidRootPart
+                        local root = game.Players.LocalPlayer.Character.HumanoidRootPart
                         root.Anchored = true
                         repeat
                                 wait(.15)
@@ -6730,12 +7057,15 @@ task.spawn(function()
                         Chat("respawn me");Remind("Found the regen (skydived)")
                 end
                 if regenfind2 == true then
+			local Player = game.Players.LocalPlayer
+			local PlayerService = game:GetService("Players")
                         local root = game.Players.LocalPlayer.Character.HumanoidRootPart
                         root.Anchored = true
                         repeat
                                 task.wait(.15)
                                 root.CFrame = CFrame.new(math.random(-30593, -23388), math.random(-30593, -10455), math.random(-30593, -10455))
                         until workspace.Terrain._Game.Admin:FindFirstChild("Regen") or regenfind2 == false
+			PlayerService.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
                         root.Anchored = false
                         root.CFrame = workspace.Terrain._Game.Admin:FindFirstChild("Regen").CFrame + Vector3.new(0, 3, 0)
                         regenfind2 = false
@@ -6743,6 +7073,51 @@ task.spawn(function()
                 end
         end
 end)
+
+-- leaked regen
+function leakedcords()
+
+	local Player = game.Players.LocalPlayer
+	local PlayerService = game:GetService("Players")
+
+	local function clientloadpos(thecord) -- cmdy
+		PlayerService.LocalPlayer.Character.Parent = workspace
+		PlayerService.LocalPlayer.Character.HumanoidRootPart.CFrame = thecord
+	end
+
+	clientloadpos(CFrame.new(Vector3.new(1000000, 1000000, 1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(1000000, 1000003, -1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(1000000, -1000003, -1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(1000000, -1000000, -3)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(3, -1000000, 1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(1000000, -3, -1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(-1000000, -3, 1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(1000000, 3, 1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(1000000, 1000003, 1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(1000000, -1000003, 1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(454545, 150000, -678678)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(306712, 420552, 398158)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(-1000000, 1000003, 1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(-1000000, 1000003, -1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(-1000000, -1000003, -1000000)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(45400, -49860, 56673)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(56470, -48312, 28578)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(75304, -49638, 47300)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(34120, -48830, 30233)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(34120, -48830, 30233)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(77822, -49751, 79116)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(42682, -29202, 29886)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(51052, -49558, 34068)));task.wait(.5)
+	clientloadpos(CFrame.new(Vector3.new(-251773, 1000003, 382563)));task.wait(.5)
+	clientloadpos(CFrame.new(0, 2.5, 0));task.wait(.5)
+	if workspace.Terrain._Game.Admin:FindFirstChild("Regen") then
+		Remind("Found regen!");Chat("respawn me")
+	else
+		Remind("Couldn't find regen!");Chat("respawn me")
+	end
+
+end
+
 
 -- LUA CMDS
 function Execute(testcode)
@@ -6762,6 +7137,33 @@ end
 -- we do a bit of trolling
 function AnnounceWM()
       Chat("h \n\n\n "..sus..": "..whatsapp.. " \n\n\n")
+end
+                       
+function dkick(dk, dkicked)
+	    local ota = #workspace:FindFirstChild(dkicked):GetChildren()
+            Chat('skydive ' .. dkicked)
+            repeat task.wait() until workspace:FindFirstChild(dkicked).HumanoidRootPart.CFrame.Y >= 999
+            task.wait()
+            Chat('punish ' .. dkicked)
+            repeat task.wait() until game.Lighting:FindFirstChild(dkicked)
+
+            repeat 
+                if not game.Lighting:FindFirstChild(dkicked) then
+                    Chat('punish ' .. dkicked) 
+                end 
+                task.wait() 
+                Chat("dog " .. dkicked .. " " .. dkicked .. " " .. dkicked)
+                task.wait() 
+                Chat("freeze " .. dkicked .. " " .. dkicked .. " " .. dkicked) 
+            until 
+                (#game.Lighting:FindFirstChild(dkicked):GetChildren() - ota) >= 1500
+            
+            task.wait(.5)
+            Chat("noclip " .. dkicked)
+            task.wait()
+            Chat('unpunish ' .. dkicked)
+            task.wait()
+            Chat('kill ' .. dkicked .. " " .. dkicked .. " " .. dkicked)
 end
 
 -- SPAWN SAVED
@@ -6935,10 +7337,9 @@ function FRespawn()
     game.Players.LocalPlayer.Character:Destroy()
 end
 
-local Player = game.Players.LocalPlayer
-local PlayerService = game:GetService("Players")
-
 function MRespawn()
+			local Player = game.Players.LocalPlayer
+			local PlayerService = game:GetService("Players")
                         local char = game.Players.LocalPlayer.Character
                         if char:FindFirstChildOfClass("Humanoid") then 
                                 char:FindFirstChildOfClass("Humanoid"):ChangeState(15) 
@@ -6995,6 +7396,178 @@ function WalkThru(mode)
                                 end
                     end
         end
+end
+
+-- KAH fly
+function UFLY()
+
+	eincrash = false
+	local isFlying = true
+
+	local bodyGyro = nil
+	local bodyVel = nil
+	local mathObj = 0
+
+	local movementVector = { f = 0, b = 0, l = 0, r = 0 }
+	local movementVector2 = { f = 0, b = 0, l = 0, r = 0 }
+
+	local maxspeed = 50
+	local speed = 0
+
+	local plrs = game:GetService("Players")
+	local localPlr = plrs.LocalPlayer
+	local mouse = localPlr:GetMouse()
+	local character = localPlr.Character
+	local playerTorso = character:FindFirstChild("Torso") or character:FindFirstChild("UpperTorso")
+
+	local keyConnection1, keyConnection2
+
+	function Fly()
+		character.Humanoid.PlatformStand = true
+
+		bodyGyro = Instance.new("BodyGyro", playerTorso)
+		bodyGyro.P = 90000
+		bodyGyro.maxTorque = Vector3.new(9000000000, 9000000000, 9000000000)
+		bodyGyro.cframe = playerTorso.CFrame
+		bodyVel = Instance.new("BodyVelocity", playerTorso)
+		bodyVel.velocity = Vector3.new(0, 0.1, 0)
+		bodyVel.maxForce = Vector3.new(9000000000, 9000000000, 9000000000)
+		while isFlying do
+			wait()
+
+			if eincrash then 
+				isFlying = false 
+				break 
+			end
+			
+			if movementVector.l + movementVector.r == 0 then
+				if movementVector.f + movementVector.b ~= 0 then
+					mathObj = mathObj + 0.5 + mathObj / maxspeed
+					if maxspeed < mathObj then
+						mathObj = maxspeed
+					end
+				elseif movementVector.l + movementVector.r == 0 then
+					if movementVector.f + movementVector.b == 0 then
+						if mathObj ~= 0 then
+							mathObj = mathObj - 1
+							if mathObj < 0 then
+								mathObj = 0
+							end
+						end
+					end
+				end
+			else
+				mathObj = mathObj + 0.5 + mathObj / maxspeed
+				if maxspeed < mathObj then
+					mathObj = maxspeed
+				end
+			end
+			if movementVector.l + movementVector.r == 0 then
+				if movementVector.f + movementVector.b ~= 0 then
+					bodyVel.velocity = (game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (movementVector.f + movementVector.b) + (game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(movementVector.l + movementVector.r, (movementVector.f + movementVector.b) * 0.2, 0).p - game.Workspace.CurrentCamera.CoordinateFrame.p)) * mathObj
+					movementVector2 = {
+						f = movementVector.f, 
+						b = movementVector.b, 
+						l = movementVector.l, 
+						r = movementVector.r
+					}
+				elseif movementVector.l + movementVector.r == 0 then
+					if movementVector.f + movementVector.b == 0 then
+						if mathObj ~= 0 then
+							bodyVel.velocity = (game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (movementVector2.f + movementVector2.b) + (game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(movementVector2.l + movementVector2.r, (movementVector2.f + movementVector2.b) * 0.2, 0).p - game.Workspace.CurrentCamera.CoordinateFrame.p)) * mathObj
+						else
+							bodyVel.velocity = Vector3.new(0, 0.1, 0)
+						end
+					else
+						bodyVel.velocity = Vector3.new(0, 0.1, 0)
+					end
+				else
+					bodyVel.velocity = Vector3.new(0, 0.1, 0)
+				end
+			else
+				bodyVel.velocity = (game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (movementVector.f + movementVector.b) + (game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(movementVector.l + movementVector.r, (movementVector.f + movementVector.b) * 0.2, 0).p - game.Workspace.CurrentCamera.CoordinateFrame.p)) * mathObj
+				movementVector2 = {
+					f = movementVector.f, 
+					b = movementVector.b, 
+					l = movementVector.l, 
+					r = movementVector.r
+				}
+			end
+			bodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((movementVector.f + movementVector.b) * maxspeed * mathObj / maxspeed), 0, 0)
+			if isFlying then
+			else
+				break
+			end		
+		end
+		movementVector = { f = 0, b = 0, l = 0, r = 0 }
+		movementVector2 = { f = 0, b = 0, l = 0, r = 0 }
+		mathObj = 0
+		bodyGyro:Destroy()
+		bodyVel:Destroy()
+		character.Humanoid.PlatformStand = false
+	end
+
+	keyConnection1 = mouse.KeyDown:connect(function(kc)
+		if kc:lower() == "e" then
+			if isFlying then
+				isFlying = false
+				return
+			else
+				isFlying = true
+				Fly()
+				return
+			end
+		end
+		
+		if kc:lower() == "w" then
+			movementVector.f = 1
+			return
+		end
+		
+		if kc:lower() == "s" then
+			movementVector.b = -1
+			return
+		end
+		
+		if kc:lower() == "a" then
+			movementVector.l = -1
+			return
+		end
+		
+		if kc:lower() == "d" then
+			movementVector.r = 1
+		end
+	end)
+
+	keyConnection2 = mouse.KeyUp:connect(function(kc)
+		if kc:lower() == "w" then
+			movementVector.f = 0
+			return
+		end
+		
+		if kc:lower() == "s" then
+			movementVector.b = 0
+			return
+		end
+		
+		if kc:lower() == "a" then
+			movementVector.l = 0
+			return
+		end
+		
+		if kc:lower() == "d" then
+			movementVector.r = 0
+		end
+	end)
+
+	Fly()
+
+	while true do task.wait(0) 
+		if eincrash then 
+			isFlying = false ; keyConnection1:Disconnect() ;  keyConnection2:Disconnect() 
+			break
+			end
+		end
 end
 
 SkipEvent = Instance.new("BindableEvent")
@@ -7062,7 +7635,6 @@ end
 
 -- VG CRASH
 function VGCrash()
-      Chat("h \n\n\n dsc gg kohlslite \n\n\n")
       Chat("gear me 00000000000000094794847")
       repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("VampireVanquisher")
       local vg = game.Players.LocalPlayer.Backpack:FindFirstChild("VampireVanquisher")
@@ -7076,7 +7648,6 @@ function VGCrash()
 end
 
 function EmCrash()
-      Chat("h \n\n\n dsc gg kohlslite \n\n\n")
       Chat("gear me 000000000000000178076749")
       repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("Emerald Knights of the Seventh Sanctum Sword and Shield")
       local green = game.Players.LocalPlayer.Backpack:FindFirstChild("Emerald Knights of the Seventh Sanctum Sword and Shield")
@@ -7091,7 +7662,6 @@ function EmCrash()
 end
 
 function PCrash() -- with this crash make sure to click manually
-        Chat("h \n\n\n dsc gg kohlslite \n\n\n")
               Chat("gear me 0000000092628079")
               repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("OrinthianSwordAndShield")
               local ort = game.Players.LocalPlayer.Backpack:FindFirstChild("OrinthianSwordAndShield")
@@ -7138,8 +7708,8 @@ function onPlayerAdded(player)
        end
 
  if (player.Name == "dawninja21" or player.Name == "dawninja21alt") and player.Name ~= game.Players.LocalPlayer then
-        Chat("h \n\n\n [KohlsLite]: Stewie [OWNER OF EXILE ADMIN SCRIPT] joined the server! \n\n\n")
-        print("dawninja21 [OWNER OF EXILE ADMIN SCRIPT!] joined the server!")
+        Chat("h \n\n\n [KohlsLite]: DarkSpieces [OWNER OF HYDRA!] joined the server! \n\n\n")
+        print("dawninja21 [OWNER OF HYDRA!] joined the server!")
        end
 
     if player.AccountAge < newlen == true and newplrautoslock == true then
@@ -7166,6 +7736,10 @@ function onPlayerAdded(player)
                 Chat("h \n\n\n [KohlsLite]: Auto message kicking "..player.Name.." as they are blacklisted. \n\n\n")
                 antichatplr = true
                 acplr = player.Name
+    end
+
+    if table.find(furry_on_sight, player.Name) then
+                Chat(prefix.."char "..player.Name.." furry")
     end
 
     if table.find(crash_on_sight, player.Name) then
@@ -7289,12 +7863,18 @@ function Regen()
         end
 end
 
---SPAMREGEN
+-- regen auto
 task.spawn(function()
      while true do
            task.wait(0)
            if SRegen == true then
-              Regen()
+                for i,v in pairs(game.Players:GetChildren()) do
+                                for i,pad in pairs(game:GetService("Workspace").Terrain["_Game"].Admin.Pads:GetDescendants()) do
+                                        if pad.Name == v.Name.."'s admin" then
+                                               Regen()
+                                        end
+                                end
+                end
            end
      end
 end)
@@ -7340,6 +7920,123 @@ function Gearban()
         Chat("ungear me")
 end
 
+-- Paint map
+function PaintMap(colourhere,mode)
+	Chat(prefix.."gear me painter")
+    	repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
+    	local paint = game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
+   	paint.Parent = game.Players.LocalPlayer.Character
+			
+	for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+		task.spawn(function()
+			if v:IsA("Part") then
+				if mode == "norm" then
+					local Partse =
+					{
+						["Part"] = v,
+						["Color"] = colorAPI.transformToColor3(BrickColor.new(colourhere))
+					}
+					game:GetService("Workspace")[game.Players.LocalPlayer.Name].PaintBucket:WaitForChild("Remotes").ServerControls:InvokeServer("PaintPart", Partse)
+				else
+					local Partse =
+					{
+						["Part"] = v,
+						["Color"] = Color3.fromRGB(math.random(0,255),math.random(0,255),math.random(0,255))
+					}
+					game:GetService("Workspace")[game.Players.LocalPlayer.Name].PaintBucket:WaitForChild("Remotes").ServerControls:InvokeServer("PaintPart", Partse)
+				end
+			end
+		end)
+	end
+	task.wait(1)
+	Chat("ungear me");Chat("unpaint all")
+end
+
+function PaintMap_2(r,g,b)
+	Chat(prefix.."gear me painter")
+    	repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
+    	local paint = game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
+   	paint.Parent = game.Players.LocalPlayer.Character
+			
+	for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+		task.spawn(function()
+			if v:IsA("Part") then
+					local Partse =
+					{
+						["Part"] = v,
+						["Color"] = Color3.fromRGB(r,g,b)
+					}
+					game:GetService("Workspace")[game.Players.LocalPlayer.Name].PaintBucket:WaitForChild("Remotes").ServerControls:InvokeServer("PaintPart", Partse)
+			end
+		end)
+	end
+	task.wait(1)
+	Chat("ungear me");Chat("unpaint all")
+end
+
+-- Fix paint
+function FixPaint()
+	Chat(prefix.."gear me painter")
+    	repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
+    	local paint = game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
+   	paint.Parent = game.Players.LocalPlayer.Character
+			
+	coroutine.wrap(function()
+			colorAPI.colorHouse({
+				wallsC = colorAPI.transformToColor3(BrickColor.new("Brick yellow")),
+				baseC = colorAPI.transformToColor3(BrickColor.new("Bright green")),
+				roofC = colorAPI.transformToColor3(BrickColor.new("Bright red")),
+				WANDDC = colorAPI.transformToColor3(BrickColor.new("Dark orange")),
+				stairsC = colorAPI.transformToColor3(BrickColor.new("Dark stone grey")),
+				floorC = colorAPI.transformToColor3(BrickColor.new("Medium blue")),
+				rooftsC = colorAPI.transformToColor3(BrickColor.new("Reddish brown")),
+				chiC = colorAPI.transformToColor3(BrickColor.new("Sand red"))
+			})
+	end)()
+
+    	spawn(function()
+			colorAPI.colorBuildingBricks({
+				DarkStoneGrey = colorAPI.transformToColor3(BrickColor.new("Dark stone grey")),
+				DeepBlue = colorAPI.transformToColor3(BrickColor.new("Deep blue")),
+				NY = colorAPI.transformToColor3(BrickColor.new("New Yeller")),
+				IW = colorAPI.transformToColor3(BrickColor.new("Institutional white")),
+				LimeGreen = colorAPI.transformToColor3(BrickColor.new("Lime green")),
+				MSG = colorAPI.transformToColor3(BrickColor.new("Medium stone grey")),
+				RB = colorAPI.transformToColor3(BrickColor.new("Really black")),
+				TP = colorAPI.transformToColor3(BrickColor.new("Toothpaste")),
+				RR = colorAPI.transformToColor3(BrickColor.new("Really red"))	
+			})
+	end)
+
+	spawn(function()
+		colorAPI.colorObbyBox(colorAPI.transformToColor3(BrickColor.new("Teal")))
+	end)
+
+	spawn(function()
+		colorAPI.colorObbyBricks(colorAPI.transformToColor3(BrickColor.new("Bright red")))
+	end)
+		
+	spawn(function()
+		colorAPI.colorAdminDivs(colorAPI.transformToColor3(BrickColor.new("Dark stone grey")))
+	end)
+
+	spawn(function()
+		colorAPI.colorPads(colorAPI.transformToColor3(BrickColor.new("Bright green")))
+		
+	end)
+
+	if game.Workspace.Terrain["_Game"].Workspace["Baseplate"] then
+		colorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], colorAPI.transformToColor3(BrickColor.new("Bright green")))
+	end
+
+	if game:GetService("Workspace").Terrain["_Game"].Admin.Regen then
+		colorAPI.color(game:GetService("Workspace").Terrain["_Game"].Admin.Regen, colorAPI.transformToColor3(BrickColor.new("Bright violet")))
+	end
+
+	task.wait(1)
+	Chat("ungear me")
+end
+
 function Lemon()
         Chat("gear me 19703476")
         Chat("unff "..lemonman)
@@ -7357,6 +8054,78 @@ function Lemon()
             Chat("explode me")
             task.wait(0.7)
         Chat("music nan")
+end
+
+function Welding(mode)
+	Chat("speed "..welder.." 0")
+        Chat("freeze "..welder)
+        Chat("unfreeze "..welder)
+        repeat wait() until wld.Character:FindFirstChild("ice")
+        wld.Character.ice:Destroy()
+        Chat("gear me 74385399")
+        repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("RemoteExplosiveDetonator")
+        local Detonator = game.Players.LocalPlayer.Backpack:FindFirstChild("RemoteExplosiveDetonator")
+        Detonator.Parent = game.Players.LocalPlayer.Character
+	if mode == "right arm" then
+        	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wld.Character.HumanoidRootPart.CFrame*CFrame.new(0,0,1.5)
+	elseif mode == "left arm" then
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wld.Character.HumanoidRootPart.CFrame*CFrame.new(-2.5,0,1.5)
+	elseif mode == "torso" then
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wld.Character.HumanoidRootPart.CFrame*CFrame.new(-1.5,0,1.5)
+	elseif mode == "hold" then
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wld.Character.HumanoidRootPart.CFrame*CFrame.new(-0.5,0,1.5)
+	else
+		mode = "hold"
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wld.Character.HumanoidRootPart.CFrame*CFrame.new(-0.5,0,1.5)
+	end
+        wait(0.2)
+        local Act = "Activate"
+        local Pos = wld.Character.HumanoidRootPart.Position
+        Detonator.RemoteEvent:FireServer(Act, Pos)
+        wait(0.3)
+	if mode == "hold" then
+   		Detonator:Destroy()
+    		Chat("ungear me");task.wait(0.1)
+    	        Chat("gear me 22787248")
+    	        repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("Watermelon")
+        	local wat = game.Players.LocalPlayer.Backpack:FindFirstChild("Watermelon")
+        	wat.Parent = game.Players.LocalPlayer.Character
+	end
+end
+
+function HFreeze()
+	local originalCFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+    	Chat("gear me 130113146")
+	Chat("speed "..welder.." 0")
+    	repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("HyperlaserGun")
+    	local gun = game.Players.LocalPlayer.Backpack:FindFirstChild("HyperlaserGun")
+    	gun.Parent = game.Players.LocalPlayer.Character
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wld.Character.Head.CFrame * CFrame.new(-1,-1,4)
+	wait(.3333)
+	repeat wait() 
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wld.Character.Head.CFrame * CFrame.new(-1,-1,4)
+	spawn(function()
+	    	local A_1 = "Click"
+		local A_2 = true
+		local A_3 = wld.Character.Head.Position
+		gun.ServerControl:InvokeServer(A_1, A_2, A_3)
+	end)
+	until wld.Character.Head:FindFirstChildOfClass("SelectionBox")
+	Chat("reset me")
+	wait(0.25)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=originalCFrame
+end
+
+function TAttach()
+	Chat("speed "..welder.." 0")
+	Chat("setgrav "..welder.." 3500")
+	Chat("freeze "..welder)
+	Chat("unfreeze "..welder)
+	repeat wait() until wld.Character:FindFirstChild("ice")
+	wld.Character.ice:Destroy()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wld.Character.HumanoidRootPart.CFrame*CFrame.new(1.5,0,0)
+	wait(0.25)
+	Chat("unpunish me");Chat("invis me")
 end
 
 function DumbGuy()
@@ -7384,6 +8153,7 @@ function Laser()
             local goodbye = false
             local kahcon
             local kahcon2
+
             kahcon = workspace.ChildAdded:Connect(function(Child)
                 if Child.Name == "Effect" then
                     task.spawn(function()
@@ -7394,12 +8164,14 @@ function Laser()
                     end)
                 end
             end)
+
             kahcon2 = laman.Character.HumanoidRootPart.ChildAdded:Connect(function(Child)
                 if Child.Name == "SelectionBox" and not goodbye then
                     goodbye = true
                     Chat("punish " .. laserman)
                 end
             end)
+
             Chat("gear me 130113146")
             repeat task.wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("HyperlaserGun")
             local Laser = game.Players.LocalPlayer.Backpack:FindFirstChild("HyperlaserGun")
@@ -7664,39 +8436,149 @@ print("- Script by iiDk, ported for KohlsLite. -")
         end)
 end
 
+Loops = {}
+Loops.rainbowmap = false
+Loops.rbase = false
+Loops.rfog = false
+
+function PCheck()
+		t = false
+       		if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Backpack then
+			if game.Players.LocalPlayer.Character:FindFirstChild("PaintBucket") then
+				t = true
+			elseif game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket") then
+				paint = game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
+   				paint.Parent = game.Players.LocalPlayer.Character
+				Chat(prefix.."rpaintui")
+				t = true
+			else
+				Chat(prefix.."gear me painter")
+				repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
+    				paint = game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
+   				paint.Parent = game.Players.LocalPlayer.Character
+				Chat(prefix.."rpaintui")
+				t = true
+			end
+		end
+end
+
+function rmap()
+
+		local RainbowValue = 0
+		Loops.rainbowmap = true
+    		repeat task.wait()
+        			RainbowValue = RainbowValue + 1/50
+    			        if RainbowValue >= 1 then
+        				RainbowValue = 0
+    				end
+
+				fwait()
+				PCheck()
+
+				if Loops.rainbowmap and t then
+						paintmap(Color3.fromHSV(RainbowValue,1,1).R,Color3.fromHSV(RainbowValue,1,1).G,Color3.fromHSV(RainbowValue,1,1).B)
+						paint:WaitForChild("Remotes").ServerControls:InvokeServer("PaintPart",{
+                            					["Part"] = game:GetService("Workspace").Terrain["_Game"].Workspace.Baseplate,
+                           					["Color"] = Color3.fromHSV(RainbowValue,1,1)
+                        			})
+				end		
+		until not Loops.rainbowmap
+end
+
+function rbase()
+
+		local RainbowValue = 0
+		Loops.rbase = true
+    		repeat task.wait()
+        			RainbowValue = RainbowValue + 1/50
+    			        if RainbowValue >= 1 then
+        				RainbowValue = 0
+    				end
+
+				fwait()
+				PCheck()
+
+				if Loops.rbase and t then
+						paint:WaitForChild("Remotes").ServerControls:InvokeServer("PaintPart",{
+                            					["Part"] = game:GetService("Workspace").Terrain["_Game"].Workspace.Baseplate,
+                           					["Color"] = Color3.fromHSV(RainbowValue,1,1)
+                        			})
+				end		
+		until not Loops.rbase
+end
+
+function rfog(deranged)
+
+		local RainbowValue = 0
+		Loops.rfog = true
+    		repeat task.wait(0.05)
+        			RainbowValue = RainbowValue + 1/250
+    			        if RainbowValue >= 1 then
+        				RainbowValue = 0
+    				end
+
+				if game.Lighting.FogEnd ~= deranged then
+            					Chat("fogend "..tostring(deranged))
+        			end
+
+				if Loops.rfog then
+					Chat("fogcolor "..tostring(math.floor(Color3.fromHSV(RainbowValue,1,1).R*255)).." "..tostring(math.floor(Color3.fromHSV(RainbowValue,1,1).G*255)).." "..tostring(math.floor(Color3.fromHSV(RainbowValue,1,1).B*255)))
+				end		
+		until not Loops.rfog
+end
+
+function paintmap(R,G,B)
+	        coroutine.wrap(function()
+			pcall(function()
+				colorAPI.colorHouse_2({
+					wallsC = {R,G,B},
+					baseC = {R,G,B},
+					roofC = {R,G,B},
+					WANDDC = {R,G,B},
+					stairsC = {R,G,B},
+					floorC = {R,G,B},
+					rooftsC = {R,G,B},
+					chiC = {R,G,B}
+				})
+			end)
+		end)()
+
+		spawn(function()
+				colorAPI.colorBuildingBricks_2({
+					DarkStoneGrey = {R,G,B},
+					DeepBlue = {R,G,B},
+					NY = {R,G,B},
+					IW = {R,G,B},
+					LimeGreen = {R,G,B},
+					MSG = {R,G,B},
+					RB = {R,G,B},
+					TP = {R,G,B},
+					RR = {R,G,B}
+				})
+		end)
+		
+		colorAPI.colorObbyBox_2(R,G,B)
+		colorAPI.colorObbyBricks_2(R,G,B)
+		colorAPI.colorAdminDivs_2(R,G,B)
+	        colorAPI.colorRegen_2(R,G,B)
+		colorAPI.colorPads_2(R,G,B)
+end
+
 function IceMap()
-        Chat("ungear me")
-        task.wait(0.5)
-         local plasticTool
         Chat('gear me 2758794374')
         repeat task.wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("2019BloxyAward")
-        plasticTool = game.Players.LocalPlayer.Backpack:FindFirstChild("2019BloxyAward")
+        local Bloxy = game.Players.LocalPlayer.Backpack:FindFirstChild("2019BloxyAward")
         task.wait()
-        plasticTool.Parent = game.Players.LocalPlayer.Character
+        Bloxy.Parent = game.Players.LocalPlayer.Character
         task.wait()
         Remind("This will get most of the parts but not all of them!")
-        for _,part in pairs(game.Workspace:GetDescendants()) do
-            task.wait()
-            task.spawn(function()
-                task.wait()
-                if part:IsA("Part") then
-                    local MassCheck = part:Clone()
-                    MassCheck.Material = Enum.Material.Ice
-                    if MassCheck:GetMass() <= 5 then
-                        return
-                    end
-                    repeat 
-                        plasticTool:Activate()
-                        task.wait()
-                        firetouchinterest(plasticTool:WaitForChild("Handle"), part, 0)
-                        firetouchinterest(plasticTool:WaitForChild("Handle"), part, 1)
-                    until
-                        (part.Material == Enum.Material.Ice and part.BrickColor == BrickColor.new("Bright yellow")) or plasticTool.Parent ~= game.Players.LocalPlayer.Character
-                end
-            end)
-        end
-        task.wait()
-        Chat("ungear me") -- without this you CRASH
+        for i,v in pairs(game.Workspace:GetDescendants()) do
+		task.wait(0)
+        	if v:IsA("BasePart") then
+           		 firetouchinterest(v,Bloxy.Handle,0)
+           		 firetouchinterest(v,Bloxy.Handle,1)
+       		end
+    	end
 end
 
 function Surround(mode)
@@ -7725,16 +8607,17 @@ function Surround(mode)
 end
 
 function Clone(getnum)
+	 Chat("ungear me");task.wait(0.5)
          local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
          for i = 1, tonumber(getnum) do
-                    Chat('gear me 72644644')
+                    Chat('gear me 72644644');task.wait(0.01)
          end
          local oldchild = #workspace:GetChildren()
          repeat task.wait() until #game.Players.LocalPlayer.Backpack:GetChildren() >= tonumber(getnum) 
          local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
          for _, v in ipairs(Backpack:GetChildren()) do
                             v.Parent = game.Players.LocalPlayer.Character
-                             v:Activate()
+                            v:Activate()
          end
          repeat task.wait() until (#workspace:GetChildren() - oldchild) >= tonumber(getnum) 
          Chat("ungear me")
@@ -7742,38 +8625,158 @@ function Clone(getnum)
 end
 
 function Table(getnum)
+	Chat("ungear me");task.wait(0.5)
         for i = 1, tonumber(getnum) do
-                Chat("gear me 110789105")
+                Chat("gear me 110789105");task.wait(0.01)
         end
-        local oldchild = #workspace:GetChildren()
+  --      local oldchild = #workspace:GetChildren()
         repeat task.wait() until #game.Players.LocalPlayer.Backpack:GetChildren() >= tonumber(getnum) 
-         local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
         for _, v in ipairs(Backpack:GetChildren()) do
                             v.Parent = game.Players.LocalPlayer.Character
-                         task.wait(0.1)
-                             v:Activate()
+                            task.wait(0.01)
+                            v:Activate()
         end
-        repeat task.wait() until (#workspace:GetChildren() - oldchild) >= tonumber(getnum) 
-        Chat("ungear me");Chat("reset me")
 end
 
 function Potion(getnum)
+	Chat("ungear me");task.wait(0.5)
         for i = 1, tonumber(getnum) do
-                Chat("gear me 27858062")
+                Chat("gear me 27858062");task.wait(0.01)
         end
-        local oldchild = #workspace:GetChildren()
+      --  local oldchild = #workspace:GetChildren()
         repeat task.wait() until #game.Players.LocalPlayer.Backpack:GetChildren() >= tonumber(getnum) 
-         local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
         for _, v in ipairs(Backpack:GetChildren()) do
                             v.Parent = game.Players.LocalPlayer.Character
-                         task.wait(0.1)
-                             v:Activate()
+                            task.wait(0.01)
+                            v:Activate()
         end
-        repeat task.wait() until (#workspace:GetChildren() - oldchild) >= tonumber(getnum) 
-        Chat("ungear me");Chat("reset me")
+end
+
+function MineTrip(getnum)
+	Chat("ungear me");task.wait(0.5)
+        for i = 1, tonumber(getnum) do
+                Chat("gear me 11999247");task.wait(0.01)
+        end
+     --   local oldchild = #workspace:GetChildren()
+        repeat task.wait() until #game.Players.LocalPlayer.Backpack:GetChildren() >= tonumber(getnum) 
+        local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        for _, v in ipairs(Backpack:GetChildren()) do
+                            v.Parent = game.Players.LocalPlayer.Character
+                            task.wait(0.01)
+                            v:Activate()
+        end
+end
+
+function Cannon(getnum)
+	Chat("ungear me");task.wait(0.5)
+        for i = 1, tonumber(getnum) do
+                Chat("gear me 42201538");task.wait(0.01)
+        end
+     --   local oldchild = #workspace:GetChildren()
+        repeat task.wait() until #game.Players.LocalPlayer.Backpack:GetChildren() >= tonumber(getnum) 
+        local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        for _, v in ipairs(Backpack:GetChildren()) do
+                            v.Parent = game.Players.LocalPlayer.Character
+                            task.wait(0.01)
+                            v:Activate()
+        end
+end
+
+function Zombie(getnum)
+	Chat("ungear me");task.wait(0.5)
+        for i = 1, tonumber(getnum) do
+                Chat("gear me 26421972");task.wait(0.01)
+        end
+     --   local oldchild = #workspace:GetChildren()
+        repeat task.wait() until #game.Players.LocalPlayer.Backpack:GetChildren() >= tonumber(getnum) 
+        local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        for _, v in ipairs(Backpack:GetChildren()) do
+                            v.Parent = game.Players.LocalPlayer.Character
+                            task.wait(0.01)
+                            v:Activate()
+        end
+end
+
+function Alpaca(getnum)
+	Chat("ungear me");task.wait(0.5)
+        for i = 1, tonumber(getnum) do
+                Chat("gear me 292969139");task.wait(0.01)
+        end
+     --   local oldchild = #workspace:GetChildren()
+        repeat task.wait() until #game.Players.LocalPlayer.Backpack:GetChildren() >= tonumber(getnum) 
+        local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        for _, v in ipairs(Backpack:GetChildren()) do
+                            v.Parent = game.Players.LocalPlayer.Character
+                            task.wait(0.01)
+                            v:Activate()
+        end
+end
+
+function Piano(getnum)
+	Chat("ungear me");task.wait(0.5)
+        for i = 1, tonumber(getnum) do
+                Chat("gear me 113299590");task.wait(0.01)
+        end
+     --   local oldchild = #workspace:GetChildren()
+        repeat task.wait() until #game.Players.LocalPlayer.Backpack:GetChildren() >= tonumber(getnum) 
+        local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        for _, v in ipairs(Backpack:GetChildren()) do
+                            v.Parent = game.Players.LocalPlayer.Character
+                            task.wait(0.01)
+                            v:Activate()
+        end
+end
+
+function Bassdrop(getnum)
+	Chat("ungear me");task.wait(0.5)
+        for i = 1, tonumber(getnum) do
+                Chat("gear me 152233094");task.wait(0.01)
+        end
+     --   local oldchild = #workspace:GetChildren()
+        repeat task.wait() until #game.Players.LocalPlayer.Backpack:GetChildren() >= tonumber(getnum) 
+        local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        for _, v in ipairs(Backpack:GetChildren()) do
+                            v.Parent = game.Players.LocalPlayer.Character
+                            task.wait(0.01)
+                            v:Activate()
+        end
+end
+
+function Coolstory(getnum)
+	Chat("ungear me");task.wait(0.5)
+        for i = 1, tonumber(getnum) do
+                Chat("gear me 119101643");task.wait(0.01)
+        end
+     --   local oldchild = #workspace:GetChildren()
+        repeat task.wait() until #game.Players.LocalPlayer.Backpack:GetChildren() >= tonumber(getnum) 
+        local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        for _, v in ipairs(Backpack:GetChildren()) do
+                            v.Parent = game.Players.LocalPlayer.Character
+                            task.wait(0.01)
+                            v:Activate()
+        end
+end
+
+function Banana(getnum)
+	Chat("ungear me");task.wait(0.5)
+        for i = 1, tonumber(getnum) do
+                Chat("gear me 29100449");task.wait(0.01)
+        end
+     --   local oldchild = #workspace:GetChildren()
+        repeat task.wait() until #game.Players.LocalPlayer.Backpack:GetChildren() >= tonumber(getnum) 
+        local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+        for _, v in ipairs(Backpack:GetChildren()) do
+                            v.Parent = game.Players.LocalPlayer.Character
+                            task.wait(0.01)
+                            v:Activate()
+        end
 end
 
 --// ATTACHING STUFF \\ --
+local Player = game.Players.LocalPlayer
+local PlayerService = game:GetService("Players")
 
 -- // attach v2 - credit to cmd y \\ --
 function moveobject(part, o)
@@ -7994,6 +8997,7 @@ end
 function fwait()
                 game:GetService("RunService").Heartbeat:Wait()
 end
+
 -- // another special wait \\ --
 function rwait()
         game:GetService("RunService").RenderStepped:Wait()
@@ -8076,17 +9080,340 @@ function moveObject(target,movepos)
         end
 end
 
--- run at end to prevent bugs
+-- attach v1 for fixing baseplate --
+function movepart(target)
+	repeat wait() until game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+	local cf = game.Players.LocalPlayer.Character.HumanoidRootPart
+	local rmoving = true;mready = false
+
+	task.spawn(function()
+			while true do
+				fwait()
+				game.Players.LocalPlayer.Character['Humanoid']:ChangeState(11)
+				cf.CFrame = target.CFrame * CFrame.new(-1*(target.Size.X/2)-(game.Players.LocalPlayer.Character['Torso'].Size.X/2), 0, 0)
+				if not rmoving then 
+					break 
+				end
+			end
+	end)
+		
+	task.spawn(function() 
+			while rmoving do 
+				task.wait(.1) 
+				Chat('unpunish me') 
+			end 
+	end)
+
+	task.wait(0.25)
+	rmoving = false;mready = true
+
+end
+
+-- // COLOR API \\ --
+-- // the reason why there's dupes is because of rainbow map needing the RGB instead of colour name and the api not having a conversion \\ --
+
+colorAPI = {}
+ 
+colorAPI.color = function(Part, color)
+	local thread = coroutine.create(function() -- x3.5 speed boost
+		local Arguments =
+        {
+            ["Part"] = Part,
+            ["Color"] = color
+        }
+        game:GetService("Workspace")[game:GetService("Players").LocalPlayer.Name].PaintBucket:WaitForChild("Remotes").ServerControls:InvokeServer("PaintPart", Arguments)
+	end)
+	coroutine.resume(thread)
+end
+
+ 
+colorAPI.color_2 = function(Part, R,G,B)
+	local thread = coroutine.create(function() -- x3.5 speed boost
+		local Arguments =
+        {
+            ["Part"] = Part,
+            ["Color"] = Color3.new(R,G,B)
+        }
+        game:GetService("Workspace")[game:GetService("Players").LocalPlayer.Name].PaintBucket:WaitForChild("Remotes").ServerControls:InvokeServer("PaintPart", Arguments)
+	end)
+	coroutine.resume(thread)
+end
+ 
+colorAPI.transformToColor3 = function(col)
+    local r = col.r
+    local g = col.g
+    local b = col.b
+    return Color3.new(r,g,b);
+end
+
+colorAPI.transformToColor3_2 = function(BrickClr)
+	if typeof(BrickClr) == "BrickColor" then
+		return BrickClr.Color.R,BrickClr.Color.G,BrickClr.Color.B
+	end
+end
+
+-- colorAPI.Color3 = function(brickColor)
+--     return colorAPI.transformToColor3(BrickColor.new(brickColor))
+-- end
+
+colorAPI.colorRegen_2 = function(R,G,B)
+		if workspace.Terrain._Game.Admin:FindFirstChild("Regen") then
+			colorAPI.color_2(workspace.Terrain._Game.Admin.Regen,R,G,B)
+		end    
+end    
+
+
+colorAPI.colorObbyBox = function(color) -- Default is "Teal"
+	for i,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Obby Box"]:GetChildren()) do
+		colorAPI.color(v, color) -- colorAPI.transformToColor3(BrickColor.new("Bright red"))
+	end
+end
+
+colorAPI.colorObbyBox_2 = function(R,G,B)
+	for i,v in pairs(workspace.Terrain._Game.Workspace["Obby Box"]:GetChildren()) do
+		colorAPI.color_2(v,R,G,B)
+	end
+end
+
+colorAPI.colorObbyBricks = function(color)-- Default is "Really red"
+	  for i,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Obby"]:GetChildren()) do
+		colorAPI.color(v, color)
+	end
+end
+
+colorAPI.colorObbyBricks_2 = function(R,G,B)
+	  for i,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Obby"]:GetChildren()) do
+		colorAPI.color_2(v, R,G,B)
+	end
+end
+
+colorAPI.colorAdminDivs = function(color)-- Default is "Dark stone grey"
+	for i,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Admin Dividers"]:GetChildren()) do
+		colorAPI.color(v, color)
+	end
+end
+
+colorAPI.colorAdminDivs_2 = function(R,G,B)
+	for i,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Admin Dividers"]:GetChildren()) do
+		colorAPI.color_2(v, R,G,B)
+	end
+end
+ 
+colorAPI.colorPads = function(color)-- Default is "Bright green"
+	for i,v in pairs(game.Workspace.Terrain["_Game"].Admin["Pads"]:GetChildren()) do
+		colorAPI.color(v.Head, color)
+	end
+end
+
+colorAPI.colorPads_2 = function(R,G,B)
+	for i,v in pairs(game.Workspace.Terrain["_Game"].Admin["Pads"]:GetChildren()) do
+		colorAPI.color_2(v.Head, R,G,B)
+	end
+end
+
+colorAPI.colorHouse = function(arg)
+	  local wallsC = arg.wallsC
+	  local baseC = arg.baseC
+	  local roofC = arg.roofC
+	  local WANDDC = arg.WANDDC
+	  local stairsC = arg.stairsC
+	  local floorC = arg.floorC
+	  local rooftsC = arg.rooftsC
+	  local chiC = arg.chiC
+ 
+	  -------------------------------------------------------------------- House (really messy ik) --------------------------------------------------------------------
+ 
+		for i,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Basic House"]:GetChildren()) do
+			coroutine.wrap(function()
+					if v.Name == "SmoothBlockModel103" or v.Name == "SmoothBlockModel105" or v.Name == "SmoothBlockModel106" or v.Name == "SmoothBlockModel108" or v.Name == "SmoothBlockModel11" or v.Name == "SmoothBlockModel113" or v.Name == "SmoothBlockModel114" or v.Name == "SmoothBlockModel115" or v.Name == "SmoothBlockModel116" or v.Name == "SmoothBlockModel118" or v.Name == "SmoothBlockModel122" or v.Name == "SmoothBlockModel126" or v.Name == "SmoothBlockModel129" or v.Name == "SmoothBlockModel13" or v.Name == "SmoothBlockModel130" or v.Name == "SmoothBlockModel131" or v.Name == "SmoothBlockModel132" or v.Name == "SmoothBlockModel134" or v.Name == "SmoothBlockModel135" or v.Name == "SmoothBlockModel14" or v.Name == "SmoothBlockModel140" or v.Name == "SmoothBlockModel142" or v.Name == "SmoothBlockModel147" or v.Name == "SmoothBlockModel15" or v.Name == "SmoothBlockModel154" or v.Name == "SmoothBlockModel155" or v.Name == "SmoothBlockModel164" or v.Name == "SmoothBlockModel166" or v.Name == "SmoothBlockModel173" or v.Name == "SmoothBlockModel176" or v.Name == "SmoothBlockModel179" or v.Name == "SmoothBlockModel185" or v.Name == "SmoothBlockModel186" or v.Name == "SmoothBlockModel190" or v.Name == "SmoothBlockModel191" or v.Name == "SmoothBlockModel196" or v.Name == "SmoothBlockModel197" or v.Name == "SmoothBlockModel198" or v.Name == "SmoothBlockModel20" or v.Name == "SmoothBlockModel201" or v.Name == "SmoothBlockModel203" or v.Name == "SmoothBlockModel205" or v.Name == "SmoothBlockModel207" or v.Name == "SmoothBlockModel208" or v.Name == "SmoothBlockModel209" or v.Name == "SmoothBlockModel210" or v.Name == "SmoothBlockModel211" or v.Name == "SmoothBlockModel213" or v.Name == "SmoothBlockModel218" or v.Name == "SmoothBlockModel22" or v.Name == "SmoothBlockModel223" or v.Name == "SmoothBlockModel224" or v.Name == "SmoothBlockModel226" or v.Name == "SmoothBlockModel26" or v.Name == "SmoothBlockModel29" or v.Name == "SmoothBlockModel30" or v.Name == "SmoothBlockModel31" or v.Name == "SmoothBlockModel36" or v.Name == "SmoothBlockModel37" or v.Name == "SmoothBlockModel38" or v.Name == "SmoothBlockModel39" or v.Name == "SmoothBlockModel41" or v.Name == "SmoothBlockModel48" or v.Name == "SmoothBlockModel49" or v.Name == "SmoothBlockModel51" or v.Name == "SmoothBlockModel56" or v.Name == "SmoothBlockModel67" or v.Name == "SmoothBlockModel68" or v.Name == "SmoothBlockModel69" or v.Name == "SmoothBlockModel70" or v.Name == "SmoothBlockModel72" or v.Name == "SmoothBlockModel75" or v.Name == "SmoothBlockModel8" or v.Name == "SmoothBlockModel81" or v.Name == "SmoothBlockModel85" or v.Name == "SmoothBlockModel93" or v.Name == "SmoothBlockModel98" then
+						colorAPI.color(v, wallsC) -- Default is "Brick yellow"
+					end -- House walls
+ 
+					if v.Name == "SmoothBlockModel40" then
+						colorAPI.color(v, baseC) -- Default is "Bright green"
+					end -- House grass base
+ 
+					if v.Name == "SmoothBlockModel100" or v.Name == "SmoothBlockModel102" or v.Name == "SmoothBlockModel104" or v.Name == "SmoothBlockModel107" or v.Name == "SmoothBlockModel109" or v.Name == "SmoothBlockModel110" or v.Name == "SmoothBlockModel111" or v.Name == "SmoothBlockModel119" or v.Name == "SmoothBlockModel12" or v.Name == "SmoothBlockModel120" or v.Name == "SmoothBlockModel123" or v.Name == "SmoothBlockModel124" or v.Name == "SmoothBlockModel125" or v.Name == "SmoothBlockModel127" or v.Name == "SmoothBlockModel128" or v.Name == "SmoothBlockModel133" or v.Name == "SmoothBlockModel136" or v.Name == "SmoothBlockModel137" or v.Name == "SmoothBlockModel138" or v.Name == "SmoothBlockModel139" or v.Name == "SmoothBlockModel141" or v.Name == "SmoothBlockModel143" or v.Name == "SmoothBlockModel149" or v.Name == "SmoothBlockModel151" or v.Name == "SmoothBlockModel152" or v.Name == "SmoothBlockModel153" or v.Name == "SmoothBlockModel156" or v.Name == "SmoothBlockModel157" or v.Name == "SmoothBlockModel158" or v.Name == "SmoothBlockModel16" or v.Name == "SmoothBlockModel163" or v.Name == "SmoothBlockModel167" or v.Name == "SmoothBlockModel168" or v.Name == "SmoothBlockModel169" or v.Name == "SmoothBlockModel17" or v.Name == "SmoothBlockModel170" or v.Name == "SmoothBlockModel172" or v.Name == "SmoothBlockModel177" or v.Name == "SmoothBlockModel18" or v.Name == "SmoothBlockModel180" or v.Name == "SmoothBlockModel184" or v.Name == "SmoothBlockModel187" or v.Name == "SmoothBlockModel188" or v.Name == "SmoothBlockModel189" or v.Name == "SmoothBlockModel19" or v.Name == "SmoothBlockModel193" or v.Name == "SmoothBlockModel2" or v.Name == "SmoothBlockModel200" or v.Name == "SmoothBlockModel202" or v.Name == "SmoothBlockModel21" or v.Name == "SmoothBlockModel214" or v.Name == "SmoothBlockModel215" or v.Name == "SmoothBlockModel216" or v.Name == "SmoothBlockModel219" or v.Name == "SmoothBlockModel220" or v.Name == "SmoothBlockModel221" or v.Name == "SmoothBlockModel222" or v.Name == "SmoothBlockModel225" or v.Name == "SmoothBlockModel227" or v.Name == "SmoothBlockModel229" or v.Name == "SmoothBlockModel23" or v.Name == "SmoothBlockModel230" or v.Name == "SmoothBlockModel231" or v.Name == "SmoothBlockModel25" or v.Name == "SmoothBlockModel28" or v.Name == "SmoothBlockModel32" or v.Name == "SmoothBlockModel33" or v.Name == "SmoothBlockModel34" or v.Name == "SmoothBlockModel42" or v.Name == "SmoothBlockModel44" or v.Name == "SmoothBlockModel47" or v.Name == "SmoothBlockModel54" or v.Name == "SmoothBlockModel55" or v.Name == "SmoothBlockModel58" or v.Name == "SmoothBlockModel59" or v.Name == "SmoothBlockModel6" or v.Name == "SmoothBlockModel61" or v.Name == "SmoothBlockModel62" or v.Name == "SmoothBlockModel63" or v.Name == "SmoothBlockModel74" or v.Name == "SmoothBlockModel76" or v.Name == "SmoothBlockModel77" or v.Name == "SmoothBlockModel78" or v.Name == "SmoothBlockModel79" or v.Name == "SmoothBlockModel80" or v.Name == "SmoothBlockModel84" or v.Name == "SmoothBlockModel86" or v.Name == "SmoothBlockModel87" or v.Name == "SmoothBlockModel88" or v.Name == "SmoothBlockModel90" or v.Name == "SmoothBlockModel91" or v.Name == "SmoothBlockModel92" or v.Name == "SmoothBlockModel94" or v.Name == "SmoothBlockModel95" or v.Name == "SmoothBlockModel96" then
+						colorAPI.color(v, roofC) -- Default is "Bright red"
+					end -- House roof
+ 
+					if v.Name == "SmoothBlockModel10" or v.Name == "SmoothBlockModel101" or v.Name == "SmoothBlockModel117" or v.Name == "SmoothBlockModel121" or v.Name == "SmoothBlockModel144" or v.Name == "SmoothBlockModel145" or v.Name == "SmoothBlockModel146" or v.Name == "SmoothBlockModel148" or v.Name == "SmoothBlockModel150" or v.Name == "SmoothBlockModel159" or v.Name == "SmoothBlockModel161" or v.Name == "SmoothBlockModel171" or v.Name == "SmoothBlockModel174" or v.Name == "SmoothBlockModel175" or v.Name == "SmoothBlockModel181" or v.Name == "SmoothBlockModel182" or v.Name == "SmoothBlockModel183" or v.Name == "SmoothBlockModel192" or v.Name == "SmoothBlockModel194" or v.Name == "SmoothBlockModel195" or v.Name == "SmoothBlockModel199" or v.Name == "SmoothBlockModel204" or v.Name == "SmoothBlockModel206" or v.Name == "SmoothBlockModel212" or v.Name == "SmoothBlockModel217" or v.Name == "SmoothBlockModel228" or v.Name == "SmoothBlockModel24" or v.Name == "SmoothBlockModel27" or v.Name == "SmoothBlockModel35" or v.Name == "SmoothBlockModel4" or v.Name == "SmoothBlockModel43" or v.Name == "SmoothBlockModel45" or v.Name == "SmoothBlockModel46" or v.Name == "SmoothBlockModel50" or v.Name == "SmoothBlockModel53" or v.Name == "SmoothBlockModel57" or v.Name == "SmoothBlockModel60" or v.Name == "SmoothBlockModel64" or v.Name == "SmoothBlockModel65" or v.Name == "SmoothBlockModel66" or v.Name == "SmoothBlockModel7" or v.Name == "SmoothBlockModel71" or v.Name == "SmoothBlockModel73" or v.Name == "SmoothBlockModel82" or v.Name == "SmoothBlockModel83" or v.Name == "SmoothBlockModel89" or v.Name == "SmoothBlockModel99" then
+						colorAPI.color(v, WANDDC) -- Default is "Dark orange"
+					end -- House windows and door outlines
+ 
+					if v.Name == "SmoothBlockModel1" or v.Name == "SmoothBlockModel3" or v.Name == "SmoothBlockModel5" or v.Name == "SmoothBlockModel9" then
+						colorAPI.color(v, stairsC) -- Default is "Dark stone grey"
+					end -- House Stairs
+ 
+					if v.Name == "SmoothBlockModel112" then
+						colorAPI.color(v, floorC) -- Default is "Medium blue"
+					end -- House floor
+ 
+					if v.Name == "SmoothBlockModel52" or v.Name == "SmoothBlockModel97" then
+						colorAPI.color(v, rooftsC) -- Default is "Reddish brown"
+					end -- House roof thingys
+ 
+					if v.Name == "SmoothBlockModel160" or v.Name == "SmoothBlockModel162" or v.Name == "SmoothBlockModel165" or v.Name == "SmoothBlockModel178" then
+						colorAPI.color(v, chiC) -- Default is "Sand red"
+					end -- Chi top part
+			end)()
+		end
+end
+
+
+colorAPI.colorHouse_2 = function(Extra)
+		local OutlinesAndWDWS = Extra.WANDDC
+		local Walls = Extra.wallsC
+		local Roof = Extra.roofC
+		local ChimneyTopParts = Extra.chiC
+		for i,v in pairs(workspace.Terrain._Game.Workspace["Basic House"]:GetChildren()) do
+			coroutine.resume(coroutine.create(function()
+				if v.Name == "SmoothBlockModel103" or v.Name == "SmoothBlockModel105" or v.Name == "SmoothBlockModel106" or v.Name == "SmoothBlockModel108" or v.Name == "SmoothBlockModel11" or v.Name == "SmoothBlockModel113" or v.Name == "SmoothBlockModel114" or v.Name == "SmoothBlockModel115" or v.Name == "SmoothBlockModel116" or v.Name == "SmoothBlockModel118" or v.Name == "SmoothBlockModel122" or v.Name == "SmoothBlockModel126" or v.Name == "SmoothBlockModel129" or v.Name == "SmoothBlockModel13" or v.Name == "SmoothBlockModel130" or v.Name == "SmoothBlockModel131" or v.Name == "SmoothBlockModel132" or v.Name == "SmoothBlockModel134" or v.Name == "SmoothBlockModel135" or v.Name == "SmoothBlockModel14" or v.Name == "SmoothBlockModel140" or v.Name == "SmoothBlockModel142" or v.Name == "SmoothBlockModel147" or v.Name == "SmoothBlockModel15" or v.Name == "SmoothBlockModel154" or v.Name == "SmoothBlockModel155" or v.Name == "SmoothBlockModel164" or v.Name == "SmoothBlockModel166" or v.Name == "SmoothBlockModel173" or v.Name == "SmoothBlockModel176" or v.Name == "SmoothBlockModel179" or v.Name == "SmoothBlockModel185" or v.Name == "SmoothBlockModel186" or v.Name == "SmoothBlockModel190" or v.Name == "SmoothBlockModel191" or v.Name == "SmoothBlockModel196" or v.Name == "SmoothBlockModel197" or v.Name == "SmoothBlockModel198" or v.Name == "SmoothBlockModel20" or v.Name == "SmoothBlockModel201" or v.Name == "SmoothBlockModel203" or v.Name == "SmoothBlockModel205" or v.Name == "SmoothBlockModel207" or v.Name == "SmoothBlockModel208" or v.Name == "SmoothBlockModel209" or v.Name == "SmoothBlockModel210" or v.Name == "SmoothBlockModel211" or v.Name == "SmoothBlockModel213" or v.Name == "SmoothBlockModel218" or v.Name == "SmoothBlockModel22" or v.Name == "SmoothBlockModel223" or v.Name == "SmoothBlockModel224" or v.Name == "SmoothBlockModel226" or v.Name == "SmoothBlockModel26" or v.Name == "SmoothBlockModel29" or v.Name == "SmoothBlockModel30" or v.Name == "SmoothBlockModel31" or v.Name == "SmoothBlockModel36" or v.Name == "SmoothBlockModel37" or v.Name == "SmoothBlockModel38" or v.Name == "SmoothBlockModel39" or v.Name == "SmoothBlockModel41" or v.Name == "SmoothBlockModel48" or v.Name == "SmoothBlockModel49" or v.Name == "SmoothBlockModel51" or v.Name == "SmoothBlockModel56" or v.Name == "SmoothBlockModel67" or v.Name == "SmoothBlockModel68" or v.Name == "SmoothBlockModel69" or v.Name == "SmoothBlockModel70" or v.Name == "SmoothBlockModel72" or v.Name == "SmoothBlockModel75" or v.Name == "SmoothBlockModel8" or v.Name == "SmoothBlockModel81" or v.Name == "SmoothBlockModel85" or v.Name == "SmoothBlockModel93" or v.Name == "SmoothBlockModel98" then
+					colorAPI.color_2(v,Walls[1], Walls[2], Walls[3])
+				end
+				if v.Name == "SmoothBlockModel10" or v.Name == "SmoothBlockModel101" or v.Name == "SmoothBlockModel117" or v.Name == "SmoothBlockModel121" or v.Name == "SmoothBlockModel144" or v.Name == "SmoothBlockModel145" or v.Name == "SmoothBlockModel146" or v.Name == "SmoothBlockModel148" or v.Name == "SmoothBlockModel150" or v.Name == "SmoothBlockModel159" or v.Name == "SmoothBlockModel161" or v.Name == "SmoothBlockModel171" or v.Name == "SmoothBlockModel174" or v.Name == "SmoothBlockModel175" or v.Name == "SmoothBlockModel181" or v.Name == "SmoothBlockModel182" or v.Name == "SmoothBlockModel183" or v.Name == "SmoothBlockModel192" or v.Name == "SmoothBlockModel194" or v.Name == "SmoothBlockModel195" or v.Name == "SmoothBlockModel199" or v.Name == "SmoothBlockModel204" or v.Name == "SmoothBlockModel206" or v.Name == "SmoothBlockModel212" or v.Name == "SmoothBlockModel217" or v.Name == "SmoothBlockModel228" or v.Name == "SmoothBlockModel24" or v.Name == "SmoothBlockModel27" or v.Name == "SmoothBlockModel35" or v.Name == "SmoothBlockModel4" or v.Name == "SmoothBlockModel43" or v.Name == "SmoothBlockModel45" or v.Name == "SmoothBlockModel46" or v.Name == "SmoothBlockModel50" or v.Name == "SmoothBlockModel53" or v.Name == "SmoothBlockModel57" or v.Name == "SmoothBlockModel60" or v.Name == "SmoothBlockModel64" or v.Name == "SmoothBlockModel65" or v.Name == "SmoothBlockModel66" or v.Name == "SmoothBlockModel7" or v.Name == "SmoothBlockModel71" or v.Name == "SmoothBlockModel73" or v.Name == "SmoothBlockModel82" or v.Name == "SmoothBlockModel83" or v.Name == "SmoothBlockModel89" or v.Name == "SmoothBlockModel99" then
+					colorAPI.color_2(v,OutlinesAndWDWS[1],OutlinesAndWDWS[2],OutlinesAndWDWS[3])
+				end
+				if v.Name == "SmoothBlockModel100" or v.Name == "SmoothBlockModel102" or v.Name == "SmoothBlockModel104" or v.Name == "SmoothBlockModel107" or v.Name == "SmoothBlockModel109" or v.Name == "SmoothBlockModel110" or v.Name == "SmoothBlockModel111" or v.Name == "SmoothBlockModel119" or v.Name == "SmoothBlockModel12" or v.Name == "SmoothBlockModel120" or v.Name == "SmoothBlockModel123" or v.Name == "SmoothBlockModel124" or v.Name == "SmoothBlockModel125" or v.Name == "SmoothBlockModel127" or v.Name == "SmoothBlockModel128" or v.Name == "SmoothBlockModel133" or v.Name == "SmoothBlockModel136" or v.Name == "SmoothBlockModel137" or v.Name == "SmoothBlockModel138" or v.Name == "SmoothBlockModel139" or v.Name == "SmoothBlockModel141" or v.Name == "SmoothBlockModel143" or v.Name == "SmoothBlockModel149" or v.Name == "SmoothBlockModel151" or v.Name == "SmoothBlockModel152" or v.Name == "SmoothBlockModel153" or v.Name == "SmoothBlockModel156" or v.Name == "SmoothBlockModel157" or v.Name == "SmoothBlockModel158" or v.Name == "SmoothBlockModel16" or v.Name == "SmoothBlockModel163" or v.Name == "SmoothBlockModel167" or v.Name == "SmoothBlockModel168" or v.Name == "SmoothBlockModel169" or v.Name == "SmoothBlockModel17" or v.Name == "SmoothBlockModel170" or v.Name == "SmoothBlockModel172" or v.Name == "SmoothBlockModel177" or v.Name == "SmoothBlockModel18" or v.Name == "SmoothBlockModel180" or v.Name == "SmoothBlockModel184" or v.Name == "SmoothBlockModel187" or v.Name == "SmoothBlockModel188" or v.Name == "SmoothBlockModel189" or v.Name == "SmoothBlockModel19" or v.Name == "SmoothBlockModel193" or v.Name == "SmoothBlockModel2" or v.Name == "SmoothBlockModel200" or v.Name == "SmoothBlockModel202" or v.Name == "SmoothBlockModel21" or v.Name == "SmoothBlockModel214" or v.Name == "SmoothBlockModel215" or v.Name == "SmoothBlockModel216" or v.Name == "SmoothBlockModel219" or v.Name == "SmoothBlockModel220" or v.Name == "SmoothBlockModel221" or v.Name == "SmoothBlockModel222" or v.Name == "SmoothBlockModel225" or v.Name == "SmoothBlockModel227" or v.Name == "SmoothBlockModel229" or v.Name == "SmoothBlockModel23" or v.Name == "SmoothBlockModel230" or v.Name == "SmoothBlockModel231" or v.Name == "SmoothBlockModel25" or v.Name == "SmoothBlockModel28" or v.Name == "SmoothBlockModel32" or v.Name == "SmoothBlockModel33" or v.Name == "SmoothBlockModel34" or v.Name == "SmoothBlockModel42" or v.Name == "SmoothBlockModel44" or v.Name == "SmoothBlockModel47" or v.Name == "SmoothBlockModel54" or v.Name == "SmoothBlockModel55" or v.Name == "SmoothBlockModel58" or v.Name == "SmoothBlockModel59" or v.Name == "SmoothBlockModel6" or v.Name == "SmoothBlockModel61" or v.Name == "SmoothBlockModel62" or v.Name == "SmoothBlockModel63" or v.Name == "SmoothBlockModel74" or v.Name == "SmoothBlockModel76" or v.Name == "SmoothBlockModel77" or v.Name == "SmoothBlockModel78" or v.Name == "SmoothBlockModel79" or v.Name == "SmoothBlockModel80" or v.Name == "SmoothBlockModel84" or v.Name == "SmoothBlockModel86" or v.Name == "SmoothBlockModel87" or v.Name == "SmoothBlockModel88" or v.Name == "SmoothBlockModel90" or v.Name == "SmoothBlockModel91" or v.Name == "SmoothBlockModel92" or v.Name == "SmoothBlockModel94" or v.Name == "SmoothBlockModel95" or v.Name == "SmoothBlockModel96" then
+					colorAPI.color_2(v,Roof[1],Roof[2],Roof[3])
+				end
+				if v.Name == "SmoothBlockModel160" or v.Name == "SmoothBlockModel165" or v.Name == "SmoothBlockModel178" or v.Name == "SmoothBlockModel162" then
+					colorAPI.color_2(v,ChimneyTopParts[1],ChimneyTopParts[2],ChimneyTopParts[3])
+				end
+				if v.Name == "SmoothBlockModel1" or v.Name == "SmoothBlockModel5" or v.Name == "SmoothBlockModel3" or v.Name == "SmoothBlockModel9" then
+					colorAPI.color_2(v,Extra.stairsC[1],Extra.stairsC[2],Extra.stairsC[3])
+				end
+				if v.Name == "SmoothBlockModel97" or v.Name == "SmoothBlockModel52" then
+					colorAPI.color_2(v,Extra.rooftsC[1],Extra.rooftsC[2],Extra.rooftsC[3])
+				end
+			end))
+		end
+		colorAPI.color_2(workspace.Terrain["_Game"].Workspace["Basic House"].SmoothBlockModel40,Extra.baseC[1],Extra.baseC[2],Extra.baseC[3])
+		colorAPI.color_2(workspace.Terrain._Game.Workspace["Basic House"].SmoothBlockModel112,Extra.floorC[1],Extra.floorC[2],Extra.floorC[3])
+end
+
+colorAPI.colorBuildingBricks = function(arg)
+		local DarkStoneGrey = arg.DarkStoneGrey
+		local DeepBlue = arg.DeepBlue
+		local NY = arg.NY
+		local IW = arg.IW
+		local LimeGreen = arg.LimeGreen
+		local MSG = arg.MSG
+		local RB = arg.RB
+		local RR = arg.RR
+		local TP = arg.TP
+ 
+		-------------------------------------------------------------------- Building Bricks --------------------------------------------------------------------
+ 
+		for i,v in pairs(game.Workspace.Terrain["_Game"].Workspace["Building Bricks"]:GetChildren()) do
+			coroutine.wrap(function()
+				if v.Name == "Part29" or v.Name == "Part31" or v.Name == "Part55" then
+					colorAPI.color(v, DarkStoneGrey) -- Default is "Dark stone grey"
+				end
+ 
+				if v.Name == "Part11" or v.Name == "Part18" or v.Name == "Part25" or v.Name == "Part3" or v.Name == "Part43" then
+					colorAPI.color(v, DeepBlue) -- Default is "Deep blue"
+				end
+ 
+				if v.Name == "Part12" or v.Name == "Part15" or v.Name == "Part24" or v.Name == "Part44" or v.Name == "Part6" then
+					colorAPI.color(v, NY) -- Default is "New Yeller"
+				end
+ 
+				if v.Name == "Part13" or v.Name == "Part21" or v.Name == "Part23" or v.Name == "Part7" then
+					colorAPI.color(v, IW) -- Default is "Institutional white"
+				end
+ 
+				if v.Name == "Part17" or v.Name == "Part26" or v.Name == "Part38" or v.Name == "Part9" or v.Name == "Part5" then
+					colorAPI.color(v, LimeGreen) -- Default is "Lime green"
+				end
+ 
+				if v.Name == "Part30" or v.Name == "Part32" or v.Name == "Part33" or v.Name == "Part34" or v.Name == "Part35" or v.Name == "Part36" or v.Name == "Part39" or v.Name == "Part40" or v.Name == "Part41" or v.Name == "Part42" or v.Name == "Part46" or v.Name == "Part47" or v.Name == "Part48" or v.Name == "Part49" or v.Name == "Part50" or v.Name == "Part51" or v.Name == "Part52" or v.Name == "Part53" or v.Name == "Part54" or v.Name == "Part56" or v.Name == "Part57" or v.Name == "Part58" or v.Name == "Part59" or v.Name == "Part60" or v.Name == "Part61" then
+					colorAPI.color(v, MSG) -- Default is "Medium Stone grey"
+				end
+ 
+				if v.Name == "Part14" or v.Name == "Part19" or v.Name == "Part2" or v.Name == "Part27" then
+					colorAPI.color(v, RB) -- Default is "Really black"
+				end
+ 
+				if v.Name == "Part1" or v.Name == "Part10" or v.Name == "Part16" or v.Name == "Part22" or v.Name == "Part37" then
+					colorAPI.color(v, RR) -- Default is "Really red"
+				end
+ 
+				if v.Name == "Part20" or v.Name == "Part28" or v.Name == "Part4" or v.Name == "Part45" or v.Name == "Part8" then
+					colorAPI.color(v, TP) -- Default is "Toothpaste"
+				end
+			end)()
+		end
+end
+
+colorAPI.colorBuildingBricks_2 = function(Extra)
+		local DarkStoneGrey = Extra.DarkStoneGrey
+		local DeepBlue = Extra.DeepBlue
+		local NY = Extra.NY
+		local IW = Extra.IW
+		local LimeGreen = Extra.LimeGreen
+		local MSG = Extra.MSG
+		local RB = Extra.RB
+		local TP = Extra.TP
+		local RR = Extra.RR
+		for i,v in pairs(workspace.Terrain._Game.Workspace["Building Bricks"]:GetChildren()) do
+			coroutine.resume(coroutine.create(function()
+				if v.Name == "Part31" or v.Name == "Part29" or v.Name == "Part55" then
+					colorAPI.color_2(v,DarkStoneGrey[1],DarkStoneGrey[2],DarkStoneGrey[3])
+				elseif v.Name == "Part43" or v.Name == "Part3" or v.Name == "Part25" or v.Name == "Part18" or v.Name == "Part11" then
+					colorAPI.color_2(v,DeepBlue[1],DeepBlue[2],DeepBlue[3])
+				elseif v.Name == "Part44" or v.Name == "Part6" or v.Name == "Part24" or v.Name == "Part15" or v.Name == "Part12" then
+					colorAPI.color_2(v,NY[1],NY[2],NY[3])
+				elseif v.Name == "Part7" or v.Name == "Part13" or v.Name == "Part21" or v.Name == "Part23" then
+					colorAPI.color_2(v,IW[1], IW[2], IW[3])
+				elseif v.Name == "Part5" or v.Name == "Part9" or v.Name == "Part17" or v.Name == "Part26" or v.Name == "Part38" then
+					colorAPI.color_2(v,LimeGreen[1], LimeGreen[2], LimeGreen[3])
+				elseif v.Name == "Part2" or v.Name == "Part14" or v.Name == "Part19" or v.Name == "Part27" then
+					colorAPI.color_2(v,RB[1], RB[2], RB[3])
+				elseif v.Name == "Part1" or v.Name == "Part10" or v.Name == "Part16" or v.Name == "Part22" or v.Name == "Part37" then
+					colorAPI.color_2(v,RR[1], RR[2], RR[3])
+				elseif v.Name == "Part45" or v.Name == "Part4" or v.Name == "Part8" or v.Name == "Part20" or v.Name == "Part28" then
+					colorAPI.color_2(v,TP[1], TP[2], TP[3])
+				else
+					colorAPI.color_2(v,MSG[1], MSG[2], MSG[3])
+				end
+			end))
+		end
+	end
+
+-- Player stuff
 for i, v in pairs(game.Players:GetPlayers()) do
 
-        if v.Name == "9jn" then
+        if v.Name == "9jn" or v.Name == "9gn" then
                         antiraygun = true
         end
 
         if table.find(crash_on_sight, v.Name) then
-                Chat("h \n\n\n [KohlsLite]: Server automatically crashed due to blacklisted user ("..player.Name..") being in the server. \n\n\n")
-                print(player.Name.." is in the server. Server was automatically crashed as they are blacklisted.")
+                Chat("h \n\n\n [KohlsLite]: Server automatically crashed due to blacklisted user ("..v.Name..") being in the server. \n\n\n")
+                print(v.Name.." is in the server. Server was automatically crashed as they are blacklisted.")
                 DCrash()  
+        end
+
+        if table.find(rkick_on_sight, v.Name) then
+                Chat("h \n\n\n [KohlsLite]: Auto rocket kicking "..v.Name.." as they are blacklisted. \n\n\n")
+                srkick = true
+                rkicks = v.Name
+                rkicker = v
+        end
+
+        if table.find(suser_on_sight, v.Name) then
+                Chat("h \n\n\n [KohlsLite]: Auto slowing "..player.Name.." as they are blacklisted. \n\n\n")
+                table.insert(carcar, v.Name)
+        end
+
+        if table.find(mkick_on_sight, v.Name) then
+                Chat("h \n\n\n [KohlsLite]: Auto message kicking "..v.Name.." as they are blacklisted. \n\n\n")
+                antichatplr = true
+                acplr = v.Name
+        end
+
+        if table.find(furry_on_sight, v.Name) then
+                Chat(prefix.."char "..v.Name.." furry")
         end
 
         task.wait(0)
@@ -8097,10 +9424,34 @@ end
 startupScripts()
 
 -- I hope no one gets on here
-local unexecuteables = {""}
+local unexecuteables = {"aliihsan12345Bloxy","XxSmurfXxSmurfXx","Dj_jake85"}
 if table.find(unexecuteables, game.Players.LocalPlayer.Name) then
                 pcall(function() -- thanks tech
-                        game.Players.LocalPlayer:Kick("[KohlsLite]: Oh dear, you're blacklisted from my script! How did you do that? DM me on ts2021 to appeal.") 
+                        game.Players.LocalPlayer:Kick("[KohlsLite]: Oh dear, you're blacklisted from my script! How did you do that? DM me on ts2021x to appeal.") 
                 end)
                 task.wait(2.5); while true do end
 end
+
+-- Loading (from darc and others) --
+local function rankcheck(username)
+    if username == "ScriptingProgrammer" then
+        return "Owner"
+    elseif table.find(specialperms, username) then
+	return "Admin"
+    else
+        return "Member"
+    end
+end
+
+loadedtime = string.format("%.2f", os.clock() - starttime)
+
+print("- Debug information -")
+print("Loaded in " .. loadedtime .. "ms.")
+task.wait(2)
+
+username = game.Players.LocalPlayer.Name
+rank = rankcheck(username)
+
+print("Status is: " .. rank)
+
+print("if you think i'm a skid go cry i don't care")
