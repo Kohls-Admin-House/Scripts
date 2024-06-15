@@ -628,7 +628,7 @@ lplayer.Chatted:Connect(function(msg)
             wait(.65)
             print("Join shield active")
             pcall(function()
-                if not game:GetService("Workspace").Terrain["_Game"].Admin:FindFirstChild("Regen") or game:GetService("Workspace").Terrain["_Game"].WorkspaceFindFirstChild("Baseplate") then
+                if not game:GetService("Workspace").Terrain["_Game"].Admin:FindFirstChild("Regen") or not game:GetService("Workspace").Terrain["_Game"].Workspace:FindFirstChild("Baseplate") then
                     print("Part missing")
                     game.Players:Chat("emr fuck")
                 end
