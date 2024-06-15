@@ -1,7 +1,3 @@
---[[
-	https://scriptblox.com/script/Kohls-Admin-House-NBC-Updated-Shortcut-v3-latest-SCV3-VAR-11854
-]]
-
 getgenv().Evon = false
 -- ^^^ IF YOU ARE ON EVON OR CODEX OR ARCEUS X THEN SET THIS TO TRUE
 -- ^^^ IF YOU ARE ON EVON OR CODEX OR ARCEUS X THEN SET THIS TO TRUE
