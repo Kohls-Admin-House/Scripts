@@ -5,9 +5,10 @@
 ░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓█▓▒░       ░▒▓██████▓▒░░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓██████▓▒░   
 ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░        
 ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░        
-░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓████████▓▒░ v1.777 ]]
+░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓████████▓▒░ v1.8 ]]
 
 --[[
+https://kohlslite.pages.dev/source.txt
 
 This free, open-source script is for the Roblox game Kohls Admin House (KAH).
 You can play KAH here: https://www.roblox.com/games/112420803/Kohls-Admin-House-NBC-Updated
@@ -57,7 +58,7 @@ I know this script is inconsistent with the fact it uses Game with and without G
 -- Notifications
 local function Remind(msg)
         game.StarterGui:SetCore("SendNotification", {
-                Title = "KohlsLite v1.777",
+                Title = "KohlsLite v1.8",
                 Text = msg,
                 Duration = 1
         })
@@ -107,7 +108,7 @@ getgenv().kohlsexecuted = true
 getgenv().deprefix = "." 
 
 -- The version of KohlsLite
-getgenv().klversion = "1.777"
+getgenv().klversion = "1.8"
 
 -- Chat function
 local function Chat(msg)
@@ -2202,11 +2203,13 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
     end
 
     if string.sub(msg:lower(), 1, #prefix + 3) == prefix..'pmu' then
-        musicoff = false
-        mymusiconly = true
-        gottenmode = 2
-        mymusiconlyid = tonumber(string.sub(msg:lower(), #prefix + 11))
-        Remind("Perm music is on")
+	if not string.sub(msg:lower(), 1, #prefix + 4) == prefix..'pmu2' then
+        	musicoff = false
+        	mymusiconly = true
+        	gottenmode = 2
+        	mymusiconlyid = tonumber(string.sub(msg:lower(), #prefix + 5))
+        	Remind("Perm music is on")
+	end
     end
 
     if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'2pmu' then
@@ -2315,6 +2318,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
     end
 
     if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'fixbp' then
+	if not string.sub(msg:lower(), 1, #prefix + 6) == prefix..'fixbp2' then
                 if movestatus == true then 
                         return 
                 end
@@ -2324,6 +2328,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                 GravFix()
                 Chat("respawn me")
                 ColFix()
+	end
     end
 
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'movebp' then
@@ -2346,7 +2351,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                     moveObject(game:GetService("Workspace").Terrain["_Game"].Workspace["Basic House"].SmoothBlockModel40,CFrame.new(-10.7921638, 17.3182983, -16.0743637, -0.999961913, -0.0085983118, 0.00151610479, -1.01120179e-08, 0.173648253, 0.98480773, -0.00873095356, 0.984770179, -0.173641637))
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'2fixpads' then
+    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'fixpads2' then
         local adminPadCFrames = {CFrame.new(-40.7649879, 1.92999983, 91.8430023, 0, 0, -1, 0, 1, 0, 1, 0, 0),CFrame.new(-36.7649803, 1.92999983, 91.8430023, 0, 0, -1, 0, 1, 0, 1, 0, 0),CFrame.new(-32.7649765, 1.92999983, 91.8430023, 0, 0, -1, 0, 1, 0, 1, 0, 0),CFrame.new(-20.7649632, 1.92999983, 91.8430023, 0, 0, -1, 0, 1, 0, 1, 0, 0),CFrame.new(-44.7649994, 1.92999983, 91.8430023, 0, 0, -1, 0, 1, 0, 1, 0, 0),CFrame.new(-12.7649641, 1.92999983, 91.8430023, 0, 0, -1, 0, 1, 0, 1, 0, 0),CFrame.new(-28.7649689, 1.92999983, 91.8430023, 0, 0, -1, 0, 1, 0, 1, 0, 0),CFrame.new(-16.7649612, 1.92999983, 91.8430023, 0, 0, -1, 0, 1, 0, 1, 0, 0),CFrame.new(-24.764967, 1.92999983, 91.8430023, 0, 0, -1, 0, 1, 0, 1, 0, 0)}
             for i,v in pairs(game:GetService("Workspace").Terrain["_Game"].Admin.Pads:GetChildren()) do
                 moveObject(v.Head,adminPadCFrames[i]*CFrame.new(0,4,0))
@@ -2354,11 +2359,11 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
             end    
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'2fixreg' then
+    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'fixregen2' then
                     moveObject(game:GetService("Workspace").Terrain["_Game"].Admin.Regen,CFrame.new(-7.16500044, 5.42999268, 91.7430038, 0, 0, -1, 0, 1, 0, 1, 0, 0))
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'2fixbp' then
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'fixbp2' then
                     moveObject(workspace.Terrain["_Game"].Workspace.Baseplate,CFrame.new(-501, 0.100000001, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1))
     end
 
@@ -2429,6 +2434,8 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
     end
 
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'fixregen' then
+	if not string.sub(msg:lower(), 1, #prefix + 9) == prefix..'fixregen2' then
+
                 if movestatus == true then 
                         return 
                 end
@@ -2438,14 +2445,15 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                 GravFix()
                 Chat("respawn me")
                 ColFix()
+	end
     end
 
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'ivmove' then
-			yeahthemover("yeahhh")
+			yeahthemover("yes")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'omove' then
-			yeahthemover("naa")
+			yeahthemover("no")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'moveregen' then
@@ -2480,7 +2488,9 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                 end
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'fixpads' then        
+    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'fixpads' then    
+	if not string.sub(msg:lower(), 1, #prefix + 8) == prefix..'fixpads2' then
+
                 if movestatus == true then 
                         return 
                 end        
@@ -2504,6 +2514,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                 GravFix()
                 Chat("respawn me")
                 ColFix()
+	end
     end
 
    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'movepads' then        
@@ -3140,7 +3151,7 @@ return
 		Chat("unpunish me")
     end
 
-   if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'meshkick' then  -- mesh kick haha
+    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'meshkick' then  -- mesh kick haha
 		local dasplayer = string.sub(msg:lower(), #prefix + 10)
                 PLAYERCHECK(dasplayer)
 	
@@ -3148,7 +3159,7 @@ return
 			kickin = cplr
 			kickinplr = player
                         Remind("Kicking "..player)
-			meshkick(kickin, kickinplr)
+			hatkick(kickin, kickinplr)
                 elseif table.find(nokick, player) then
                         return Remind("Sorry, this player cannot be kicked!")
                 else                        
@@ -3157,7 +3168,7 @@ return
 	
     end
 
- if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'hatkick' then  -- hat kick haha
+    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'hatkick' then  -- hat kick haha
 		local dasplayer = string.sub(msg:lower(), #prefix + 9)
                 PLAYERCHECK(dasplayer)
 	
@@ -3165,7 +3176,24 @@ return
 			kickin = cplr
 			kickinplr = player
                         Remind("Kicking "..player)
-			meshkick(kickin, kickinplr)
+			hatkick(kickin, kickinplr)
+                elseif table.find(nokick, player) then
+                        return Remind("Sorry, this player cannot be kicked!")
+                else                        
+                        return Remind('Cannot find player with the name: '..dasplayer)
+                end
+	
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'techkick' then  -- tech kick
+		local dasplayer = string.sub(msg:lower(), #prefix + 10)
+                PLAYERCHECK(dasplayer)
+	
+                if player ~= nil and not table.find(nokick, player) then
+			kickin = cplr
+			kickinplr = player
+                        Remind("Kicking "..player)
+			techkick(kickin, kickinplr)
                 elseif table.find(nokick, player) then
                         return Remind("Sorry, this player cannot be kicked!")
                 else                        
@@ -3974,8 +4002,8 @@ return
         	musicsay = false
         	-- task.wait(0.5)
 		-- Chat(prefix.."unantimsg")
-            	Chat("h \n\n\n get jebaited \n\n\n")
-		Chat("music 2665943889")
+            	Chat("h \n\n\n Error occured. Please join a different server. \n\n\n")
+		Chat(prefix.."gmusic84")
 		--  Chat(prefix.."byp ")
            	Chat("fogcolor 0 0 0")
 		Chat("time 0")
@@ -5287,13 +5315,17 @@ return
      end
 
     if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'loopgrab' then
-        loopgrab = true
-	Remind("Loopgrabbing the pads!")
+    	if not string.sub(msg:lower(), 1, #prefix + 9) == prefix..'loopgrab2' then
+        	loopgrab = true
+		Remind("Loopgrabbing the pads!")
+	end
     end
 
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'unloopgrab' then
-        loopgrab = false
-	Remind("Stopped loopgrabbing the pads!")
+	if not string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unloopgrab2' then
+		loopgrab = false
+		Remind("Stopped loopgrabbing the pads!")
+	end
     end
 
      if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'fastpads' then
@@ -5301,32 +5333,36 @@ return
 		Remind("Getting the pads.")
      end
 
-    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'2loopgrab' then
+    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'loopgrab2' then
         loopgrab2 = true
 	Remind("Loopgrabbing the pads (2)!")
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'2unloopgrab' then
+    if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unloopgrab2' then
         loopgrab2 = false
 	Remind("Stopped loopgrabbing the pads (2)!")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'perm' then
-        perm = true
-	Remind("You now have a perm pad!")
+	if not string.sub(msg:lower(), 1, #prefix + 5) == prefix..'perm2' then
+        	perm = true
+		Remind("You now have a perm pad!")
+	end
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'2perm' then
+    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'unperm' then
+	if not string.sub(msg:lower(), 1, #prefix + 7) == prefix..'unperm2' then
+        	perm = false
+		Remind("You no longer have a perm pad!")
+	end
+    end
+
+   if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'perm2' then
         perm2 = true
 	Remind("You now have a perm pad (2)!")
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'unperm' then
-        perm = false
-	Remind("You no longer have a perm pad!")
-    end
-
-    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'2unperm' then
+    if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'unperm2' then
         perm2 = false
 	Remind("You no longer have a perm pad (2)!")
     end
@@ -5432,24 +5468,28 @@ return
 	Remind("Anti gearban is now disabled.")
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'2antiattach2' then
+    if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'antiattach2' then
         antiattach2 = true
 	Remind("Anti ivory is now enabled.")
     end
 
-    if string.sub(msg:lower(), 1, #prefix + 13) == prefix..'2unantiattach' then
+    if string.sub(msg:lower(), 1, #prefix + 13) == prefix..'unantiattach2' then
         antiattach2 = false
 	Remind("Anti ivory is now disabled.")
     end
 
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'antiattach' then
-        antiattach = true
-	Remind("Anti attach is now enabled.")
+	if not string.sub(msg:lower(), 1, #prefix + 11) == prefix..'antiattach2' then
+        	antiattach = true
+		Remind("Anti attach is now enabled.")
+	end
     end
 
     if string.sub(msg:lower(), 1, #prefix + 12) == prefix..'unantiattach' then
-        antiattach = false
-	Remind("Anti attach is now disabled.")
+	if not string.sub(msg:lower(), 1, #prefix + 13) == prefix..'unantiattach2' then
+        	antiattach = false
+		Remind("Anti attach is now disabled.")
+	end
     end
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antifling' then
@@ -6783,7 +6823,7 @@ return
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'undance' then
 	danceTrack:Stop()
 	danceTrack:Destroy()   
-	Remind("Ended the dancing.")
+	Remind("Stopped dancing.")
     end  
 
     if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'spasm' then
@@ -7836,7 +7876,7 @@ connections[#connections + 1] =
 
         if antis.antimessage == true then
             for i, v in pairs(lp.PlayerGui:GetDescendants()) do
-                if v.Name == "MessageGUI" or v.Name == "Message" or v.Name == "HintGUI" or v.Name == "Ice" then
+                if v.Name == "MessageGUI" or v.Name == "Message" or v.Name == "HintGUI" then -- or v.Name == "Ice" then
                     v:Destroy()
                 end
             end
@@ -9880,8 +9920,8 @@ function dkick(dk, dkicked)
             end
 end
 
--- mesh kick
-function meshkick(kickin, kickinplr)
+-- hat (mesh) kick
+function hatkick(kickin, kickinplr) -- v, V.Name
 		Chat("respawn "..kickinplr)
 		task.wait(.25)
  		Chat("tp me  "..kickinplr)
@@ -9891,7 +9931,7 @@ function meshkick(kickin, kickinplr)
 		for i = 1, 10 do
 			if game.Players:FindFirstChild(kickinplr) then
 				for i = 1, 100 do
-   					 Chat("hat me 1810126502")
+   					 Chat("hat me 18137588505")
 					 task.wait(.5)
    					 Chat("clone me")
 				end
@@ -9900,7 +9940,35 @@ function meshkick(kickin, kickinplr)
 		end
 end
 
-function slag(tplr, tpln)
+function techkick(kickin, kickinplr) -- Tech's hatkick
+	        hatspammingz = true
+		Chat("respawn "..kickinplr)
+		Chat("blind "..kickinplr.."                                                                                                                                                                      discord")
+		Chat("invis "..kickinplr.."                                                                                                                                                                      discord")
+		Chat("skydive "..kickinplr.." "..kickinplr.." "..kickinplr.."                                                                                                                                    discord")
+		Chat("skydive "..kickinplr.." "..kickinplr.." "..kickinplr.."                                                                                                                                    discord")
+		Chat("skydive "..kickinplr.." "..kickinplr.." "..kickinplr.."                                                                                                                                    discord")
+		Chat("size "..kickinplr.." 9.9")
+		Chat("size "..kickinplr.." 9.9")
+		chatt("spin                                                                                                                                                                      "..kickinplr.." discord")
+		task.wait(0.15)
+		Chat("setgrav "..kickinplr.." -251.2")
+
+		task.delay(3.65, function()
+			hatspammingz = false
+		end)
+
+		for i = 1, 103 do
+			chatt("hat "..kickinplr.." 18137588505")
+		end
+
+		while hatspammingz do task.wait()
+			chatt("hat "..kickinplr.." 18137588505")
+		end
+end
+
+
+function slag(tplr, tpln) -- v, v.Name
             local stop = false
 
             Chat("freeze " .. tpln)
@@ -13358,7 +13426,7 @@ function moveObject(target,movepos)
 end
 
 -- part mover tool :O
-function yeahthemover(iloveminors)
+function yeahthemover(modez)
 	local btool = Instance.new("Tool", game.Players.LocalPlayer.Backpack)
   	local SelectionBox = Instance.new("SelectionBox", game.Workspace)
   	local thebtool = Instance.new("Part")
@@ -13401,7 +13469,7 @@ function yeahthemover(iloveminors)
    			local prevcfarchive = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
 			local target = Mouse.Target
 
-			if iloveminors == "naa" then
+			if modez == "no" then
 				movepart(target)
 		        	repeat task.wait() until mready == true
 		
@@ -13930,6 +13998,8 @@ else
 	Remind("Support my script by buying my gamepass! Just do .purchase.")
 end
 
+Remind("me when discord limits me till 26/9/24 for repling to someone saying cee pee... just like tech :p")
+
 --[[
 Things to add/fix. Feel free to fix these and send the code and I'll credit you
 -> Visualiser and drawer
@@ -13937,7 +14007,7 @@ Things to add/fix. Feel free to fix these and send the code and I'll credit you
 -> Part builder
 -> Object mover (cmd pi version)
 -> Fix ncontrol
--> can't fix these until i get a windows Pc, this might be a long time... ;(
+-> Can't fix these until I get a windows PC, this might be a long time... ;(
 ]]
 
 -- KohlsLite on top
