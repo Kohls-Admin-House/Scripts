@@ -1,11 +1,14 @@
 --[[
-░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░       ░▒▓███████▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓████████▓▒░▒▓████████▓▒░ 
-░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░        
-░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░        
-░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓█▓▒░       ░▒▓██████▓▒░░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓██████▓▒░   
-░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░        
-░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░        
-░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓████████▓▒░ v1.8 ]]
+ ___  __    ________  ___  ___  ___       ________  ___       ___  _________  _______      
+|\  \|\  \ |\   __  \|\  \|\  \|\  \     |\   ____\|\  \     |\  \|\___   ___\\  ___ \     
+\ \  \/  /|\ \  \|\  \ \  \\\  \ \  \    \ \  \___|\ \  \    \ \  \|___ \  \_\ \   __/|    
+ \ \   ___  \ \  \\\  \ \   __  \ \  \    \ \_____  \ \  \    \ \  \   \ \  \ \ \  \_|/__  
+  \ \  \\ \  \ \  \\\  \ \  \ \  \ \  \____\|____|\  \ \  \____\ \  \   \ \  \ \ \  \_|\ \ 
+   \ \__\\ \__\ \_______\ \__\ \__\ \_______\____\_\  \ \_______\ \__\   \ \__\ \ \_______\
+    \|__| \|__|\|_______|\|__|\|__|\|_______|\_________\|_______|\|__|    \|__|  \|_______|
+                                            \|_________|                                   
+                                                                                           
+                                                                                           v1.8 ]]
 
 --[[
 https://kohlslite.pages.dev/source.txt
@@ -70,6 +73,16 @@ if getgenv().kohlsexecuted then
         Remind("You've already executed KohlsLite!") 
 end
 
+getgenv().autocrasher = false
+
+if autocrasher then
+	--
+end
+
+if autocrasher then
+	return 
+end
+
 -- Loader
 if not game:IsLoaded() then
     local notLoaded = Instance.new("Message")
@@ -109,6 +122,8 @@ getgenv().deprefix = "."
 
 -- The version of KohlsLite
 getgenv().klversion = "1.8"
+
+getgenv().kohlsgui = false -- this exists i guess
 
 -- Chat function
 local function Chat(msg)
@@ -176,18 +191,8 @@ end
 -- Serverlocked users
 local blacklist = {
     "SlenderMan990921",
-    "e5usp",
-    "Asphetto",
-    "91txt",
-    "LeanConsumer69",
-    "Fixydrqma",
-    "Robloxian577226532",
-    "jjthejoker7",
-    "cihanahmet1670",
-    "Fu14r",
-    "bbgurrrrl",
-    "He4rt_4",
-    "aliihsan12345Bloxy"
+    "aliihsan12345Bloxy",
+    "jhjssikeksms"
 }
 
 -- Users not affected by serverlock
@@ -403,13 +408,28 @@ antikill = {}
 permusers = {} -- users that use perm will be placed here
 personsusers = {} -- users that use persons will be placed here
 
--- Auto stuff relating to users
-rkick_on_sight = {} -- rocket kick player when they join ONLY WORKS WITH ONE PLAYER
-crash_on_sight = {"jhjssikeksms","aliihsan12345Bloxy"} -- crash server when player joins
-mkick_on_sight = {"He4rt_4","hellokitty2kute"} -- kick player with pm spam when they join ONLY WORKS WITH ONE PLAYER
-suser_on_sight = {} -- slow a user when they join with car gear ONLY WORKS WITH ONE PLAYER
+-- Auto stuff upon user joining
+
+-- Rocket kick player
+rkick_on_sight = {} 
+
+-- Crash server
+crash_on_sight = {"jhjssikeksms","aliihsan12345Bloxy"}
+
+-- Message kick
+mkick_on_sight = {} 
+
+-- Hat kick
+hatkick_on_sight = {}
+
+-- Slow user
+suser_on_sight = {}
+
+-- Furry user
 furry_on_sight = {} -- 9jn
-gb_on_sight = {} -- gearban upon a user joining
+
+-- Gearban user
+gb_on_sight = {}
 
 -- Variables for moving
 local movestatus = false
@@ -423,7 +443,6 @@ local musicplay
 -- Thanks to Dizzy for this idea of writing my musiclist
 -- PLEASE NOTE THAT "GMUSIC1" ETC. IS INTENTIONAL. THE MISSING SPACE BETWEEN GMUSIC AND 1 IS INTENTIONAL.
 -- exfamous stole this grrr
-
 
 local musictable = {
     ["1"] = { id = "9048375035", name = "All dropping 8 beats" },
@@ -1153,8 +1172,12 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
         end
 		
         if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'cmdpi' then -- well, you need that visualiser, do you?
-                GExecute("https://raw.githubusercontent.com/S-PScripts/KAH/main/CMD%20v3.lua")
-		Remind("Executed CMD PI/V3. Created by quiving. CMD PI/V3 doesn't work for mobile executors by the way.")
+		if IsOnMobile then
+			Remind("CMD PI/V3 does not work on mobile executors.")
+		else
+                	GExecute("https://raw.githubusercontent.com/S-PScripts/KAH/main/CMD%20v3.lua")
+			Remind("Executed CMD PI/V3. Created by quiving..")
+		end
         end
 
         if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'prsc' then -- PR Script ~ atprog
@@ -1571,6 +1594,29 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
          end
        end
 
+       if string.sub(msg, 1, #prefix + 7) == prefix..'coinlag' then
+		local response = Instance.new("BindableFunction")
+		function response.OnInvoke(answer)
+			if answer == "Yes" then
+				SuperCMD("gear me 24015579")
+                		local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
+                		for _, v in ipairs(Backpack:GetChildren()) do
+					v.Parent = game.Players.LocalPlayer.Character
+					task.wait(0)
+					v:Activate() 
+				end 
+			end
+		end
+		game:GetService("StarterGui"):SetCore("SendNotification", {
+			Title = "KohlsLite Manager",
+			Text = "This might lag you. Are you sure about this?",
+			Duration = math.huge,
+			Callback = response,
+			Button1 = "Yes",
+			Button2 = "No"
+		})
+	end
+		
        if string.sub(msg, 1, #prefix + 6) == prefix..'report' then
          local dasplayer = string.sub(msg:lower(), #prefix + 8)
          PLAYERCHECK(dasplayer)
@@ -1656,6 +1702,13 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                 game.Players.LocalPlayer:Kick("you: 'i use adminjoy trash!' Anyways, ask ME to add the colourful seizure crap, don't use THAT!")
        end
 
+	if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'timeout' then
+                Remind("no")
+       end
+
+		-- obfuscate command
+		
+		
        if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'slock' then
 	if blwl_an then
         	Chat("h \n\n\n Server is locked! \n\n\n");Regen()
@@ -1748,6 +1801,24 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 		bgrange = tonumber(string.sub(msg:lower(), #prefix + 9))
       end
 
+    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'diceroll' then
+ 	local args = string.split(msg, " ")
+        if #args == 3 then
+                local min = tonumber(args[2])
+		local max = tonumber(args[3])
+		local diroll = math.random(min, max)
+		Remind("Dice roll: ".. diroll)
+	else
+		diroll = math.random(1, 6) -- USE DEFAULT
+		Remind("Dice roll: ".. diroll)
+	end
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'coinflip' then
+	if math.random(1, 2) == 1 then cflip = "Heads" else cflip =  "Tails" end
+	Remind("Coin flip: "..cflip)
+    end
+		
     if string.sub(msg:lower(), 1, #prefix + 7) == prefix..'lgmusic' then
         ieatkids = string.sub(msg, #prefix + 8)
         if workspace.Terrain["_Game"].Folder:FindFirstChild("localsound") then
@@ -1895,7 +1966,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 
     if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'themelist' then
                 Remind("Check your console by running /console!")
-		for key, theme in pairs(themecode) do
+		for key, theme in pairs(themecode) do -- doesn't work properly :( tried using ipairs but errors
     			print(key .. " - " .. theme.name .. " - " .. theme.code)
 		end
     end
@@ -1972,23 +2043,23 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
 		
 -- SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND --
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'pausem' then
-       for i,v in pairs(game:GetService("Workspace").Terrain["_Game"].Folder:GetDescendants()) do
-                  if v:IsA("Sound") and v.Playing then
-                           v.Playing = false
-                    end
-       end
+       	for i,v in pairs(game:GetService("Workspace").Terrain["_Game"].Folder:GetDescendants()) do
+                if v:IsA("Sound") and v.Playing then
+                        v.Playing = false
+                end
+        end
        Remind("Paused the music!")
     end
 		
     if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'playm' then
-              for i,v in pairs(game:GetService("Workspace").Terrain["_Game"].Folder:GetDescendants()) do
-                    if v:IsA("Sound") and not v.Playing then
-                           v.Playing = true
-                  end
-              end
+        for i,v in pairs(game:GetService("Workspace").Terrain["_Game"].Folder:GetDescendants()) do
+                if v:IsA("Sound") and not v.Playing then
+                        v.Playing = true
+                end
+        end
 	      Remind("Playing the music!")
     end
--- SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND --
+
     if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'stopm' then
         for i, v in pairs(game:GetService("Workspace").Terrain["_Game"].Folder:GetDescendants()) do
                 if v:IsA("Sound") then
@@ -2006,7 +2077,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
         end   
         Remind("Started the music!")
     end
--- SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND SOUND --
+		
     if string.sub(msg:lower(), 1, #prefix + 5) == prefix..'stops' then
         for i, v in pairs(game:GetDescendants()) do
                 if v:IsA("Sound") then
@@ -2024,7 +2095,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
         end   
         Remind("Started sounds!")
     end
--- MOVING ON MOVING ON MOVING ON MOVING ON MOVING ON MOVING ON MOVING ON MOVING ON MOVING ON MOVING ON MOVING ON --
+
     if string.sub(msg:lower(), 1, #prefix + 4) == prefix..'deiv' then -- ported from simplekah
 			gjdelock = false
                         Chat("h \n\n\n Domain Expansion: Infinity Void \n\n\n")
@@ -3853,6 +3924,16 @@ return
 	Remind("Disable this anti!")
     end
 
+    if string.sub(msg:lower(), 1, #prefix + 9) == prefix..'antiplant' then
+	antiplant = true
+	Remind("Disable this anti!")
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 11) == prefix..'unantiplant' then
+	antiplant = false
+	Remind("Disable this anti!")
+    end
+
     if string.sub(msg:lower(), 1, #prefix + 10) == prefix..'antibright' then
         antibrightness = true
 	Remind("Enabled this anti!")
@@ -4384,6 +4465,30 @@ return
     if string.sub(msg:lower(), 1, #prefix + 6) == prefix..'prefix' then
         prefix = string.sub(msg:lower(), #prefix + 8)
 	Remind("Changed the prefix!")
+    end
+
+    if string.sub(msg:lower(), 1, #prefix + 8) == prefix..'goodexec' then
+	Remind("Created by Tech (Tech-187)")
+
+	getgenv().scapproved = {
+		"Fluxus", -- provided you don't use the RAT one (non silent caliber)
+		"Delta" -- i agree with these, codex and arceus x (and probably vega x too) suck
+	}
+
+	local function check(d, e)
+		for f, g in ipairs(e) do
+			if g == d then
+				return true
+			end
+		end;
+		return false
+	end;
+
+	if check(identifyexecutor(), scapproved) then
+		print("Your executor is SC Approved!")
+	else
+		print("Your executor is NOT SC Approved.")
+	end
     end
 
     if string.sub(msg:lower(), 1, 7) == 'cprefix' then
@@ -7392,7 +7497,7 @@ function PLAYERCHECK(plr)
       if string.sub(v.Name:lower(), 1, #plr) == plr:lower() then
           player = v.Name
           cplr = v
-          Remind("[Debug]: Found "..player) -- i have no idea how i never capitalised this
+          Remind("[KL User Search]: Found "..player) -- i have no idea how i never capitalised this
       end
   end
 end
@@ -7615,6 +7720,14 @@ task.spawn(function()
               Chat("clr")
            end
         end
+
+        if antiplant == true then
+           if workspace:FindFirstChild("BitePlant") then
+              workspace:FindFirstChild("BitePlant"):Destroy()
+              Chat("clr")
+           end
+        end
+
         if antiambient == true then
                 if game.Lighting.Ambient ~= Color3.new(0,0,0) then
                         Chat("ambient 0 0 0")
@@ -7641,18 +7754,11 @@ task.spawn(function()
         while true do
         task.wait(0.1)
                 if antichat == true then
-                        --if haspersons == true then
-                        --        Chat("m/ 😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭")
-                        --else
                                 Chat("m 😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭")
-                        --end
                 end
+
                 if antichatplr == true then
-                        -- if haspersons == true then
-                                  -- Chat("pm/"..acplr.." 😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭")
-                        -- else
                                 Chat("pm "..acplr.." 😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭💀💀💀💀💀💀💀💀💀😀😃😄😁😆😅😂🤣😭")
-                        -- end
                 end
         end
 end)
@@ -9055,8 +9161,7 @@ function PLRSTART(v)
                         end
                     end
 
-                    if (string.sub(msg:lower(), 0, 4) == "logs" or string.sub(msg:lower(), 0, 5) == ":logs") and v.Name ~= game.Players.LocalPlayer.Name
-                     then
+                    if (string.sub(msg:lower(), 0, 4) == "logs" or string.sub(msg:lower(), 0, 5) == ":logs") and v.Name ~= game.Players.LocalPlayer.Name then
                         if PingLogs then
                             print(v.Name .. " is using logs.")
                             Chat("h \n\n\n " .. v.Name .. " is using logs. \n\n\n")
@@ -9305,42 +9410,57 @@ function PLRSTART(v)
                 if string.sub(command, 1, 5) == "music" then
                     local MUSIC = string.sub(command, 7)
                     Chat("music " .. MUSIC)
+			
                 elseif string.sub(command, 1, 2) == "m " then
                     local message = string.sub(command, 3)
                     Chat("m " .. v.Name .. ": " .. message)
+			
                 elseif string.sub(command, 1, 7) == "size me" then
                     local NUMBER = string.sub(command, 9)
                     Chat("size " .. v.Name .. " " .. NUMBER)
+			
                 elseif string.sub(command, 1, 12) == "jumppower me" then
                     local JPP = string.sub(command, 14)
                     Chat("jumppower " .. v.Name .. " " .. JPP)
+			
                 elseif string.sub(command, 1, 7) == "name me" then
                     local NAME = string.sub(command, 9)
                     Chat("name " .. v.Name .. " " .. NAME)
+			
                 elseif string.sub(command, 1, 7) == "message" then
                     local message = string.sub(command, 9)
                     Chat("message " .. v.Name .. ": " .. message)
+			
                 elseif string.sub(command, 1, 3) == "pm " then
                     Chat("pm " .. v.Name .. " I can't make you private message because of limitations. Sorry!")
+			
                 elseif string.sub(command, 1, 5) == "hint " then
                     local message = string.sub(command, 6)
                     Chat("h " .. v.Name .. ": " .. message)
+			
                 elseif string.sub(command, 1, 2) == "h " then
                     local message = string.sub(command, 3)
                     Chat("h " .. v.Name .. ": " .. message)
+			
                 elseif string.sub(command, 1, 4) == "logs" then
                     Chat("pm " .. v.Name .. " I can't make you see logs because it's client sided. Sorry!")
+			
                 elseif string.sub(command, 1, 4) == "cmds" then
                     Chat("pm " .. v.Name .. " I can't make you see commands because it's client sided. Sorry!")
+			
                 elseif string.sub(command, 1, 8) == "commands" then
                     Chat("pm " .. v.Name .. " I can't make you see commands because it's client sided. Sorry!")
+			
                 elseif string.sub(command, 1, 9) == "musiclist" then
                     Chat("pm " .. v.Name .. " I can't make you see the music list because it's client sided. Sorry!")
+			
                 elseif string.sub(command, 1, 11) == "packagelist" then
                     Chat("pm " .. v.Name .. " I can't make you see the package list because it's client sided. Sorry!")
+			
                 else
                     Chat(command)
                 end
+		
             end
         end)
 end
@@ -9381,7 +9501,7 @@ end
 task.spawn(function()
     while true do 
         task.wait(0)
-            coroutine.wrap(function() -- PadAbuse
+            coroutine.wrap(function()
                         if loopgrab == true and firetouchinterest then
                                 local pads = game:GetService("Workspace").Terrain["_Game"].Admin.Pads:GetChildren("Head")
                                 for i, pad in pairs(pads) do
@@ -9483,7 +9603,7 @@ end)
 task.spawn(function()
         while true do
                 task.wait(0)
-                for i,player in pairs(padbanned) do
+                for i, player in pairs(padbanned) do
                         task.wait(0)
                         for i,pad in pairs(game:GetService("Workspace").Terrain["_Game"].Admin.Pads:GetDescendants()) do
                                 if pad.Name == player.."'s admin" then
@@ -11271,6 +11391,7 @@ function CoCrash()
       PtSH()
 end
 
+-- emerald crash
 function EmCrash()
       Chat("gear me 000000000000000178076749")
       repeat task.wait() until game.Players.LocalPlayer.Backpack:WaitForChild("Emerald Knights of the Seventh Sanctum Sword and Shield")
@@ -11286,6 +11407,7 @@ function EmCrash()
       PtSH()
 end
 
+-- sword and shield crash
 function PCrash() -- buggy
 	for i = 1, 2 do
               Chat("gear me 00000000000000092628079")
@@ -11323,9 +11445,7 @@ function onPlayerAdded(player)
 			end
 			print(player.Name.." joined the server. They are being rocket kicked as they were on the rkick_on_sight list.")
 			Remind(player.Name.." joined the server. They are being rocket kicked as they were on the rkick_on_sight list.")
-                	srkick = true
-                	rkicks = player.Name
-                	rkicker = player
+			rkickplr(player, player.Name)
 			check_con = true
 		end
 
@@ -11351,6 +11471,16 @@ function onPlayerAdded(player)
                 	acplr = player.Name
 			check_con = true
     		end
+
+		if table.find(hatkick_on_sight, player.Name) then
+        		if welcomemsg == true then 
+				Chat("h \n\n\n Hat kicking "..player.Name.." as they are blacklisted. \n\n\n")
+			end
+			print(player.Name.." joined the server. They are being hat kicked as they were on the hatkick_on_sight list.")
+			Remind(player.Name.." joined the server. They are being hat kicked as they were on the hatkick_on_sight list.")
+			hatkick(player, player.Name)
+			check_con = true
+		end
 
     		if table.find(furry_on_sight, player.Name) then
                 	Chat(prefix.."char "..player.Name.." furry")
@@ -11437,7 +11567,7 @@ function onPlayerLeaving(player)
     end
 
     if table.find(rkick_on_sight, player.Name) then
-                srkick = false
+                kicking = false
     end
 
     if table.find(suser_on_sight, player.Name) then
@@ -13814,9 +13944,7 @@ for i, v in pairs(game.Players:GetPlayers()) do
 
         if table.find(rkick_on_sight, v.Name) then
                 Chat("h \n\n\n Auto rocket kicking "..v.Name.." as they are blacklisted. \n\n\n")
-                srkick = true
-                rkicks = v.Name
-                rkicker = v
+                rkickplr(v, v.Name)
         end
 
         if table.find(suser_on_sight, v.Name) then
@@ -13846,6 +13974,17 @@ end
 
 -- These run last to prevent bugs
 startupScripts()
+
+print([[
+___  __    ________  ___  ___  ___       ________  ___       ___  _________  _______      
+|\  \|\  \ |\   __  \|\  \|\  \|\  \     |\   ____\|\  \     |\  \|\___   ___\\  ___ \     
+\ \  \/  /|\ \  \|\  \ \  \\\  \ \  \    \ \  \___|\ \  \    \ \  \|___ \  \_\ \   __/|    
+ \ \   ___  \ \  \\\  \ \   __  \ \  \    \ \_____  \ \  \    \ \  \   \ \  \ \ \  \_|/__  
+  \ \  \\ \  \ \  \\\  \ \  \ \  \ \  \____\|____|\  \ \  \____\ \  \   \ \  \ \ \  \_|\ \ 
+   \ \__\\ \__\ \_______\ \__\ \__\ \_______\____\_\  \ \_______\ \__\   \ \__\ \ \_______\
+    \|__| \|__|\|_______|\|__|\|__|\|_______|\_________\|_______|\|__|    \|__|  \|_______| 
+                                            \|_________|                           
+]])
 
 Stats.loadedtime = string.format("%.2f", os.clock() - Stats.starttime)
 
@@ -13998,16 +14137,178 @@ else
 	Remind("Support my script by buying my gamepass! Just do .purchase.")
 end
 
-Remind("me when discord limits me till 26/9/24 for repling to someone saying cee pee... just like tech :p")
+-- From Shortcut v2 --
+
+function createKohlsUi(textTable)
+	local kohlsUI = Instance.new("ScreenGui")
+	local TextButton = Instance.new("TextButton")
+	local Frame = Instance.new("Frame")
+	local closeUi = Instance.new("TextButton")
+	local Frame_2 = Instance.new("Frame")
+	local a = Instance.new("TextLabel")
+	local UIGridLayout = Instance.new("UIGridLayout")
+	local clearUi = Instance.new("TextButton")
+
+	--Properties:
+
+	kohlsUI.Name = "kohlsUI"
+	kohlsUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+	kohlsUI.ResetOnSpawn = false
+
+	TextButton.Parent = kohlsUI
+	TextButton.BackgroundTransparency = 1.000
+	TextButton.Draggable = true
+	TextButton.Position = UDim2.new(0.5, -548, 0.5, -94)
+	TextButton.Size = UDim2.new(0, 385, 0, 20)
+	TextButton.AutoButtonColor = false
+	TextButton.Text = ""
+
+	Frame.Parent = TextButton
+	Frame.ClipsDescendants = true
+	Frame.Size = UDim2.new(0, 400, 0, 400)
+	Frame.ZIndex = 7
+	Frame.Style = Enum.FrameStyle.RobloxRound
+
+	closeUi.Name = "closeUi"
+	closeUi.Parent = Frame
+	closeUi.Position = UDim2.new(1, -15, 0, -5)
+	closeUi.Size = UDim2.new(0, 20, 0, 20)
+	closeUi.ZIndex = 10
+	closeUi.Style = Enum.ButtonStyle.RobloxButtonDefault
+	closeUi.Font = Enum.Font.ArialBold
+	closeUi.Text = "X"
+	closeUi.TextColor3 = Color3.fromRGB(255, 255, 255)
+	closeUi.TextSize = 18.000
+
+	Frame_2.Parent = Frame
+	Frame_2.Position = UDim2.new(0, 0, 0, -9)
+	Frame_2.ZIndex = 8
+
+	a.Name = "a"
+	a.Parent = Frame_2
+	a.BackgroundTransparency = 1.000
+	a.Position = UDim2.new(NAN, 0, NAN, 0)
+	a.Size = UDim2.new(200, 18, 200, 18)
+	a.ZIndex = 8
+	a.Font = Enum.Font.Arial
+	a.Text = ""
+	a.TextColor3 = Color3.fromRGB(255, 255, 255)
+	a.TextSize = 18.000
+	a.TextStrokeTransparency = 0.800
+	a.TextXAlignment = Enum.TextXAlignment.Left
+	a.TextYAlignment = Enum.TextYAlignment.Top
+
+	UIGridLayout.Parent = Frame_2
+	UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	UIGridLayout.CellSize = UDim2.new(0, 100, 0, 18)
+
+	clearUi.Name = "clearUi"
+	clearUi.Parent = Frame
+	clearUi.Position = UDim2.new(0.944999993, -15, 0, -5)
+	clearUi.Size = UDim2.new(0, 20, 0, 20)
+	clearUi.ZIndex = 10
+	clearUi.Style = Enum.ButtonStyle.RobloxButtonDefault
+	clearUi.Font = Enum.Font.ArialBold
+	clearUi.Text = "C"
+	clearUi.TextColor3 = Color3.fromRGB(255, 255, 255)
+	clearUi.TextSize = 18.000
+
+	-- Scripts:
+
+	local function NNQOKB_fake_script() -- Frame_2.LocalScript 
+		local script = Instance.new('LocalScript', Frame_2)
+
+		function addLabel(txt)
+			local newLb = script.Parent.a:Clone()
+			newLb.Name = "TextLabel"
+			newLb.Text = txt
+			newLb.Parent = script.Parent
+		end
+		
+		function addLabelWCheck(txt)
+			local cnt = 0
+			for i,v in pairs(script.Parent:GetChildren()) do
+				if v.Name == "TextLabel" then
+					cnt = cnt + 1
+				end
+			end
+			if cnt >= 16 then
+				clearLabels()
+			end
+			addLabel(txt)
+		end
+		
+		function clearLabels()
+			for i,v in pairs(script.Parent:GetChildren()) do
+				if v.Name == "TextLabel" then
+					v:Destroy()
+				end
+			end
+		end
+		
+		script.Parent.Parent.closeUi.MouseButton1Click:Connect(function()
+			script.Parent.Parent.Parent.Parent:Destroy()
+		end)
+		
+		script.Parent.Parent.clearUi.MouseButton1Click:Connect(clearLabels)
+		
+		for _, text in ipairs(textTable) do
+			addLabelWCheck(text)
+		end
+	end
+	coroutine.wrap(NNQOKB_fake_script)()
+end
+
+if getgenv().kohlsgui then
+	createKohlsUi(
+                {
+                    "Thanks for using KohlsLite!",
+                    "This script was created by TS2021 (ScriptingProgrammer).",
+		    " ",
+		    "To see the command list:",
+		    "1. Chat .kcmds",
+		    "2. Chat /console",
+		    " ",
+		    "Have fun using my script!"
+	 	}
+	)
+end
+
+-- Random quotes jajaja
+aqwerty = math.random(1,10)
+if aqwerty == 1 then
+	Remind("when i set a variable wrong and break the script again jajaja")
+elseif aqwerty == 2 then
+	Remind("mhm means my hot man")
+elseif aqwerty == 3 then
+	Remind("i stepped on a slug yuckkkk")
+elseif aqwerty == 4 then
+	Remind("KohlsLite is the best script to morbius all over")
+elseif aqwerty == 5 then
+	Remind("Solonium + PR Script better than skidlite")
+elseif aqwerty == 6 then
+	Remind("oh my you found secret!")
+elseif aqwerty == 7 then
+	Remind("Where's the nearest 7/11?")
+elseif aqwerty == 8 then
+	Remind("whats math.random? what's wrong with 10 elseifs!")
+elseif aqwerty == 9 then
+	Remind("shortcutv3 var better than kohlsplus")
+else
+	Remind("you shouldnt get this message hecker (jk)")
+end
 
 --[[
 Things to add/fix. Feel free to fix these and send the code and I'll credit you
--> Visualiser and drawer
+-> Auto crasher
+-> Part visualiser
+-> Part drawer
 -> Boombox visualiser
 -> Part builder
 -> Object mover (cmd pi version)
--> Fix ncontrol
--> Can't fix these until I get a windows PC, this might be a long time... ;(
+-> Fix control
+
+-> Can't fix these until I get a Windows PC, this might be a long time... ;(
 ]]
 
 -- KohlsLite on top
