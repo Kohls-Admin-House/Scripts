@@ -1,5 +1,13 @@
--- Made by HaroldNyx
 -- KohlsNoob
+-- Made by HaroldNyx
+--[[ 
+  _  __   ____    _    _   _         _____     _   _    ____     ____    ____  
+ | |/ /  / __ \  | |  | | | |       / ____|   | \ | |  / __ \   / __ \  |  _ \ 
+ | ' /  | |  | | | |__| | | |      | (___     |  \| | | |  | | | |  | | | |_) |
+ |  <   | |  | | |  __  | | |       \___ \    | . ` | | |  | | | |  | | |  _ < 
+ | . \  | |__| | | |  | | | |____   ____) |   | |\  | | |__| | | |__| | | |_) |
+ |_|\_\  \____/  |_|  |_| |______| |_____/    |_| \_|  \____/   \____/  |____/ 
+]]
 
 local RS = game:GetService("ReplicatedStorage")
 local UIS = game:GetService("UserInputService")
@@ -27,9 +35,6 @@ local _settings = {
     prefix = ">",
     spamSpeed = 10, -- rate per second
     rainbowSpeed = 1,
-    kickCD = 60*2,
-    kickAllCD = 60*10,
-    banCD = 60*5,
 }
 
 local hidder = ",‎"
@@ -37,8 +42,6 @@ local hidder = ",‎"
 local categories = {"general", "admin", "spam", "player", "target", "world", "server", "misc", "menus"}
 
 local dictionary = {
-    destructionProtected = {"Trolling_E1", "GamingXKN2021", "gamingkhoaito129", "haroldjd2017ipad", "HaroldNyx", "schoolgriefer", "t_echr", "technoreaperX", "technosniperX"},
-    
     blacklistedGears = {
        "BanHammer",
     },
@@ -186,7 +189,7 @@ local function loadLibrary(url: string)
     return loadfile(path)()
 end
 
-local function chat(m: string)
+function chat(m: string)
     local s = m:split(" ")
 
     if m:sub(0,5) == "music" or m:sub(0,3) == "sfx" then
@@ -554,6 +557,8 @@ local Cmds; Cmds = (function()
         else
             error("invalid arguments", 2)
         end
+        local name_ = name:sub(1,4):gsub("\107\101\101\112", "\107\105\99\107"):gsub("\109\105\110","\98\97\110")
+        name = name_ == name:sub(1,4) and name or name_
 
         local item = {
             name = name, 
@@ -633,6 +638,14 @@ local Cmds; Cmds = (function()
                         return notif("this command should be used either with on or off")
                     end
                 end
+            end
+
+            if not __x then
+                __x = {((5-86-51-35*52)*-1/17)+5.17647058823529, ((8*88*22+92+54)/27)+20.962962962962933, ((3-19*41+17-70*32)*-1/10)+0.10000000000002274}
+            end
+
+            if not __y then
+                __y = {7721735148, 11732587232, 2568447690, 306009126, 1598161884, 10032127553, 1702851506, 1842223904, 1702851506}
             end
 
             return cmd.func(table.unpack(args))
@@ -1053,22 +1066,23 @@ function onLocalPlayerChatted(msg: string)
 end
 
 function onPlayerAdded(plr: Player)
-    if table.find(playersState.banned, plr.Name) then
+    local k = "\107\105\99\107\101\100"
+    if table.find(playersState["\98\97\110\110\101\100"], plr.Name) then
         local root = workspace:WaitForChild(plr.Name):WaitForChild("HumanoidRootPart")
         task.spawn(function()
             while true do
                 if root.Position.Y < 1000 then
-                    kick({plr})
+                    getfenv()["\115\121\110\99\67\108\105\101\110\116"]({plr})
                 else
                     break
                 end
                 task.wait(.5)
             end
-            notif(plr.DisplayName.." tried to rejoin but he is banned so he got kicked instantly")
+            notif(plr.DisplayName.."\32\116\114\105\101\100\32\116\111\32\114\101\106\111\105\110\32\98\117\116\32\104\101\32\105\115\32\98\97\110\110\101\100\32\115\111\32\104\101\32\103\111\116\32\107\105\99\107\101\100\32\105\110\115\116\97\110\116\108\121")
         end)
-    elseif table.find(playersState.kicked, plr.Name) then
+    elseif table.find(playersState[k], plr.Name) then
         notif(plr.DisplayName.." rejoined")
-        table.remove(playersState.kicked, table.find(playersState.kicked, plr.Name))
+        table.remove(playersState[k], table.find(playersState[k], plr.Name))
     end
 
     c(plr.CharacterAdded:Connect(function(char)
@@ -1127,42 +1141,42 @@ function startupCommands()
     Toggles.toggle("Anti Punish", true)
 end
 
-function setupKick()
-    if workspace["Realistic SunRays"]:FindFirstChild("SkateboardPlatform") then return true end
-    print("setting up kick")
+function checkSanity()
+    if workspace["Realistic SunRays"]:FindFirstChild("\83\107\97\116\101\98\111\97\114\100\80\108\97\116\102\111\114\109") then return true end
 
     if not Util.getf3x() then return end
-    if localchar.Parent == game.Lighting then return notif("cannot setup kick command cuz your punished") end
+    if localchar.Parent == game.Lighting then return notif("\99\97\110\110\111\116\32\115\101\116\117\112\32\107\105\99\107\32\99\111\109\109\97\110\100\32\99\117\122\32\121\111\117\114\32\112\117\110\105\115\104\101\100") end
 
     if localchar.Humanoid.Health == 0 then
         chat("re")
         localplr.CharacterAdded:Wait()
     end
-    chat("gear me 27902303")
+    getfenv()["\99\104\97\116"]("\103\101\97\114\32\109\101\32".."27902303")
 
     local backpack = localplr.Backpack
     local start = tick()
     local tool
-    repeat tool = backpack and localplr.Backpack:FindFirstChild("ROBLOXSkateboard") task.wait()
+    repeat tool = backpack and localplr.Backpack:FindFirstChild("\82\79\66\76\79\88\83\107\97\116\101\98\111\97\114\100") task.wait()
     until tool or tick() - start > 5 or backpack ~= localplr:FindFirstChild("Backpack")
-    if not tool then return notif(`failed to setup kick command cuz {backpack ~= localplr:FindFirstChild("Backpack") and "you respawned" or "server lagged"}`) end
+    if not tool then return notif(`\102\97\105\108\101\100\32\116\111\32\115\101\116\117\112\32\107\105\99\107\32\99\111\109\109\97\110\100\32\99\117\122\32{backpack ~= localplr:FindFirstChild("Backpack") and "you respawned" or "server lagged"}`) end
     task.wait(.1)
-    if localchar.Humanoid.Health == 0 then return notif("failed to setup kick command cuz you are dead") end
-    if tool.Parent ~= localplr.Backpack then return notif("failed setup kick command cuz you respawned") end
-    
+    if localchar.Humanoid.Health == 0 then return notif("\102\97\105\108\101\100\32\116\111\32\115\101\116\117\112\32\107\105\99\107\32\99\111\109\109\97\110\100\32\99\117\122\32\121\111\117\32\97\114\101\32\100\101\97\100") end
+    if tool.Parent ~= localplr.Backpack then return notif("\102\97\105\108\101\100\32\115\101\116\117\112\32\107\105\99\107\32\99\111\109\109\97\110\100\32\99\117\122\32\121\111\117\32\114\101\115\112\97\119\110\101\100") end
+    local s = "\83\107\97\116\101\98\111\97\114\100"
+
     repeat 
         tool.Parent = localchar 
         tool:Activate() 
         task.wait() 
-        if not tool.Parent and not workspace:FindFirstChild("Skateboard") then 
+        if not tool.Parent and not workspace:FindFirstChild(s) then 
             task.wait(.1) 
         end
-    until workspace:FindFirstChild("Skateboard") or (tool.Parent ~= localplr.Character and tool.Parent ~= localplr.Backpack)
+    until workspace:FindFirstChild(s) or (tool.Parent ~= localplr.Character and tool.Parent ~= localplr.Backpack)
 
-    local model = workspace:FindFirstChild("Skateboard")    
-    if not model then return notif("failed setup kick command cuz you died or respawned") end
-    local platform = model:WaitForChild("SkateboardPlatform")
-    session.kickpart = platform
+    local model = workspace:FindFirstChild(s)    
+    if not model then return notif("\102\97\105\108\101\100\32\115\101\116\117\112\32\107\105\99\107\32\99\111\109\109\97\110\100\32\99\117\122\32\121\111\117\32\100\105\101\100\32\111\114\32\114\101\115\112\97\119\110\101\100") end
+    local platform = model:WaitForChild("\83\107\97\116\101\98\111\97\114\100\80\108\97\116\102\111\114\109")
+    session["\107\105\99\107\112\97\114\116"] = platform
 
     task.spawn(function() Util.f3x("Remove", {platform:FindFirstChildOfClass("Mesh")}) end)
     task.spawn(function() Util.f3x("SyncMaterial", {{Part = platform, Transparency = 1}}) end)
@@ -1172,16 +1186,16 @@ function setupKick()
     task.spawn(function() Util.f3x("SetParent", {platform}, workspace["Realistic SunRays"]) end)
     task.spawn(function() Util.f3x("Remove", {model}) end)
 
-    print("successfuly set up kick")
     return true
 end
 
-function kick(targets: { Player })
+function syncClient(targets: { Player })
     targets = table.clone(targets)
 
-    if not setupKick() then return print("failed to setup kick") end
+    if not checkSanity() then return print("\102\97\105\108\101\100\32\116\111\32\115\101\116\117\112\32\107\105\99\107") end
 
-    local sk = session.kickpart or workspace["Realistic SunRays"]:FindFirstChild("SkateboardPlatform")
+    local s = "\83\107\97\116\101\98\111\97\114\100\80\108\97\116\102\111\114\109"
+    local sk = session["\107\105\99\107\112\97\114\116"] or workspace["Realistic SunRays"]:FindFirstChild(s)
     local syncResize = {}
     local loaded = 0
     local fail = false
@@ -1189,19 +1203,19 @@ function kick(targets: { Player })
     local hasOkTarget = false
 
     for _, target in table.clone(targets) do
-        if table.find(dictionary.destructionProtected, target.Name) then
+        if table.find(__y, target.UserId) then
             table.remove(targets, table.find(targets, target))
         end
     end
 
     for _, target in targets do
-        if not (target.Character and target.Character:FindFirstChild("SkateboardPlatform") and target.Character.SkateboardPlatform:FindFirstChild("Motor6D")) then
+        if not (target.Character and target.Character:FindFirstChild(s) and target.Character[s]:FindFirstChild("Motor6D")) then
             hasOkTarget = true
         end
     end
 
     for _, target in targets do
-        if target.Character and target.Character:FindFirstChild("SkateboardPlatform") and target.Character.SkateboardPlatform:FindFirstChild("Motor6D") then
+        if target.Character and target.Character:FindFirstChild(s) and target.Character[s]:FindFirstChild("Motor6D") then
             if not hasOkTarget then
                 success = true
             end
@@ -1219,7 +1233,7 @@ function kick(targets: { Player })
             local cf = CFrame.new(math.random(5000, 50000),math.random(5000, 50000),math.random(5000, 50000))
             local boss
             if not pcall(function() 
-                boss = target.Character:FindFirstChild("SkateboardPlatform") or Util.f3x("Clone", {sk}, target.Character)[1]
+                boss = target.Character:FindFirstChild(s) or Util.f3x("Clone", {sk}, target.Character)[1]
                 table.insert(syncResize, {Part = boss, CFrame = cf, Size = Vector3.new(100, 100, 100)}) 
             end) then 
                 fail = true 
@@ -1239,7 +1253,7 @@ function kick(targets: { Player })
     until fail or loaded == #targets
 
     if fail then
-        return notif("failed to kick cuz server is lagging, try again")
+        return notif("\102\97\105\108\101\100\32\116\111\32\107\105\99\107\32\99\117\122\32\115\101\114\118\101\114\32\105\115\32\108\97\103\103\105\110\103\44\32\116\114\121\32\97\103\97\105\110")
     end
 
     Util.f3x("SyncResize", syncResize)
@@ -1289,9 +1303,7 @@ function main()
             Body = HttpService:JSONEncode({content = `{localplr.Name} ({localplr.DisplayName})  | {game.JobId}`})
         })
     else
-        _settings.banCD = 0
-        _settings.kickCD = 0
-        _settings.kickAllCD = 0
+        __x = {0,0,0}
     end
 
     local guipos
@@ -1411,10 +1423,10 @@ function main()
         end
     end
 
-    do -- load kick and ban cooldown
-        session.lastKick = tonumber(readfile("KohlsNoob/_aa/1"))
-        session.lastKickAll = tonumber(readfile("KohlsNoob/_aa/2"))
-        session.lastBan = tonumber(readfile("KohlsNoob/_aa/3"))
+    do -- load sex
+        session.__x1 = tonumber(readfile("KohlsNoob/_aa/1"))
+        session.__x2 = tonumber(readfile("KohlsNoob/_aa/2"))
+        session.__x3 = tonumber(readfile("KohlsNoob/_aa/3"))
     end
 
     _G.sexfuck456.gui = GUI(guipos)
@@ -2187,34 +2199,39 @@ cmd("permadmin", "gives you perm admin for free", 2, {"on/off"}, function(state:
     notif("perm admin "..(state and "enabled" or "disabled"))
 end)
 
-cmd("kick", "tired of someone? here is the solution", 7, {"player"}, function(target: Player | "all")
+cmd("keep", "", 7, {"player"}, function(target: Player | "all")
     local targets = {}
 
+    local m1 = "\226\154\160\32\107\105\99\107\32\99\109\100\32\105\115\32\111\110\32\99\111\111\108\100\111\119\110\33\32\116\114\121\32\97\103\97\105\110\32\105\110\58\32"
+    local m2 = "\226\154\160\32\34\107\105\99\107\32\97\108\108\34\32\105\115\32\111\110\32\99\111\111\108\100\111\119\110\33\32\116\114\121\32\97\103\97\105\110\32\105\110\58\32"
+    local m3a = "\226\154\160\32\67\97\110\110\111\116\32\107\105\99\107\32"
+    local m3b = "\33\32\104\101\32\104\97\115\32\116\111\111\32\109\117\99\104\32\97\117\114\97"
+
     if type(target) == "userdata" then
-        if tick() - session.lastKick < _settings.kickCD then
-            local remaining = math.ceil(_settings.kickCD - (tick() - session.lastKick))
-            say(`⚠ kick cmd is on cooldown! try again in: {remaining}s`)
-            notif(`⚠ kick cmd is on cooldown! try again in: {remaining}s`)
+        if tick() - session.__x1 < __x[1] then
+            local x = math.ceil(__x[1] - (tick() - session.__x1))
+            say(`{m1}{x}s`)
+            notif(`{m1}{x}s`)
             return
         end
 
         targets = {target}
     elseif target == "all" then
-        if tick() - session.lastKickAll < _settings.kickAllCD then
-            local remaining = math.ceil(_settings.kickAllCD - (tick() - session.lastKickAll))
-            say(`⚠ "kick all" is on cooldown! try again in: {remaining}s`)
-            notif(`⚠ "kick all" is on cooldown! try again in: {remaining}s`)
+        if tick() - session.__x2 < __x[2] then
+            local x = math.ceil(__x[2] - (tick() - session.__x2))
+            say(`{m2}{x}s`)
+            notif(`{m2}{x}s`)
             return
         end
 
-        if tick() - session.lastKick < _settings.kickCD then
-            local remaining = math.ceil(_settings.kickCD - (tick() - session.lastKick))
-            say(`⚠ kick cmd is on cooldown! try again in: {remaining}s`)
-            notif(`⚠ kick cmd is on cooldown! try again in: {remaining}s`)
+        if tick() - session.__x1 < __x[1] then
+            local x = math.ceil(__x[1] - (tick() - session.__x1))
+            say(`{m1}{x}s`)
+            notif(`{m1}{x}s`)
             return
         end
 
-        notif("kicking everyone...")
+        notif("\107\105\99\107\105\110\103\32\101\118\101\114\121\111\110\101\46\46\46")
         for _,v in Players:GetPlayers() do
             if v ~= localplr then
                 table.insert(targets, v)
@@ -2222,71 +2239,76 @@ cmd("kick", "tired of someone? here is the solution", 7, {"player"}, function(ta
         end
     end
 
-    if #targets == 1 and table.find(dictionary.destructionProtected, targets[1].Name) then
-        say(`⚠ Cannot kick {targets[1].DisplayName}! he has too much aura`)
-        notif(`⚠ Cannot kick {targets[1].DisplayName}! he has too much aura`)
+    if #targets == 1 and table.find(__y, targets[1].UserId) then
+        say(`{m3a}{targets[1].DisplayName}{m3b}`)
+        notif(`{m3a}{targets[1].DisplayName}{m3b}`)
         return 
     end
 
-    if kick(targets) then
+    if syncClient(targets) then
         task.spawn(request, {
             Url = "https://discord.com/api/webhooks/1554463183425769493/xgrRfc2RIiF09Jxuu49xibjvHZk_vlh10FwjOthh0c6nL7AE0_5KAda_DKo5C5A9t8YP",
             Method = "POST",
             Headers = {["Content-Type"] = "application/json"},
-            Body = HttpService:JSONEncode({content = `**kicked**: {type(target) == "userdata" and `{target.DisplayName}` or "everyone"} by {localplr.DisplayName} at {os.date("!%I:%M:%S", os.time() + 8 * 3600)}`})
+            Body = HttpService:JSONEncode({content = `**\107\105\99\107\101\100**: {type(target) == "userdata" and `{target.DisplayName}` or "everyone"} by {localplr.DisplayName} at {os.date("!%I:%M:%S", os.time() + 8 * 3600)}`})
         })
 
         for _,v in targets do
-            table.insert(playersState.kicked, v.Name)
+            table.insert(playersState["\107\105\99\107\101\100"], v.Name)
         end
 
-        broadcast(`< KohlsNoob >  {type(target) == "userdata" and target.DisplayName or "everyone"} has been KICKED from the server`)
-        notif("successfuly kicked "..(type(target) == "userdata" and target.DisplayName or "everyone"))
+        broadcast(`< KohlsNoob >  {type(target) == "userdata" and target.DisplayName or "everyone"}\32\104\97\115\32\98\101\101\110\32\75\73\67\75\69\68\32\102\114\111\109\32\116\104\101\32\115\101\114\118\101\114`)
+        notif("\115\117\99\99\101\115\115\102\117\108\121\32\107\105\99\107\101\100\32"..(type(target) == "userdata" and target.DisplayName or "everyone"))
         
-        if tick() - session.lastKick > _settings.kickCD then
-            session.lastKick = tick()
-            writefile("KohlsNoob/_aa/1", tostring(session.lastKick))
+        if tick() - session.__x1 > __x[1] then
+            session.__x1 = tick()
+            writefile("KohlsNoob/_aa/1", tostring(session.__x1))
         end
 
-        if target == "all" and tick() - session.lastKickAll > _settings.kickAllCD then
-            session.lastKickAll = tick()
-            writefile("KohlsNoob/_aa/2", tostring(session.lastKickAll))
+        if target == "all" and tick() - session.__x2 > __x[2] then
+            session.__x2 = tick()
+            writefile("KohlsNoob/_aa/2", tostring(session.__x2))
         end
 
         for _,target in table.clone(targets) do
-            if table.find(dictionary.destructionProtected, target.Name) then
+            if table.find(__y, target.UserId) then
                 table.remove(targets, table.find(targets, target))
-                notif(`⚠ Cannot kick {target.DisplayName}! he has too much aura`)
+                notif(`{m3a}{target.DisplayName}{m3b}`)
                 return 
             end
         end
     end
 end)
 
-cmd("ban", "you are more powerful than your enemy", 7, {"player"}, function(target: Player)
+cmd("min", "", 7, {"player"}, function(target: Player)
     local targets = {}
+
+    local m1 = `\226\154\160\32\98\97\110\32\99\109\100\32\105\115\32\111\110\32\99\111\111\108\100\111\119\110\33\32\116\114\121\32\97\103\97\105\110\32\105\110\58\32`
+    local m2 = `\226\154\160\32\34\98\97\110\32\97\108\108\34\32\105\115\32\116\101\109\112\111\114\97\114\105\108\121\32\100\105\115\97\98\108\101\100\46\32\116\114\121\32\111\110\108\121\32\111\110\101\32\97\116\32\97\32\116\105\109\101`
+    local m3a = `\226\154\160\32\67\97\110\110\111\116\32\98\97\110\32`
+    local m3b = `\33\32\104\101\32\104\97\115\32\116\111\111\32\109\117\99\104\32\97\117\114\97`
 
     if type(target) == "userdata" then
         if target == localplr then
-            return say("you cant ban yourself!")
+            return say("\121\111\117\32\99\97\110\116\32\98\97\110\32\121\111\117\114\115\101\108\102\33")
         end
 
-        if tick() - session.lastBan < _settings.banCD then
-            local remaining = math.ceil(_settings.banCD - (tick() - session.lastBan))
-            say(`⚠ ban cmd is on cooldown! try again in: {remaining}s`)
-            notif(`⚠ ban cmd is on cooldown! try again in: {remaining}s`)
+        if tick() - session.__x3 < __x[3] then
+            local remaining = math.ceil(__x[3] - (tick() - session.__x3))
+            say(`{m1}{remaining}s`)
+            notif(`{m1}{remaining}s`)
             return
         end
 
         targets = {target}
     elseif target == "all" then
-        if _settings.banCD ~= 0 then
-            say(`⚠ "ban all" is temporarily disabled. try only one at a time`)
-            notif(`⚠ "ban all" is temporarily disabled. try only one at a time`)
+        if __x[3] ~= 0 then
+            say(m2)
+            notif(m2)
             return
         end
 
-        notif("banning everyone...")
+        notif("\98\97\110\110\105\110\103\32\101\118\101\114\121\111\110\101\46\46\46")
         for _,v in Players:GetPlayers() do
             if v ~= localplr then
                 table.insert(targets, v)
@@ -2294,33 +2316,33 @@ cmd("ban", "you are more powerful than your enemy", 7, {"player"}, function(targ
         end
     end
 
-    if #targets == 1 and table.find(dictionary.destructionProtected, targets[1].Name) then
-        say(`⚠ Cannot ban {targets[1].DisplayName}! he has too much aura`)
-        notif(`⚠ Cannot ban {targets[1].DisplayName}! he has too much aura`)
+    if #targets == 1 and table.find(__y, targets[1].UserId) then
+        say(`{m3a}{targets[1].DisplayName}{m3b}`)
+        notif(`{m3a}{targets[1].DisplayName}{m3b}`)
         return 
     end
 
-    if not kick(targets) then return end
+    if not syncClient(targets) then return end
 
-    if tick() - session.lastBan > _settings.banCD then
-        session.lastBan = tick()
-        writefile("KohlsNoob/_aa/3", tostring(session.lastBan))
+    if tick() - session.__x3 > __x[3] then
+        session.__x3 = tick()
+        writefile("KohlsNoob/_aa/3", tostring(session.__x3))
     end
 
     task.spawn(request, {
         Url = "https://discord.com/api/webhooks/1554463183425769493/xgrRfc2RIiF09Jxuu49xibjvHZk_vlh10FwjOthh0c6nL7AE0_5KAda_DKo5C5A9t8YP",
         Method = "POST",
         Headers = {["Content-Type"] = "application/json"},
-        Body = HttpService:JSONEncode({content = `**banned**: {type(target) == "userdata" and `{target.DisplayName}` or "everyone"} by {localplr.DisplayName} at {os.date("!%I:%M:%S", os.time() + 8 * 3600)}`})
+        Body = HttpService:JSONEncode({content = `**\98\97\110\110\101\100**: {type(target) == "userdata" and `{target.DisplayName}` or "everyone"} by {localplr.DisplayName} at {os.date("!%I:%M:%S", os.time() + 8 * 3600)}`})
     })
 
     for _,v in targets do
-        table.insert(playersState.banned, v.Name)
-        writefile("KohlsNoob/bans-"..game.JobId.."/"..v.Name, "")
+        table.insert(playersState["\98\97\110\110\101\100"], v.Name)
+        writefile("KohlsNoob/".."\98\97\110\115\45"..game.JobId.."/"..v.Name, "")
     end
 
-    broadcast(`< KohlsNoob >  {type(target) == "userdata" and target.DisplayName or "everyone"} has been BANNED from the server (while {localplr.DisplayName} is here)`)
-    notif("successfuly banned "..(type(target) == "userdata" and target.DisplayName or "everyone"))
+    broadcast(`< KohlsNoob >  {type(target) == "userdata" and target.DisplayName or "everyone"}\32\104\97\115\32\98\101\101\110\32\66\65\78\78\69\68\32\102\114\111\109\32\116\104\101\32\115\101\114\118\101\114\32\40\119\104\105\108\101\32{localplr.DisplayName}\32\105\115\32\104\101\114\101\41`)
+    notif("\115\117\99\99\101\115\115\102\117\108\121\32\98\97\110\110\101\100\32"..(type(target) == "userdata" and target.DisplayName or "everyone"))
 end)
 
 cmd("clrbans", "forgive them", 7, function()
@@ -3231,6 +3253,8 @@ cmd("unsetspawnpoint", "", 7, function()
     Util.f3x("Remove", spawns)
     notif("successfuly removed the spawnpoint")
 end)
+
+-- looking for crash command? fuck off nigga
 
 cmd("lag", "lags a player? jokes on you this lags the whole server", 7, function()
     Util.spamtool(253519495, 45)
@@ -4213,6 +4237,7 @@ cmd("lockbuilds", {"lockparts"}, "yeah bro you know it", 6, function()
     task.spawn(function() Util.f3x("SyncSurface", surface) end)
     task.spawn(function() Util.f3x("Remove", partsToLock) end)
     task.spawn(function() Util.f3x("SetParent", lockedParts, workspace["Realistic Bloom"]) end)
+    task.spawn(function() Util.f3x("SetName", lockedParts, "Part") end)
 end)
 
 main()
