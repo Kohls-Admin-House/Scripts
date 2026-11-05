@@ -30,6 +30,7 @@ repeat task.wait()
 until localplr:FindFirstChild("PlayerGui") and localplr:FindFirstChild("Backpack")
 
 local place = (workspace:FindFirstChild("Tabby") and workspace.Tabby:FindFirstChild("Admin_House")) or workspace.Terrain._Game:FindFirstChild("Workspace")
+local house = place:FindFirstChild("House") or place:FindFirstChild("Basic House")
 
 local _settings = {
     prefix = ">",
@@ -2084,7 +2085,7 @@ Toggles.add({
         local pos = CFrame.new(padsPos.X, 7.53, 94.193)
         local size = Vector3.new(padsSize.Z + 2.2, 4.6, 5.9)
         local pads = padsFolder:GetChildren()
-        local shits = place["Basic House"]:GetChildren()
+        local shits = house:GetChildren()
         local watchpads = false
 
         local function makePart()
@@ -3377,7 +3378,7 @@ cmd("fix", "ehh", 1, function()
             if v.Name == "Build_Stuff" and v.Name == "Spawn" then continue end
             if v.Name == "Obby" and v.WorldPivot == CFrame.new(-41.0650024, 1.30000007, 6.74300194, 0, 0, -1, 0, 1, 0, 1, 0, 0) then continue end
             if v.Name == "Obby Box" and v.WorldPivot == CFrame.new(-30.0650043, 23.4649982, 35.3430099, 1, 0, 0, 0, 1, 0, 0, 0, 1) then continue end
-            if v.Name == "Basic House" then
+            if v.Name == "Basic House" or v.Name == "House" then
                 table.insert(remove, v)
             else
                 table.insert(remove2, v)
@@ -4026,7 +4027,7 @@ cmd("paintablemap", "makes the house and baseplate paintable", 6, function(nopai
     end
 
     local houseData = HttpService:JSONDecode(buffer.tostring(EncodingService:Base64Decode(buffer.fromstring(session.house))))
-    local originalParts = place["Basic House"]:GetChildren()
+    local originalParts = house:GetChildren()
 
     local parts = Util.makeLockedPart(CFrame.new(9e9,9e9,9e9), workspace, 231)
     Util.f3x("SetParent", parts, localchar)
